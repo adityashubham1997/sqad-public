@@ -1,7 +1,7 @@
 {
   "name": "sqad-public",
   "version": "1.0.0",
-  "description": "14-agent AI development framework — any stack, any IDE",
+  "description": "16-agent AI development framework — any stack, any IDE",
   "type": "module",
   "bin": {
     "sqad-public": "./bin/sqad-public.js"

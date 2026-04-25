@@ -24,7 +24,7 @@ const command = args[0];
 
 function printUsage() {
   console.log(`
-SQAD-Public v${VERSION} — 14-agent AI development framework
+SQAD-Public v${VERSION} — 16-agent AI development framework
 
 Usage:
   sqad-public init [options]     Initialize in current workspace
