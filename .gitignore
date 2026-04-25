@@ -6,3 +6,6 @@ sqad-method/output/releases/
 *.log
 .DS_Store
 knowledge-graph-out/
+PROGRESS-REPORT.md
+REVIEW-SIGNOFF.md
+CHANGELOG.md
