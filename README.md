@@ -30,6 +30,7 @@
 - [Why SQAD-Public?](#-why-sqad-public)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
+- [Recommended Workspace Layout](#-recommended-workspace-layout)
 - [Security & Privacy](#-security--privacy)
 - [How It Works](#-how-it-works)
 - [26 Agents](#-26-agents)
@@ -103,84 +104,87 @@ That's it. SQAD detects your languages, frameworks, cloud, CI/CD, tracker, and I
 - **Node.js** >= 18.0.0
 - An AI-powered IDE (Claude Code, Windsurf, Cursor, etc.)
 
-### One-line install (shell)
+### Recommended: npm install (auto-setup)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
+cd /path/to/your/workspace
+npm i sqad-public
 ```
 
-With IDE options:
-```bash
-curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
-```
+**That's it.** The postinstall hook automatically runs the full setup pipeline:
+1. Copies `sqad-method/` framework to your workspace
+2. Auto-detects your tech stack (10+ languages, 30+ frameworks)
+3. Auto-detects cloud infrastructure (AWS, GCP, Azure, IaC, CI/CD, monitoring)
+4. Auto-detects your issue tracker (Jira, Linear, GitHub Issues, etc.)
+5. Detects installed AI IDEs
+6. Generates `config.yaml` with all detected values
+7. Creates output directories for specs, reviews, and releases
+8. Scans workspace for git repos
+9. **Generates CONTEXT.md + IDE copies** (CLAUDE.md, GEMINI.md, AGENTS.md)
+10. **Builds knowledge graphs** per repo (AST extraction → graph.json)
+11. **Deploys 29 skills** to detected IDEs
 
-The installer requires only **git + Node.js >= 18** (no npm/npx needed). It clones the repo to `~/.sqad-public`, pulls latest on every run, and runs init directly. Use `--update` to update an existing installation.
-
-### Install via npx
+### Alternative: npx (no install)
 
 ```bash
 npx sqad-public init
 ```
 
-This will:
-1. Copy the `sqad-method/` directory into your workspace
-2. Auto-detect your tech stack (languages, frameworks, build tools, test frameworks)
-3. Auto-detect cloud infrastructure (providers, IaC, containers, CI/CD, monitoring)
-4. Auto-detect your issue tracker
-5. Detect installed IDEs
-6. Generate `config.yaml` with all detected values
-7. Create output directories for specs, reviews, and releases
+### Alternative: shell installer (no npm needed)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
+```
+
+The shell installer requires only **git + Node.js >= 18** — no npm/npx. It clones to `~/.sqad-public` and runs init directly.
 
 ### Install with specific IDEs
 
 ```bash
-# Specify which IDEs to configure
 npx sqad-public init --ide claude,windsurf,cursor
-
-# Configure all 7 supported IDEs
-npx sqad-public init --ide all
+npx sqad-public init --ide all              # all 7 IDEs
 ```
 
-### Global install (optional)
+### CLI Commands
 
-```bash
-npm install -g sqad-public
-sqad-public init
-```
-
-### Update an existing installation
-
-```bash
-npx sqad-public update
-```
-
-### Uninstall
-
-```bash
-npx sqad-public uninstall
-```
+| Command | What it does |
+|---|---|
+| `npx sqad-public init` | Full setup pipeline (11 steps) |
+| `npx sqad-public update` | Update framework, preserve your config |
+| `npx sqad-public doctor` | Validate installation health |
+| `npx sqad-public list` | Show all 29 skills with descriptions |
+| `npx sqad-public uninstall` | Remove framework, preserve your work |
 
 ---
 
 ## ⚡ Quick Start
 
-### 1. Initialize your workspace
+### 1. Set up your workspace (recommended layout)
+
+SQAD works best in a **workspace directory** that contains your project repos:
 
 ```bash
-cd /path/to/your/project
-npx sqad-public init --ide claude,windsurf
+mkdir ~/workspace && cd ~/workspace
+
+# Clone your repos into the workspace
+git clone https://github.com/your-org/frontend.git
+git clone https://github.com/your-org/backend-api.git
+git clone https://github.com/your-org/infra.git
+
+# Install SQAD — auto-detects everything
+npm i sqad-public
 ```
 
 **Output:**
 ```
-🚀 SQAD-Public v1.0.0 — Initializing...
+🚀 SQAD-Public v1.4.0 — Initializing...
 
 📁 Copying sqad-method/ to workspace...
 🔍 Detecting tech stack...
-   Languages: javascript, typescript
-   Frameworks: react, nextjs
-   Build tools: npm
-   Test frameworks: jest
+   Languages: javascript, typescript, python
+   Frameworks: react, nextjs, fastapi
+   Build tools: npm, pip
+   Test frameworks: jest, pytest
 ☁️  Detecting cloud infrastructure...
    Providers: aws
    IaC: terraform
@@ -188,42 +192,77 @@ npx sqad-public init --ide claude,windsurf
    CI/CD: github-actions
 📋 Detecting issue tracker...
    Tracker: jira
+💻 Detecting IDEs...
+   IDEs: Claude Code, Windsurf
+📂 Scanning workspace repos...
+   Found 3 repo(s): frontend, backend-api, infra
+📝 Generating context files...
+   Generated: CONTEXT.md, CLAUDE.md, GEMINI.md, AGENTS.md
+📊 Building knowledge graphs...
+   ✅ frontend: 85 nodes, 62 edges
+   ✅ backend-api: 47 nodes, 31 edges
+   ✅ infra: 12 nodes, 8 edges
+🔧 Deploying skills to IDEs...
+   claude: 29 skills deployed
+   windsurf: 29 skills deployed
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- SQAD-Public v1.0.0 — Configured ✅
- Stack:      javascript, typescript | react, nextjs | jest
+ SQAD-Public v1.4.0 — Configured ✅
+
+ Stack:      javascript, typescript, python | react, nextjs, fastapi | jest, pytest
  Cloud:      aws (terraform)
  Tracker:    jira
  Agents:     26 built-in
  IDEs:       Claude Code, Windsurf
+ Context:    CONTEXT.md + IDE copies generated
+ KG:         3 repo(s) indexed
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ### 2. Configure your team
 
-Edit `sqad-method/config.yaml`:
+Edit `sqad-method/config.yaml` — the only manual step:
 
 ```yaml
+# --- REQUIRED: Agents use these in every interaction ---
 company:
   name: "Acme Corp"
+  domain: "e-commerce"                # fintech, healthcare, saas, gaming, etc.
+  compliance: ["soc2", "gdpr"]        # soc2, hipaa, pci-dss, gdpr, iso27001
+
 project:
   name: "Widget Platform"
   description: "E-commerce platform with headless CMS"
-  domain: "e-commerce"
+  type: "web-app"                     # web-app, api, library, cli, mobile, infra, monorepo
+
+team:
+  name: "Platform Team"
+
 user:
-  name: "Jane Developer"
-  role: "Senior Engineer"
+  name: "Jane Developer"              # REQUIRED — agents address you by name
+  role: "Senior Engineer"             # agents adjust formality/depth to your role
+
+# --- OPTIONAL: Override auto-detected values ---
+stack:
+  test_command: "npm test"            # command agents run for tests
+  build_command: "npm run build"
+  lint_command: "npm run lint"
+
+tracker:
+  project_key: "WIDGET"              # Jira project key
+  api_url: "https://acme.atlassian.net"
 ```
 
-### 3. Validate your setup
+> **Everything under `stack:`, `cloud:`, and `tracker:` is auto-detected.** You only need to fill in the company/project/user fields and optionally override detected values.
+
+### 3. Validate and start
 
 ```bash
-npx sqad-public doctor
+npx sqad-public doctor              # verify installation health
+npx sqad-public list                # see all 29 available skills
 ```
 
-### 4. Start using commands in your IDE
-
-Open your AI IDE and type any slash command:
+Open your AI IDE and start using slash commands:
 
 ```
 /dev-task          → Implement a story end-to-end (6 phases)
@@ -240,7 +279,83 @@ Open your AI IDE and type any slash command:
 | 2 | `/dev-task` | Full 6-phase implementation pipeline | The flagship experience |
 | 3 | `/brainstorm` | Multi-agent brainstorming on any topic | See agent diversity in action |
 
-**Pro tip:** Run `npx sqad-public list` to see all 29 available skills with descriptions.
+---
+
+## 📐 Recommended Workspace Layout
+
+SQAD is designed for **workspace-level** installation — a parent directory containing your repos.
+
+### Multi-Repo Workspace (recommended)
+
+```
+~/workspace/                         # ← run `npm i sqad-public` here
+├── sqad-method/                     # SQAD framework (auto-generated)
+│   ├── config.yaml                  # Your configuration
+│   ├── agents/                      # 26 agents
+│   ├── skills/                      # 29 skills
+│   └── tools/knowledge-graph/       # KG builder
+├── CONTEXT.md                       # Project context (auto-generated)
+├── CLAUDE.md                        # Claude Code context (auto-generated)
+├── GEMINI.md                        # Gemini CLI context (auto-generated)
+├── AGENTS.md                        # Generic IDE context (auto-generated)
+├── frontend/                        # Your repo (auto-scanned)
+│   ├── knowledge-graph-out/         # KG for this repo (auto-built)
+│   │   └── graph.json
+│   └── src/
+├── backend-api/                     # Your repo (auto-scanned)
+│   ├── knowledge-graph-out/
+│   └── src/
+└── infra/                           # Your repo (auto-scanned)
+    ├── knowledge-graph-out/
+    └── terraform/
+```
+
+**Why this layout?**
+- Agents see **all repos** and can search across them
+- Knowledge graphs are built **per repo** for precise dependency analysis
+- CONTEXT.md includes a **cross-repo map** with types, key files, and test info
+- Shared infrastructure is discovered before agents create duplicates
+
+### Single-Repo Workspace
+
+SQAD also works inside a single repo:
+
+```
+~/my-project/                        # ← run `npm i sqad-public` here
+├── sqad-method/                     # SQAD framework
+├── CONTEXT.md                       # Auto-generated context
+├── CLAUDE.md
+├── knowledge-graph-out/             # KG for this repo
+│   └── graph.json
+├── src/
+├── test/
+└── package.json
+```
+
+### Monorepo Workspace
+
+For monorepos (Nx, Turborepo, Lerna), install at the root:
+
+```
+~/monorepo/                          # ← run `npm i sqad-public` here
+├── sqad-method/
+├── CONTEXT.md
+├── packages/
+│   ├── web/                         # Auto-detected as React
+│   ├── api/                         # Auto-detected as Express
+│   └── shared/                      # Auto-detected as library
+├── apps/
+└── package.json
+```
+
+### What NOT to do
+
+| Anti-pattern | Why it's bad |
+|---|---|
+| Install inside `node_modules/` | Gets deleted on `npm install` |
+| Install inside a subdirectory of a repo | Agents can't see sibling repos |
+| Install in `/` or `~` | Too broad — detection scans the wrong files |
+| Install in the same dir as another SQAD instance | Config conflicts |
 
 ---
 
