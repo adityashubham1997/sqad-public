@@ -8,7 +8,7 @@ description: >
 
 # SQAD-Public Dev Task — End-to-End Story Implementation
 
-Six phases, each with user gates. All 19 agents participate per their lens.
+Six phases, each with user gates. All 26 agents participate per their lens.
 
 **Bootstrap (read now):**
 - `sqad-method/config.yaml` — team config

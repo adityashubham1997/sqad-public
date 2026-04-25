@@ -65,10 +65,10 @@ describe('discoverSkills', () => {
 });
 
 describe('listSkillNames (real skills)', () => {
-  it('lists all 27 canonical skills', () => {
+  it('lists all 29 canonical skills', () => {
     const workspacePath = join(__dirname, '..');
     const names = listSkillNames(workspacePath);
-    assert.ok(names.length >= 27, `Expected >= 27 skills, got ${names.length}`);
+    assert.ok(names.length >= 29, `Expected >= 29 skills, got ${names.length}`);
     assert.ok(names.includes('sqad-dev-task'));
     assert.ok(names.includes('sqad-review-pr'));
     assert.ok(names.includes('sqad-setup'));

@@ -66,6 +66,13 @@ Skills declare their agent dependencies in the skill header:
 | Kernel | `agents/kernel.md` | os-audit, dev-task (systems review), review-pr (systems lens) |
 | Neuron | `agents/neuron.md` | data-audit (ML lens), dev-task (ML review), review-pr (data science lens) |
 | Prism | `agents/prism.md` | data-audit (analytics lens), dev-task (data review), review-pr (SQL/data lens) |
+| Dynamo | `agents/dynamo.md` | db-audit (schema design), dev-task (DB review), review-pr (schema lens) |
+| Index | `agents/index.md` | db-audit (query optimization), dev-task (query review), review-pr (performance lens) |
+| Pixel | `agents/pixel.md` | game-review (code), dev-task (game dev), review-pr (game engine lens) |
+| Quest | `agents/quest.md` | game-review (design), brainstorm (game mechanics) |
+| Lore | `agents/lore.md` | game-review (narrative), brainstorm (storytelling lens) |
+| Flux | `agents/flux.md` | brainstorm (all), dev-task (creative alternatives), review-pr (simplification lens) |
+| Titan | `agents/titan.md` | review-code (quality gate), review-pr (strict standards), dev-task (Phase 5) |
 
 ## Context Budget
 

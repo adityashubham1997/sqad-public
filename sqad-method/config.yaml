@@ -67,7 +67,7 @@ knowledge_graph:
 
 # --- Agents ---
 agents:
-  built_in: 19
+  built_in: 26
   custom: []
 
 # --- Plugins ---
