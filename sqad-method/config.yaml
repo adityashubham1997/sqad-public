@@ -32,16 +32,16 @@ stack:
   frameworks: []                # [react, nextjs, express, django, spring, fastapi]
   build_tools: []               # [npm, yarn, pnpm, maven, gradle, cargo, pip]
   test_frameworks: []           # [jest, mocha, pytest, junit, go-test]
-  test_command: ""
+  test_command: "npm test"
   build_command: ""
-  lint_command: ""
+  lint_command: "npm run lint"
 
 # --- Cloud (auto-detected by /setup) ---
 cloud:
-  providers: []                 # [aws, gcp, azure]
-  iac: []                       # [terraform, cdk, pulumi]
-  container: []                 # [docker, kubernetes]
-  ci_cd: []                     # [github-actions, gitlab-ci, jenkins, circleci]
+  providers: []
+  iac: []
+  container: []
+  ci_cd: []
   monitoring: []                # [datadog, prometheus, cloudwatch, grafana]
 
 # --- Issue Tracker ---
@@ -75,7 +75,7 @@ plugins: []
 
 # --- IDEs ---
 ides:
-  installed: []                 # [claude, windsurf, cursor, codex, kiro, gemini, antigravity]
+  installed: ["claude", "windsurf", "cursor"]
 
 # --- Communication ---
 communication_language: "English"
