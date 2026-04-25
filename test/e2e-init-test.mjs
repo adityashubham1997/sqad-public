@@ -80,7 +80,7 @@ assert(`Has 17 agent files (16 + _base)`, agents.length === 17);
 
 // Verify skill count
 const skills = execSync(`ls ${join(ws, 'sqad-method', 'skills')}`, { encoding: 'utf8' }).trim().split('\n');
-assert(`Has 27 skills`, skills.length === 27);
+assert(`Has 24 skills`, skills.length === 24);
 
 // Verify output
 assert('Init output shows "Configured ✅"', output.includes('Configured ✅'));

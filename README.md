@@ -9,13 +9,13 @@
 [![Tests](https://img.shields.io/badge/Tests-75%20passing-brightgreen.svg)](#testing)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-success.svg)](#-security--privacy)
 [![Agents](https://img.shields.io/badge/Agents-16-purple.svg)](#-16-agents)
-[![Skills](https://img.shields.io/badge/Skills-27-orange.svg)](#-27-skills)
+[![Skills](https://img.shields.io/badge/Skills-24-orange.svg)](#-24-skills)
 
-**SQAD-Public** (**S**quad **Q**uality **A**ssurance & **D**evelopment) is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **16 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **27 slash commands** across the entire software lifecycle.
+**SQAD-Public** (**S**quad **Q**uality **A**ssurance & **D**evelopment) is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **16 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **24 slash commands** across the entire software lifecycle.
 
 **One command. Zero config. Zero dependencies. Works with any stack.**
 
-[Why SQAD?](#-why-sqad-public) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Security](#-security--privacy) · [Agents](#-16-agents) · [Skills](#-27-skills)
+[Why SQAD?](#-why-sqad-public) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Security](#-security--privacy) · [Agents](#-16-agents) · [Skills](#-24-skills)
 
 </div>
 
@@ -29,7 +29,7 @@
 - [Security & Privacy](#-security--privacy)
 - [How It Works](#-how-it-works)
 - [16 Agents](#-16-agents)
-- [27 Skills](#-27-skills)
+- [24 Skills](#-24-skills)
 - [Dynamic Stack Detection](#-dynamic-stack-detection)
 - [Cloud & Infrastructure Detection](#-cloud--infrastructure-detection)
 - [Fragment Architecture](#-fragment-architecture)
@@ -390,7 +390,7 @@ All agents support two modes:
 
 ---
 
-## ⚙️ 27 Skills
+## ⚙️ 24 Skills
 
 Skills are phase-gated, multi-agent workflows triggered by slash commands. Each skill defines which agents participate, what phases to execute, and where to pause for user approval.
 
@@ -429,19 +429,11 @@ Skills are phase-gated, multi-agent workflows triggered by slash commands. Each 
 | `/review-pr` | sqad-review-pr | Full PR review — patterns, bugs, security, compliance |
 | `/review-story` | sqad-review-story | Validate implementation against tracker acceptance criteria |
 
-### Ship & Release
+### Operations & Release
 
 | Command | Skill | Description |
 |---|---|---|
-| `/rrr` | sqad-rrr | Release Readiness Report from tracker data |
-| `/rrr-fix` | sqad-rrr-fix | Auto-fix minor release violations (L10N, metadata) |
-| `/release-bundle` | sqad-release-bundle | Assemble release PR with build verification and notes |
 | `/retro` | sqad-retro | Sprint retrospective with live tracker data |
-
-### Operations & Meta
-
-| Command | Skill | Description |
-|---|---|---|
 | `/setup` | sqad-setup | Interactive workspace configuration (3 questions + auto-detect) |
 | `/refresh` | sqad-refresh | Rebuild knowledge graphs, regenerate context files |
 | `/refresh-git` | sqad-refresh-git | Enrich context with learnings from PR review comments |
@@ -827,7 +819,7 @@ your-project/
 │   │   ├── review-rubric.md        # Base review rubric
 │   │   ├── review-protocol.md      # Multi-agent review protocol
 │   │   └── ...                     # Core protocol fragments
-│   ├── skills/                     # 27 skill directories
+│   ├── skills/                     # 24 skill directories
 │   │   ├── sqad-dev-task/SKILL.md
 │   │   ├── sqad-review-code/SKILL.md
 │   │   ├── sqad-ai-workflow-audit/SKILL.md  # NEW
@@ -957,7 +949,7 @@ Open `sqad-system-overview.html` in a browser for an interactive visualization o
 - **Detection matrix** — Full framework detection table
 - **Fragment catalog** — All stack, cloud, core, and tracker fragments
 - **Rubric catalog** — All review modules with check counts
-- **Skill catalog** — All 27 skills with descriptions
+- **Skill catalog** — All 24 skills with descriptions
 - **Architecture layers** — 8-layer system architecture
 
 ```bash
@@ -1000,7 +992,7 @@ The agent and skill definitions are plain Markdown files. You can read them manu
 
 ### Can I use only specific agents or skills?
 
-Yes. You don't have to use all 27 skills. Just run the slash commands you need. Agents activate per-skill — you won't be overwhelmed.
+Yes. You don't have to use all 24 skills. Just run the slash commands you need. Agents activate per-skill — you won't be overwhelmed.
 
 ### What's the difference between SQAD-Public and other AI coding frameworks?
 

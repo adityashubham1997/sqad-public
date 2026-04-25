@@ -54,11 +54,11 @@ Skills declare their agent dependencies in the skill header:
 | Forge | `agents/forge.md` | dev-task (Phase 2-3,6), review-code, review-pr, test-story |
 | Cipher | `agents/cipher.md` | dev-task (Phase 4), review-code, review-pr, qa-task, test-* |
 | Sentinel | `agents/sentinel.md` | dev-task (Phase 5), qa-task |
-| Tempo | `agents/tempo.md` | setup, current-sprint, standup, retro, release-bundle |
+| Tempo | `agents/tempo.md` | setup, current-sprint, standup, retro |
 | Raven | `agents/raven.md` | dev-task (Phase 5), review-code, review-pr, brainstorm |
-| Catalyst | `agents/catalyst.md` | review-pr, rrr, rrr-fix, release-bundle |
+| Catalyst | `agents/catalyst.md` | review-pr |
 | Oracle | `agents/oracle.md` | brainstorm, dev-analyst, product-researcher, health |
-| Scribe | `agents/scribe.md` | retro, release-bundle |
+| Scribe | `agents/scribe.md` | retro |
 | Compass | `agents/compass.md` | dev-task (Phase 2), create-prd, create-story, review-story |
 | Aegis | `agents/aegis.md` | brainstorm, review-pr (security lens) |
 | Stratos | `agents/stratos.md` | brainstorm (cloud lens) |
