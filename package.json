@@ -7,7 +7,7 @@
     "sqad-public": "./bin/sqad-public.js"
   },
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test test/*.test.js",
     "test:e2e": "node test/e2e-setup-test.mjs && node test/e2e-init-test.mjs",
     "test:all": "npm test && npm run test:e2e",
     "prepublishOnly": "npm run test:all"
