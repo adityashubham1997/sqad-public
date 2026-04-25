@@ -19,6 +19,10 @@
 
 </div>
 
+<!-- TODO: Replace with actual demo GIF/recording -->
+<!-- ![SQAD-Public Demo](docs/demo.gif) -->
+> **See it in action:** Run `npx sqad-public init` in any project and watch SQAD detect your entire stack in seconds. Then try `/dev-task` to see the full 6-phase pipeline.
+
 ---
 
 ## Table of Contents
@@ -56,7 +60,7 @@ AI coding assistants are powerful, but without structure they hallucinate, forge
 
 ### The Solution
 
-SQAD-Public gives your AI assistant **structure, memory, and expertise** through 16 specialized agents that each bring a different professional lens to your work:
+SQAD-Public gives your AI assistant **structure, memory, and expertise** through 26 specialized agents that each bring a different professional lens to your work:
 
 ```
 You:       "Implement the login story"
@@ -211,7 +215,13 @@ user:
   role: "Senior Engineer"
 ```
 
-### 3. Start using commands in your IDE
+### 3. Validate your setup
+
+```bash
+npx sqad-public doctor
+```
+
+### 4. Start using commands in your IDE
 
 Open your AI IDE and type any slash command:
 
@@ -221,6 +231,16 @@ Open your AI IDE and type any slash command:
 /brainstorm        → Multi-agent brainstorming session
 /ai-audit          → Audit your AI/LLM integrations
 ```
+
+### 🚀 Start Here — Top 3 Commands for New Users
+
+| # | Command | What It Does | Why Start Here |
+|---|---|---|---|
+| 1 | `/review-code` | Quick pre-commit review by 3 agents (Forge, Raven, Aegis) | Fastest value — see results in 30 seconds |
+| 2 | `/dev-task` | Full 6-phase implementation pipeline | The flagship experience |
+| 3 | `/brainstorm` | Multi-agent brainstorming on any topic | See agent diversity in action |
+
+**Pro tip:** Run `npx sqad-public list` to see all 29 available skills with descriptions.
 
 ---
 
@@ -336,8 +356,8 @@ SQAD-Public operates through a pipeline that transforms your workspace context i
 
 ### Core Concepts
 
-- **Agents** — 16 specialized AI personas, each with a unique review lens, communication style, and domain expertise
-- **Skills** — 27 phase-gated workflows (slash commands) that orchestrate multiple agents through a task
+- **Agents** — 26 specialized AI personas, each with a unique review lens, communication style, and domain expertise
+- **Skills** — 29 phase-gated workflows (slash commands) that orchestrate multiple agents through a task
 - **Fragments** — Modular knowledge units (stack patterns, cloud best practices, review rubrics) loaded dynamically based on your detected stack
 - **Grounding Waterfall** — Anti-hallucination protocol: agents search code → KG → docs → artifacts before acting. If nothing found, they **stop and ask**
 - **User Gates** — Every multi-phase skill pauses between phases for your review. Agents never proceed without your approval
@@ -910,7 +930,7 @@ tracker:
 
 # --- Agents ---
 agents:
-  built_in: 16                      # Don't change
+  built_in: 26                      # Don't change
   custom: []                        # List custom agent file names
 
 # --- IDEs ---
@@ -1089,7 +1109,7 @@ node test/e2e-init-test.mjs
 Open `sqad-system-overview.html` in a browser for an interactive visualization of the complete framework:
 
 - **Flow diagrams** — Setup pipeline, dev-task 6-phase flow, AI workflow
-- **Agent gallery** — All 16 agents with roles and capabilities
+- **Agent gallery** — All 26 agents with roles and capabilities
 - **Detection matrix** — Full framework detection table
 - **Fragment catalog** — All stack, cloud, core, and tracker fragments
 - **Rubric catalog** — All review modules with check counts
@@ -1140,7 +1160,7 @@ Yes. You don't have to use all 29 skills. Just run the slash commands you need. 
 
 ### What's the difference between SQAD-Public and other AI coding frameworks?
 
-SQAD-Public is **agent-first** (16 specialized personas with distinct review lenses), **phase-gated** (user approval at every step), and **grounding-enforced** (anti-hallucination waterfall). Most alternatives are prompt libraries or single-agent wrappers. SQAD gives you a full engineering team that collaborates, disagrees, and presents evidence.
+SQAD-Public is **agent-first** (26 specialized personas with distinct review lenses), **phase-gated** (user approval at every step), and **grounding-enforced** (anti-hallucination waterfall). Most alternatives are prompt libraries or single-agent wrappers. SQAD gives you a full engineering team that collaborates, disagrees, and presents evidence.
 
 ---
 

@@ -7,6 +7,8 @@ sqad-system-overview.html
 PROGRESS-REPORT.md
 REVIEW-SIGNOFF.md
 SECURITY.md
+CONTRIBUTING.md
+CHANGELOG.md
 package-lock.json
 .DS_Store
 *.log
