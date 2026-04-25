@@ -110,7 +110,7 @@ With IDE options:
 curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
 ```
 
-The installer checks Node.js >= 18, pulls the **latest version** from npm, and runs init. Use `--update` to update an existing installation.
+The installer requires only **git + Node.js >= 18** (no npm/npx needed). It clones the repo to `~/.sqad-public`, pulls latest on every run, and runs init directly. Use `--update` to update an existing installation.
 
 ### Install via npx
 
