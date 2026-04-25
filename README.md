@@ -52,7 +52,7 @@
 
 ---
 
-## � Why SQAD-Public?
+## 💡 Why SQAD-Public?
 
 ### The Problem
 
@@ -96,7 +96,7 @@ That's it. SQAD detects your languages, frameworks, cloud, CI/CD, tracker, and I
 
 ---
 
-## � Installation
+## 📦 Installation
 
 ### Prerequisites
 
