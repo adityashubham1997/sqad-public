@@ -1,0 +1,11 @@
+# Dev/test files — not shipped to npm
+test/
+.github/
+knowledge-graph-out/
+sqad-system-overview.html
+PROGRESS-REPORT.md
+REVIEW-SIGNOFF.md
+SECURITY.md
+package-lock.json
+.DS_Store
+*.log
