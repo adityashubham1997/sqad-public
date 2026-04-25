@@ -1,0 +1,5 @@
+# Code Owners — PRs require approval from these users before merging to main
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owner — all files require approval from the repo owner
+* @adityashubham1997
