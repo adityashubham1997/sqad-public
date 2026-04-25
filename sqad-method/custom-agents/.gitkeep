@@ -1,0 +1,20 @@
+# Custom Agents Directory
+#
+# Teams define custom agents here extending _base-agent.
+# See sqad-method/agents/_base-agent.md for the base class.
+#
+# Example custom agent:
+#
+# ---
+# extends: _base-agent
+# name: Aria
+# agent_id: custom-perf-lead
+# role: Performance Engineer
+# icon: "⚡"
+# participates_in: [review, spec]
+# ---
+# # Aria — Performance Engineer
+# ## Identity / Communication / Principles / Review Instinct
+#
+# /setup and /refresh scan this directory.
+# Skills check participates_in to load per phase.

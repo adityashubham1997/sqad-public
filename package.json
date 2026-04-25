@@ -1,0 +1,35 @@
+{
+  "name": "sqad-public",
+  "version": "1.0.0",
+  "description": "14-agent AI development framework — any stack, any IDE",
+  "type": "module",
+  "bin": {
+    "sqad-public": "./bin/sqad-public.js"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "echo 'No lint configured yet'"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "development",
+    "code-review",
+    "multi-agent",
+    "framework",
+    "devops",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "sqad-method/",
+    "README.md",
+    "LICENSE"
+  ]
+}

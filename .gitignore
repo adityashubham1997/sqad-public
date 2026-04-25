@@ -1,0 +1,7 @@
+node_modules/
+sqad-method/output/tracking.jsonl
+sqad-method/output/specs/
+sqad-method/output/reviews/
+sqad-method/output/releases/
+*.log
+.DS_Store
