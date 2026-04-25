@@ -2,20 +2,20 @@
 
 # SQAD-Public
 
-### 17-Agent AI Development Framework — Any Stack, Any IDE, Any Cloud
+### 19-Agent AI Development Framework — Any Stack, Any IDE, Any Cloud
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/Tests-75%20passing-brightgreen.svg)](#testing)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-success.svg)](#-security--privacy)
-[![Agents](https://img.shields.io/badge/Agents-17-purple.svg)](#-17-agents)
-[![Skills](https://img.shields.io/badge/Skills-25-orange.svg)](#-25-skills)
+[![Agents](https://img.shields.io/badge/Agents-19-purple.svg)](#-19-agents)
+[![Skills](https://img.shields.io/badge/Skills-27-orange.svg)](#-27-skills)
 
-**SQAD-Public** (**S**quad **Q**uality **A**ssurance & **D**evelopment) is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **17 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **25 slash commands** across the entire software lifecycle.
+**SQAD-Public** (**S**quad **Q**uality **A**ssurance & **D**evelopment) is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **19 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **27 slash commands** across the entire software lifecycle.
 
 **One command. Zero config. Zero dependencies. Works with any stack.**
 
-[Why SQAD?](#-why-sqad-public) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Security](#-security--privacy) · [Agents](#-17-agents) · [Skills](#-25-skills)
+[Why SQAD?](#-why-sqad-public) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Security](#-security--privacy) · [Agents](#-19-agents) · [Skills](#-27-skills)
 
 </div>
 
@@ -28,8 +28,8 @@
 - [Quick Start](#-quick-start)
 - [Security & Privacy](#-security--privacy)
 - [How It Works](#-how-it-works)
-- [17 Agents](#-17-agents)
-- [25 Skills](#-25-skills)
+- [19 Agents](#-19-agents)
+- [27 Skills](#-27-skills)
 - [Dynamic Stack Detection](#-dynamic-stack-detection)
 - [Cloud & Infrastructure Detection](#-cloud--infrastructure-detection)
 - [Fragment Architecture](#-fragment-architecture)
@@ -190,7 +190,7 @@ npx sqad-public init --ide claude,windsurf
  Stack:      javascript, typescript | react, nextjs | jest
  Cloud:      aws (terraform)
  Tracker:    jira
- Agents:     17 built-in
+ Agents:     19 built-in
  IDEs:       Claude Code, Windsurf
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -345,7 +345,7 @@ SQAD-Public operates through a pipeline that transforms your workspace context i
 
 ---
 
-## 🤖 17 Agents
+## 🤖 19 Agents
 
 Every agent extends `_base-agent.md` which provides shared protocols: Grounding Waterfall, Anti-Hallucination Rules, Git Workflow, Communication Modes, and Tracking.
 
@@ -401,6 +401,13 @@ Every agent extends `_base-agent.md` which provides shared protocols: Grounding 
 |---|---|---|---|---|
 | 17 | **Kernel** | 🐧 | OS/Systems Architect | Process safety, resource leaks, C/C++, concurrency, portability |
 
+### Data Science & Analytics (NEW)
+
+| # | Agent | Icon | Role | Review Lens |
+|---|---|---|---|---|
+| 18 | **Neuron** | 🧠 | ML/Data Science Engineer | Reproducibility, data leakage, experiment tracking, MLOps |
+| 19 | **Prism** | 📊 | Data Analyst | SQL performance, data modeling, metrics consistency, data quality |
+
 ### Agent Communication Modes
 
 All agents support two modes:
@@ -409,7 +416,7 @@ All agents support two modes:
 
 ---
 
-## ⚙️ 25 Skills
+## ⚙️ 27 Skills
 
 Skills are phase-gated, multi-agent workflows triggered by slash commands. Each skill defines which agents participate, what phases to execute, and where to pause for user approval.
 
@@ -473,6 +480,18 @@ Skills are phase-gated, multi-agent workflows triggered by slash commands. Each 
 |---|---|---|
 | `/os-audit` | sqad-os-audit | Audit process management, C/C++ patterns, resource safety, cross-platform portability |
 
+### Data Science & Analytics (NEW)
+
+| Command | Skill | Description |
+|---|---|---|
+| `/data-audit` | sqad-data-audit | Audit ML pipelines, data quality, experiment tracking, analytics models |
+
+### Infrastructure & Observability (NEW)
+
+| Command | Skill | Description |
+|---|---|---|
+| `/infra-audit` | sqad-infra-audit | Audit monitoring (Datadog, New Relic), config management (Ansible), CI/CD (Azure DevOps) |
+
 ### The `/dev-task` Pipeline (Detailed)
 
 The flagship skill runs 6 phases with user gates between each:
@@ -513,6 +532,33 @@ SQAD-Public auto-detects your tech stack by scanning workspace files. No manual 
 | `*.csproj` / `*.sln` (deep scan) | C# |
 | `CMakeLists.txt` / `meson.build` | C++ |
 | `Makefile` + `*.c` / `*.cpp` (deep scan) | C / C++ |
+
+### ML / Data Science Detection
+
+| Marker | Detected As |
+|---|---|
+| `scikit-learn` / `sklearn` in dependencies | sklearn |
+| `torch` / `pytorch` in dependencies | pytorch |
+| `tensorflow` / `keras` in dependencies | tensorflow / keras |
+| `xgboost` / `lightgbm` in dependencies | xgboost / lightgbm |
+| `mlflow` / `wandb` in dependencies | mlflow / wandb |
+| `pandas` / `polars` in dependencies | pandas / polars |
+| `dbt-core` in dependencies | dbt |
+| `airflow` / `prefect` / `dagster` in dependencies | airflow / prefect / dagster |
+| `pyspark` in dependencies | spark |
+| `streamlit` in dependencies | streamlit |
+
+### Infrastructure & Monitoring Detection
+
+| Marker | Detected As |
+|---|---|
+| `datadog.yaml` / `dd-trace` in deps | Datadog |
+| `newrelic.yml` / `newrelic` in deps | New Relic |
+| `prometheus.yml` / `prom-client` in deps | Prometheus |
+| `@sentry/*` / `sentry-sdk` in deps | Sentry |
+| `@opentelemetry/*` in deps | OpenTelemetry |
+| `ansible.cfg` / `playbook.yml` / `site.yml` | Ansible |
+| `azure-pipelines.yml` | Azure DevOps |
 
 ### Framework Detection
 
@@ -830,13 +876,15 @@ After initialization, your workspace will contain:
 your-project/
 ├── sqad-method/                    # SQAD framework (do not delete)
 │   ├── config.yaml                 # Central configuration
-│   ├── agents/                     # 17 built-in agents + _base-agent
+│   ├── agents/                     # 19 built-in agents + _base-agent
 │   │   ├── _base-agent.md
 │   │   ├── nova.md
 │   │   ├── forge.md
 │   │   ├── spark.md                # AI Developer (NEW)
 │   │   ├── muse.md                 # AI Researcher
-│   │   ├── kernel.md               # OS/Systems Architect (NEW)
+│   │   ├── kernel.md               # OS/Systems Architect
+│   │   ├── neuron.md               # ML/Data Science Engineer (NEW)
+│   │   ├── prism.md                # Data Analyst (NEW)
 │   │   └── ...
 │   ├── custom-agents/              # Your custom agents go here
 │   ├── fragments/
@@ -847,12 +895,14 @@ your-project/
 │   │   ├── review-rubric.md        # Base review rubric
 │   │   ├── review-protocol.md      # Multi-agent review protocol
 │   │   └── ...                     # Core protocol fragments
-│   ├── skills/                     # 25 skill directories
+│   ├── skills/                     # 27 skill directories
 │   │   ├── sqad-dev-task/SKILL.md
 │   │   ├── sqad-review-code/SKILL.md
 │   │   ├── sqad-ai-workflow-audit/SKILL.md  # NEW
 │   │   ├── sqad-ai-ideate/SKILL.md
-│   │   ├── sqad-os-audit/SKILL.md           # NEW
+│   │   ├── sqad-os-audit/SKILL.md
+│   │   ├── sqad-data-audit/SKILL.md         # NEW
+│   │   ├── sqad-infra-audit/SKILL.md        # NEW
 │   │   └── ...
 │   ├── context/                    # Context templates
 │   ├── templates/                  # Output templates
@@ -978,7 +1028,7 @@ Open `sqad-system-overview.html` in a browser for an interactive visualization o
 - **Detection matrix** — Full framework detection table
 - **Fragment catalog** — All stack, cloud, core, and tracker fragments
 - **Rubric catalog** — All review modules with check counts
-- **Skill catalog** — All 25 skills with descriptions
+- **Skill catalog** — All 27 skills with descriptions
 - **Architecture layers** — 8-layer system architecture
 
 ```bash
@@ -1021,7 +1071,7 @@ The agent and skill definitions are plain Markdown files. You can read them manu
 
 ### Can I use only specific agents or skills?
 
-Yes. You don't have to use all 25 skills. Just run the slash commands you need. Agents activate per-skill — you won't be overwhelmed.
+Yes. You don't have to use all 27 skills. Just run the slash commands you need. Agents activate per-skill — you won't be overwhelmed.
 
 ### What's the difference between SQAD-Public and other AI coding frameworks?
 

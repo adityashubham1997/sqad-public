@@ -42,7 +42,7 @@ usage() {
   cat <<EOF
 
 ${BOLD}SQAD-Public Installer${NC}  (git-based — no npm required)
-17-agent AI development framework — any stack, any IDE, any cloud
+19-agent AI development framework — any stack, any IDE, any cloud
 
 ${BOLD}Usage:${NC}
   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash

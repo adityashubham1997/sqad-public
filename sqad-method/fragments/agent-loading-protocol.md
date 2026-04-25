@@ -64,6 +64,8 @@ Skills declare their agent dependencies in the skill header:
 | Stratos | `agents/stratos.md` | brainstorm (cloud lens) |
 | Phoenix | `agents/phoenix.md` | brainstorm (devops lens) |
 | Kernel | `agents/kernel.md` | os-audit, dev-task (systems review), review-pr (systems lens) |
+| Neuron | `agents/neuron.md` | data-audit (ML lens), dev-task (ML review), review-pr (data science lens) |
+| Prism | `agents/prism.md` | data-audit (analytics lens), dev-task (data review), review-pr (SQL/data lens) |
 
 ## Context Budget
 

@@ -17,14 +17,14 @@ import { existsSync } from 'node:fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 
 const args = process.argv.slice(2);
 const command = args[0];
 
 function printUsage() {
   console.log(`
-SQAD-Public v${VERSION} — 17-agent AI development framework
+SQAD-Public v${VERSION} — 19-agent AI development framework
 
 Usage:
   sqad-public init [options]     Initialize in current workspace
