@@ -1,12 +1,13 @@
 {
   "name": "sqad-public",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "26-agent AI development framework — any stack, any IDE, any cloud. Zero dependencies.",
   "type": "module",
   "bin": {
     "sqad-public": "./bin/sqad-public.js"
   },
   "scripts": {
+    "postinstall": "node ./bin/postinstall.js || true",
     "test": "node --test test/*.test.js",
     "test:e2e": "node test/e2e-setup-test.mjs && node test/e2e-init-test.mjs",
     "test:all": "npm test && npm run test:e2e",
