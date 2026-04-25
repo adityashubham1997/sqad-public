@@ -63,6 +63,7 @@ Skills declare their agent dependencies in the skill header:
 | Aegis | `agents/aegis.md` | brainstorm, review-pr (security lens) |
 | Stratos | `agents/stratos.md` | brainstorm (cloud lens) |
 | Phoenix | `agents/phoenix.md` | brainstorm (devops lens) |
+| Kernel | `agents/kernel.md` | os-audit, dev-task (systems review), review-pr (systems lens) |
 
 ## Context Budget
 

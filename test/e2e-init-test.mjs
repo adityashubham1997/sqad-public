@@ -72,21 +72,21 @@ assert('config has docker', config.includes('"docker"'));
 assert('config has github-actions', config.includes('"github-actions"'));
 assert('config has claude IDE', config.includes('"claude"'));
 assert('config has windsurf IDE', config.includes('"windsurf"'));
-assert('config has 16 agents', config.includes('built_in: 16'));
+assert('config has 17 agents', config.includes('built_in: 17'));
 
 // Verify agent count
 const agents = execSync(`ls ${join(ws, 'sqad-method', 'agents')}`, { encoding: 'utf8' }).trim().split('\n');
-assert(`Has 17 agent files (16 + _base)`, agents.length === 17);
+assert(`Has 18 agent files (17 + _base)`, agents.length === 18);
 
 // Verify skill count
 const skills = execSync(`ls ${join(ws, 'sqad-method', 'skills')}`, { encoding: 'utf8' }).trim().split('\n');
-assert(`Has 24 skills`, skills.length === 24);
+assert(`Has 25 skills`, skills.length === 25);
 
 // Verify output
 assert('Init output shows "Configured ✅"', output.includes('Configured ✅'));
 assert('Init output shows react', output.includes('react'));
 assert('Init output shows terraform', output.includes('terraform') || output.includes('Terraform'));
-assert('Init output shows 16 agents', output.includes('16 built-in'));
+assert('Init output shows 17 agents', output.includes('17 built-in'));
 
 // ── Summary ──
 console.log(`\n${'═'.repeat(50)}`);
