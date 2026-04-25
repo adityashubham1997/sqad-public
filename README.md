@@ -99,7 +99,20 @@ That's it. SQAD detects your languages, frameworks, cloud, CI/CD, tracker, and I
 - **Node.js** >= 18.0.0
 - An AI-powered IDE (Claude Code, Windsurf, Cursor, etc.)
 
-### Install via npx (recommended)
+### One-line install (shell)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
+```
+
+With IDE options:
+```bash
+curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
+```
+
+The installer checks Node.js >= 18, pulls the **latest version** from npm, and runs init. Use `--update` to update an existing installation.
+
+### Install via npx
 
 ```bash
 npx sqad-public init

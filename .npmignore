@@ -1,5 +1,6 @@
 # Dev/test files — not shipped to npm
 test/
+install.sh
 .github/
 knowledge-graph-out/
 sqad-system-overview.html
