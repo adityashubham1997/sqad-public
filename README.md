@@ -6,13 +6,16 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
-[![Tests](https://img.shields.io/badge/Tests-73%20passing-brightgreen.svg)](#testing)
+[![Tests](https://img.shields.io/badge/Tests-75%20passing-brightgreen.svg)](#testing)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-success.svg)](#-security--privacy)
 [![Agents](https://img.shields.io/badge/Agents-16-purple.svg)](#-16-agents)
 [![Skills](https://img.shields.io/badge/Skills-27-orange.svg)](#-27-skills)
 
-**SQAD-Public** is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **16 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **27 slash commands** across the entire software lifecycle.
+**SQAD-Public** (**S**quad **Q**uality **A**ssurance & **D**evelopment) is a platform-agnostic, open-source multi-agent AI development framework. It deploys a squad of **16 specialized AI agents** that understand your tech stack, cloud infrastructure, issue tracker, and team conventions — then collaborates with you through **27 slash commands** across the entire software lifecycle.
 
-[Installation](#-installation) · [Quick Start](#-quick-start) · [Agents](#-16-agents) · [Skills](#-27-skills) · [Detection](#-dynamic-stack-detection) · [Customization](#-customization)
+**One command. Zero config. Zero dependencies. Works with any stack.**
+
+[Why SQAD?](#-why-sqad-public) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Security](#-security--privacy) · [Agents](#-16-agents) · [Skills](#-27-skills)
 
 </div>
 
@@ -20,8 +23,10 @@
 
 ## Table of Contents
 
+- [Why SQAD-Public?](#-why-sqad-public)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
+- [Security & Privacy](#-security--privacy)
 - [How It Works](#-how-it-works)
 - [16 Agents](#-16-agents)
 - [27 Skills](#-27-skills)
@@ -34,14 +39,60 @@
 - [Customization](#-customization)
 - [Configuration Reference](#-configuration-reference)
 - [Directory Structure](#-directory-structure)
+- [Knowledge Graph](#-knowledge-graph)
 - [Testing](#-testing)
 - [System Overview UI](#-system-overview-ui)
+- [FAQ](#-faq)
 - [Contributing](#-contributing)
 - [License](#-license)
 
 ---
 
-## 🚀 Installation
+## � Why SQAD-Public?
+
+### The Problem
+
+AI coding assistants are powerful, but without structure they hallucinate, forget context between sessions, skip tests, ignore your team's conventions, and produce inconsistent results. You end up spending more time reviewing AI output than you saved.
+
+### The Solution
+
+SQAD-Public gives your AI assistant **structure, memory, and expertise** through 16 specialized agents that each bring a different professional lens to your work:
+
+```
+You:       "Implement the login story"
+SQAD:      6 agents activate across 6 phases:
+           → Nova analyses requirements and catches AC gaps
+           → Atlas assesses architecture impact
+           → Forge writes code matching your existing patterns
+           → Cipher generates tests following your test framework
+           → Raven + Aegis review for bugs and security issues
+           → You approve at every phase before proceeding
+```
+
+### What Makes It Different
+
+| Feature | Without SQAD | With SQAD |
+|---|---|---|
+| **Setup time** | Hours of prompt engineering | `npx sqad-public init` — 5 seconds |
+| **Stack awareness** | Manual context every session | Auto-detected once, always available |
+| **Code style** | Generic, inconsistent | Matches your existing patterns |
+| **Security** | Hope for the best | Aegis reviews every change against OWASP Top 10 |
+| **Test coverage** | Often skipped | Cipher enforces TDD with your test framework |
+| **Hallucination** | Frequent | Grounding Waterfall: code → KG → docs → ask |
+| **AI control** | Full autonomy | User gates between every phase |
+| **Dependencies** | Unknown supply chain | **Zero** — only Node.js built-ins |
+
+### One Command, Any Stack
+
+```bash
+npx sqad-public init
+```
+
+That's it. SQAD detects your languages, frameworks, cloud, CI/CD, tracker, and IDEs automatically. No YAML to write. No plugins to install. No API keys needed. Works with **10+ languages**, **30+ frameworks**, **7 IDEs**, and **5 trackers** out of the box.
+
+---
+
+## � Installation
 
 ### Prerequisites
 
@@ -160,6 +211,102 @@ Open your AI IDE and type any slash command:
 
 ---
 
+## 🔒 Security & Privacy
+
+Security is a first-class concern. SQAD-Public is designed to be **safe to install in any codebase**, including enterprise and regulated environments.
+
+### Zero Dependencies
+
+```json
+"dependencies": {}
+```
+
+SQAD-Public has **literally zero npm dependencies**. The entire framework uses only Node.js built-in modules (`node:fs`, `node:path`, `node:os`, `node:child_process`). This means:
+
+- **Zero supply chain risk** — no transitive dependency vulnerabilities
+- **No `node_modules/` bloat** — the package is 144 KB
+- **No network calls** — detection is purely filesystem-based
+- **Nothing phones home** — no telemetry, no analytics, no tracking pixels
+
+### No API Keys Required
+
+SQAD-Public does **not** require any API keys, tokens, or external service credentials to function. It works entirely within your local filesystem. Your AI IDE's existing authentication handles the LLM communication — SQAD only provides structure and context.
+
+### What SQAD Reads
+
+During `init`, the detection engines **read-only scan** your workspace for:
+
+| What | Why | How |
+|---|---|---|
+| `package.json`, `Gemfile`, `requirements.txt`, etc. | Detect languages and frameworks | Reads dependency names (not values) |
+| `*.tf`, `Dockerfile`, `*.yaml` | Detect cloud infrastructure | Checks file existence and certain keywords |
+| `.github/`, `.jira.yml`, env var names | Detect CI/CD and trackers | Checks existence only |
+| `.xcodeproj`, `AndroidManifest.xml`, `*.csproj` | Detect mobile/desktop platforms | Deep scan up to 4 levels |
+
+**SQAD never reads your source code during init.** It only checks for marker files and dependency lists.
+
+### What SQAD Writes
+
+| Location | Content | Editable? |
+|---|---|---|
+| `sqad-method/config.yaml` | Detected stack, cloud, tracker | ✅ Yes — your config |
+| `sqad-method/agents/` | Agent definition files (read-only context for AI) | ⚠️ Preserved on update |
+| `sqad-method/output/` | Specs, reviews, releases, tracking log | ✅ Yours — gitignored |
+| `.claude/`, `.windsurf/`, `.cursor/` | IDE-specific skill files | ✅ Auto-generated per IDE |
+
+### Built-in Safety Guards
+
+Every agent follows `safety-guards.md` which enforces:
+
+- **File scope protection** — Agents never modify files outside the current task
+- **No auto-push** — Agents never push to remote without your explicit approval
+- **Sensitive file detection** — Auto-generated files (lock files, build output, IDE config) trigger a warning before modification
+- **Secret scanning** — Before any commit, agents scan for API keys, AWS access keys, private keys, connection strings, and `.env` files
+- **Destructive action guard** — Delete, drop, truncate, and force push require explicit confirmation one at a time
+
+### User Gates (Human-in-the-Loop)
+
+Every multi-phase skill pauses between phases for your review:
+
+```
+Phase 1: ANALYSE → Nova + Atlas deliver analysis
+         ⏸️ USER GATE: "Review analysis. Approve to continue?"
+
+Phase 2: SPEC → Forge writes spec
+         ⏸️ USER GATE: "Review spec. Approve to continue?"
+
+Phase 3: IMPLEMENT → Forge writes code
+         ⏸️ USER GATE: "Review code. Approve to continue?"
+         ...
+```
+
+**Agents never proceed without your approval.** You can reject, modify, or redirect at any gate.
+
+### Anti-Hallucination Protocol (Grounding Waterfall)
+
+Agents follow a strict evidence hierarchy before making any claim:
+
+```
+1. Search codebase (grep, AST, file reads)
+2. Query Knowledge Graph (if available)
+3. Check documentation and artifacts
+4. If nothing found → STOP and ASK the user
+   ❌ Never fabricate file paths, function names, or API endpoints
+```
+
+### Compliance Ready
+
+If your project has compliance requirements, set them in `config.yaml`:
+
+```yaml
+project:
+  compliance: [soc2, hipaa, pci-dss, gdpr]
+```
+
+Aegis (Security Analyst) will automatically include compliance-specific checks in every review.
+
+---
+
 ## 🔄 How It Works
 
 SQAD-Public operates through a pipeline that transforms your workspace context into agent-powered workflows:
@@ -193,7 +340,7 @@ Every agent extends `_base-agent.md` which provides shared protocols: Grounding 
 
 | # | Agent | Icon | Role | Review Lens |
 |---|---|---|---|---|
-| 1 | **Nova** | 🌟 | Orchestrator | Routes tasks, resolves conflicts, enforces protocols |
+| 1 | **Nova** | 🌟 | Dev Analyst | Story dissection, AC validation, edge case identification |
 | 2 | **Atlas** | 🏗️ | Solution Architect | Blast radius, scalability, dependency analysis |
 | 3 | **Forge** | 💻 | Dev Lead | Code quality, idioms, DRY, minimal change |
 | 4 | **Cipher** | 🧪 | QA Engineer | Test coverage, edge cases, TDD workflow |
@@ -705,9 +852,62 @@ your-project/
 
 ---
 
+## 📊 Knowledge Graph
+
+SQAD-Public includes a built-in dependency graph builder that maps your entire codebase structure. Agents use this for impact analysis, blast radius estimation, and test coverage mapping.
+
+### Build a Knowledge Graph
+
+```bash
+node sqad-method/tools/knowledge-graph/build.js .
+```
+
+**Output:**
+```
+📊 Building knowledge graph for: /path/to/your/project
+   Found 31 source files
+   Nodes: 31 | Edges: 26
+   Source: 21 | Tests: 10
+   God nodes: 0
+   Output: knowledge-graph-out/graph.json
+```
+
+### View Summary
+
+```bash
+node sqad-method/tools/knowledge-graph/summary.js .
+```
+
+Shows god nodes (files with degree > 30 — high coupling risk), untested source files, and directory communities.
+
+### Supported Languages
+
+The KG builder scans imports/requires across: **JavaScript**, **TypeScript**, **Python**, **Go**, **Rust**, **Java**, and **Ruby**.
+
+### How Agents Use It
+
+Skills like `/dev-task`, `/review-pr`, and `/refresh` query `graph.json` for:
+
+- **Impact analysis** — "What depends on the file I'm changing?"
+- **Blast radius** — "How far do changes ripple (2-hop)?"
+- **Test coverage mapping** — "Which test files cover this module?"
+- **God node warnings** — "Is this a high-coupling component requiring extra review?"
+
+If no knowledge graph exists, agents gracefully fall back to grep-based analysis. The KG is a bonus, never a blocker.
+
+### Cross-Repo Support
+
+```bash
+node sqad-method/tools/knowledge-graph/summary.js --root ./repo-a ./repo-b ./repo-c
+```
+
+Aggregates stats across multiple repositories for monorepo or multi-service architectures.
+
+---
+
 ## 🧪 Testing
 
-SQAD-Public includes a comprehensive test suite:
+SQAD-Public includes a comprehensive test suite with unit tests and end-to-end validation:
 
 ```bash
 # Run all tests
@@ -715,9 +915,15 @@ npm test
 
 # Run specific test file
 node --test test/detect-mobile-ai.test.js
+
+# Run e2e detection validation (62 assertions across 12 stacks)
+node test/e2e-setup-test.mjs
+
+# Run e2e init validation (29 assertions)
+node test/e2e-init-test.mjs
 ```
 
-### Test Coverage
+### Unit Tests (75)
 
 | Test File | Tests | What It Covers |
 |---|---|---|
@@ -731,7 +937,14 @@ node --test test/detect-mobile-ai.test.js
 | `generate-config.test.js` | 5 | Config generation and parsing |
 | `generate-ide-skills.test.js` | 7 | Skill discovery, frontmatter, IDE transforms |
 
-**Total: 73 tests, all passing**
+### End-to-End Tests (91 assertions)
+
+| Test File | Assertions | What It Covers |
+|---|---|---|
+| `e2e-setup-test.mjs` | 62 | 12 simulated projects: JS/React, Python/Django, Java/Spring, C#/.NET, Android, iOS, Ionic, Go, Rust, Ruby/Rails, AI frameworks, empty workspace |
+| `e2e-init-test.mjs` | 29 | Full `sqad-public init` pipeline: file copy, detection, config.yaml generation, agent/skill count verification |
+
+**Total: 75 unit tests + 91 e2e assertions, all passing**
 
 ---
 
@@ -753,6 +966,45 @@ open sqad-system-overview.html
 # or
 python3 -m http.server 8080 && open http://localhost:8080/sqad-system-overview.html
 ```
+
+---
+
+## ❓ FAQ
+
+### Is SQAD-Public safe to install in my enterprise codebase?
+
+**Yes.** Zero dependencies, no network calls, no telemetry, no API keys required. It only reads marker files (not source code) during init. Everything stays local. See [Security & Privacy](#-security--privacy) for full details.
+
+### Does SQAD-Public send my code to external servers?
+
+**No.** SQAD-Public is a local framework that provides structure to your AI IDE. The AI IDE itself handles LLM communication (Claude, GPT, etc.) — SQAD only provides agent definitions, skill workflows, and context files that your IDE reads locally.
+
+### What if my stack isn't detected?
+
+Detection is best-effort. You can always manually edit `sqad-method/config.yaml` to add languages, frameworks, or cloud providers the auto-detection missed. Agents will use whatever is in `config.yaml`.
+
+### Can I use SQAD-Public without an AI IDE?
+
+The agent and skill definitions are plain Markdown files. You can read them manually, reference them in any LLM chat, or paste them into ChatGPT/Claude web interfaces. The CLI and IDE integrations just make it seamless.
+
+### How do I add support for a new language or framework?
+
+1. Add detection markers in `lib/detect/stack.js`
+2. Create a stack fragment in `sqad-method/fragments/stack/your-stack.md`
+3. Create a rubric module in `sqad-method/fragments/rubric/your-stack.md`
+4. Add tests and run `npm test`
+
+### Will `sqad-public update` overwrite my config?
+
+**No.** The update command backs up your `config.yaml`, updates agents/fragments/templates, then restores your config. Your custom agents, plugins, and output data are never touched.
+
+### Can I use only specific agents or skills?
+
+Yes. You don't have to use all 27 skills. Just run the slash commands you need. Agents activate per-skill — you won't be overwhelmed.
+
+### What's the difference between SQAD-Public and other AI coding frameworks?
+
+SQAD-Public is **agent-first** (16 specialized personas with distinct review lenses), **phase-gated** (user approval at every step), and **grounding-enforced** (anti-hallucination waterfall). Most alternatives are prompt libraries or single-agent wrappers. SQAD gives you a full engineering team that collaborates, disagrees, and presents evidence.
 
 ---
 

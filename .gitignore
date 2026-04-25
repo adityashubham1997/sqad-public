@@ -5,3 +5,4 @@ sqad-method/output/reviews/
 sqad-method/output/releases/
 *.log
 .DS_Store
+knowledge-graph-out/
