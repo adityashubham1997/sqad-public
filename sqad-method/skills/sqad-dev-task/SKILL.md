@@ -46,21 +46,33 @@ Nova structures into testable AC (GIVEN/WHEN/THEN).
 
 ### 1c. Architecture Impact (Atlas)
 
-**Load deep context:**
-- Read `<repo>/DEEP-CONTEXT.md` if available
+**Step 1 — READ CONTEXT (before any grep):**
+- Read `<repo>/CLAUDE.md` — per-repo context with KG summary, god nodes, untested files, communities
+- Read `<repo>/DEEP-CONTEXT.md` if available — architecture overview
+- Read `<repo>/knowledge-graph-out/KG_REPORT.md` if exists — full KG analysis
 - Read `complete-flow.md` at root for cross-repo understanding
-- **Query `<repo>/knowledge-graph-out/graph.json`** if exists (see `kg-query-protocol.md`):
-  - Reverse dependency analysis on likely affected files
-  - God node detection (degree > 30)
-  - Test coverage check
-  - 2-hop ripple analysis
+
+**Step 2 — QUERY KG (before any grep):**
+If `<repo>/knowledge-graph-out/graph.json` exists:
+- Query reverse dependencies for every file likely to change
+- Check god node status (degree > 30) for every file in scope
+- Check test coverage for every file in scope
+- Run 2-hop ripple analysis from the entry points
+- See `sqad-method/fragments/kg-query-protocol.md` for query recipes
+
+**Step 3 — GREP (only for pattern-matching):**
+Use grep only to find code patterns and similar implementations.
+Do NOT use grep for impact analysis — use KG for that.
 
 Atlas assesses:
 1. Repos affected
-2. Files to change (specific paths, verified via Grep/Glob)
-3. Cross-repo implications
-4. Performance considerations
-5. Security implications
+2. Files to change (specific paths, verified via KG + Grep)
+3. Reverse dependencies for each file (from KG, not grep)
+4. God nodes in the change path (from KG)
+5. Test coverage gaps (from KG)
+6. Cross-repo implications
+7. Performance considerations
+8. Security implications
 
 For EVERY claim, cite the file path and line number.
 If unverifiable: `[ASSUMPTION-N]: [what] — CONFIDENCE: UNCERTAIN`

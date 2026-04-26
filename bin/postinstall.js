@@ -37,20 +37,15 @@ if (projectRoot === join(__dirname, '..')) {
   process.exit(0);
 }
 
-// Skip if sqad-method/ already exists (already initialized)
-const sqadMethodDir = join(projectRoot, 'sqad-method');
-if (existsSync(sqadMethodDir)) {
-  console.log('ℹ️  SQAD-Public already initialized (sqad-method/ exists). Run `npx sqad-public init` to re-detect.');
-  process.exit(0);
-}
-
-// Run init
+// Run init — always runs the full pipeline (detection, KG build, context files, skills).
+// The init function handles idempotency: it preserves existing sqad-method/config.yaml
+// and only overwrites context files when --force is used.
 try {
   console.log('');
   const { init } = await import('../lib/init.js');
   await init(projectRoot, { ide: null });
   console.log('');
-  console.log('✅ SQAD-Public auto-initialized! Edit sqad-method/config.yaml to add your team details.');
+  console.log('✅ SQAD-Public initialized! Edit sqad-method/config.yaml to add your team details.');
   console.log('   Run `npx sqad-public doctor` to verify, or `npx sqad-public list` to see all skills.');
   console.log('');
 } catch (e) {
