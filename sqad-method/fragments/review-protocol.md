@@ -10,12 +10,38 @@ included_by: dev-task Phase 5, review-story, review-pr, review-code
 
 When a multi-agent review is triggered:
 
-1. **Read the rubric** — load `rubric/base.md` (always) + `rubric/security.md` (always) + detected stack/cloud rubric modules
-2. Each agent runs their applicable rubric checks FIRST
-3. Each agent adds lens-specific findings BEYOND the rubric
-4. If agents disagree on severity or approach → trigger an **Agent Discussion**
+1. **Minimality Audit FIRST** — Before checking code quality, every reviewing agent MUST assess whether the change is the smallest possible diff that satisfies the AC. This is step 0, not an afterthought.
+2. **Read the rubric** — load `rubric/base.md` (always) + `rubric/security.md` (always) + detected stack/cloud rubric modules
+3. Each agent runs their applicable rubric checks (including M-1 through M-8 minimality checks)
+4. Each agent adds lens-specific findings BEYOND the rubric
+5. If agents disagree on severity or approach → trigger an **Agent Discussion**
    (see `_base-agent.md` → Agent Discussions)
-5. Reviews are consolidated with rubric scores + discussion outcomes
+6. Reviews are consolidated with rubric scores + discussion outcomes
+
+## Minimality Audit (Step 0 — All Reviewers)
+
+**This runs before any code quality review.** If the approach itself is wrong, reviewing code style is wasted effort.
+
+Every reviewing agent independently answers:
+
+```
+MINIMALITY AUDIT:
+1. Files touched: [N] — Is each necessary?
+2. Could a smaller change achieve the same AC? [YES/NO — explain]
+3. Are there drive-by changes (unrelated to AC)? [YES/NO — list]
+4. Were new abstractions introduced? [YES/NO — are they necessary?]
+5. Were alternative approaches considered? [YES/NO — what was the simpler option?]
+6. Blast radius: [N] reverse dependencies — are they tested?
+```
+
+**If any reviewer answers YES to #2 (smaller change possible):**
+- Flag as MAJOR finding: `M-1: Minimal file count — simpler approach exists: [describe]`
+- Trigger Agent Discussion if other reviewers disagree
+- Present to user at review gate: "A less invasive approach was identified. Proceed or revise?"
+
+**If YES to #3 (drive-by changes):**
+- Flag as CRITICAL finding: `M-2: No drive-by changes — [file] is unrelated to AC`
+- Drive-by changes MUST be removed before merge, no exceptions
 
 ## Per-Agent Review Structure
 

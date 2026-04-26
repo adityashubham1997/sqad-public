@@ -76,11 +76,22 @@ If unverifiable: `[ASSUMPTION-N]: [what] — CONFIDENCE: UNCERTAIN`
 ### 2a. Technical Specification (Forge)
 
 Forge writes the implementation spec:
-- Exact files to create/modify
+- Exact files to create/modify (list each with justification)
 - Function signatures
 - Data model changes
 - Error handling strategy
 - Integration points
+
+**MINIMALITY GATE (Forge):**
+Forge MUST include in the spec:
+```
+Change Summary:
+  Files to modify:  [N] — [list each with 1-line justification]
+  Files to create:  [N] — [list each with why it can't be added to existing file]
+  Estimated lines:  ~[N]
+  Alternative considered: [describe a simpler approach and why it was rejected]
+```
+If no alternative was considered → spec is incomplete. If the alternative has fewer touch points and still satisfies the AC → use the alternative.
 
 ### 2b. Product Validation (Compass)
 
@@ -88,8 +99,17 @@ Compass validates:
 - Does this solve the customer problem?
 - Is the scope exactly what was asked?
 - Any unnecessary scope?
+- **Is there a simpler way to achieve this?** Compass independently evaluates whether the proposed spec is the minimum-viable approach.
 
-**USER GATE:** "Review spec. [Approve/Revise]"
+### 2c. Architecture Minimality Check (Atlas)
+
+Atlas validates the spec's approach:
+- Is this the least-invasive architecture that satisfies the AC?
+- Does it touch any god nodes unnecessarily?
+- What is the blast radius of the proposed changes?
+- **Propose at least one alternative** with fewer cross-component changes
+
+**USER GATE:** "Review spec. Change plan: [N] files, ~[N] lines. Alternative: [brief]. [Approve/Revise/Use alternative]"
 
 ---
 
@@ -113,15 +133,37 @@ Forge implements per the approved spec:
 - Minimal changes — only what AC requires
 - Self-review against rubric checks as you code
 - Stage specific files only
+- **STOP after each file** and ask: "Am I still on the minimum path?"
+- **If you find yourself changing a file not in the spec** — STOP, present to user: "I need to also change [file] because [reason]. Approve?"
 
-### 3c. Self-Review
+### 3c. Minimality Self-Check + Self-Review
 
-Before presenting to user, Forge runs rubric checks:
+Before presenting to user, Forge runs:
+
+**1. Minimality Self-Check (FIRST):**
+```
+MINIMALITY SELF-CHECK:
+  Files changed: [N]  — matches spec? [YES/NO]
+  Files added:   [N]  — each justified? [YES/NO]
+  Unplanned changes: [list any files not in the original spec]
+  Drive-by refactors: [NONE / list]
+  New abstractions:   [NONE / list with justification]
+```
+If any unplanned changes exist → remove them or present to user for approval.
+
+**2. Rubric checks:**
+- M-1 through M-8 (MINIMALITY checks — see `rubric/base.md`)
 - C-1 through C-N (CRITICAL checks)
-- M-1 through M-N (MAJOR checks)
+- U-1 through U-N (universal checks)
 Fix any issues found before proceeding.
 
-**USER GATE:** "Implementation complete. Review the code. [Continue to tests/Revise]"
+**3. Run FULL test suite:**
+```bash
+[detected_test_command]
+```
+If any EXISTING tests fail → diagnose and fix before proceeding. New tests passing but old tests failing = regression = CRITICAL.
+
+**USER GATE:** "Implementation complete. [N] files changed, [N] lines. Minimality check: [PASS/findings]. [Continue to tests/Revise]"
 
 ---
 
@@ -233,4 +275,8 @@ echo '{"ts":"[ISO_DATE]","command":"dev-task","repo":"[REPO]","story":"[STORY]",
 7. **Track the operation** — final step, always.
 8. **TDD when possible** — write test first, then implementation.
 9. **Self-review before team review** — Forge checks rubric before Phase 5.
-10. **Minimum change principle** — smaller diff = fewer bugs = faster review.
+10. **MINIMUM CHANGE IS A HARD CONSTRAINT** — not a nice-to-have. Every change must be the smallest diff that satisfies the AC. Count files and lines. If a simpler path exists, take it.
+11. **ALWAYS consider an alternative approach** — before speccing, propose at least one simpler option. Compare touch-point counts. User decides.
+12. **REVIEWERS MUST AUDIT MINIMALITY FIRST** — before checking code quality, Phase 5 reviewers must independently assess whether a simpler approach existed. This is check M-1 in the rubric.
+13. **REGRESSION = CRITICAL** — if existing tests break after implementation, that is a CRITICAL finding. New tests passing does not offset broken old tests.
+14. **NO UNPLANNED FILES** — if implementation requires changing a file not in the approved spec, STOP and get user approval before proceeding.

@@ -71,6 +71,19 @@ the rubric ensures nothing is missed.
 | A-3 | **Boundary conditions** | Numeric operations without bounds checking (division, array index) → fail | MAJOR |
 | A-4 | **Timeout/retry** | External API call without timeout configuration → fail | MINOR |
 
+### Minimality & Regression (All Agents)
+
+| ID | Check | Rule | Severity if Failed |
+|---|---|---|---|
+| M-1 | **Minimal file count** | Could the same AC be satisfied by touching fewer files? If yes → fail | MAJOR |
+| M-2 | **No drive-by changes** | Files changed that are unrelated to any AC → fail | CRITICAL |
+| M-3 | **No unnecessary abstractions** | New class/interface/wrapper/utility not required by AC → fail | MAJOR |
+| M-4 | **No speculative code** | Parameters, extension points, or "future-proof" code not in AC → fail | MAJOR |
+| M-5 | **Regression coverage** | Modified function has reverse dependencies without test coverage → fail | MAJOR |
+| M-6 | **Full test suite executed** | Existing tests not run after implementation → fail | CRITICAL |
+| M-7 | **God node caution** | Changed file is a god node (degree > 30 in KG) without explicit user approval → fail | MAJOR |
+| M-8 | **Alternative approach considered** | No evidence that a simpler approach was evaluated → fail | MINOR |
+
 ### Product (Compass)
 
 | ID | Check | Rule | Severity if Failed |

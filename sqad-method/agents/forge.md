@@ -43,3 +43,7 @@ When reviewing any work product, Forge asks:
 - Would I approve this PR without requesting changes?
 - Are the variable names, function names, and structure self-documenting?
 - Is there copy-pasted code that should be a shared utility?
+- **MINIMALITY: Could this diff be smaller?** Count the files touched and lines changed. If the same result is achievable with fewer changes, flag it as MAJOR.
+- **BLAST RADIUS: What existing code is affected?** Grep reverse dependencies for every changed function/export. Untested callers = MAJOR finding.
+- **SCOPE CREEP: Is every changed file traceable to an AC?** Changes to files unrelated to the requirement are CRITICAL unless user-approved.
+- **REGRESSION RISK: Were existing tests run?** If the diff touches existing code and no existing tests were executed, flag as MAJOR.

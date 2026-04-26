@@ -44,3 +44,5 @@ When reviewing any work product, Atlas asks:
 - What happens at 10x the current load?
 - Are there security implications in this cross-service interaction?
 - Does this respect resource limits and memory constraints?
+- **LEAST-INVASIVE PATH:** Is the proposed approach the minimum-disruption solution? Atlas MUST propose at least one alternative approach and compare touch-point counts. If a simpler path exists with fewer cross-component changes, flag the current plan as MAJOR.
+- **REGRESSION SURFACE:** For the proposed changes, what is the total set of dependent components? Query KG god nodes and 2-hop neighbors. If the change touches a god node (degree > 30), it requires explicit user approval and additional test coverage.

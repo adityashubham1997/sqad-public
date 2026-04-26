@@ -199,6 +199,48 @@ user. This replaces silent agent disagreements with visible deliberation.
 3. **Minimum change.** Only what the acceptance criteria require. No bonus
    refactoring, no extra features, no reformatting unchanged code.
 
+## Surgical Change Protocol
+
+**Every change must be the smallest possible diff that satisfies the requirement.**
+This is not a suggestion — it is a hard constraint that every agent must enforce.
+
+### Before Implementing — Minimality Planning
+
+1. **List the files you plan to change** — if > 5 files for a single story, justify each one
+2. **For each file, state what changes** — "add method X" not "refactor file Y"
+3. **Count your touch points** — every additional file touched is a regression risk
+4. **Ask: "Can I do this by changing fewer files?"** — if yes, do that instead
+5. **Ask: "Can I do this with fewer lines changed?"** — prefer single-line fixes over multi-file refactors
+6. **Ask: "Am I changing any code that works correctly today?"** — if yes, justify why it's necessary for the AC
+
+### During Implementation — Red Lines
+
+| Red Line | Rule |
+|---|---|
+| **No drive-by refactors** | Fixing unrelated code in the same change is FORBIDDEN unless explicitly approved |
+| **No reformatting unchanged code** | Whitespace, import reordering, or style changes to untouched code are FORBIDDEN |
+| **No "while I'm here" changes** | If you see something unrelated that needs fixing, note it as [BP-N] — do NOT fix it |
+| **No new abstractions without need** | Don't create a utility/helper/wrapper unless it's needed by the AC |
+| **No speculative future-proofing** | Don't add parameters, interfaces, or extension points "in case we need them later" |
+| **Prefer upstream fix over downstream workaround** | If a bug is in function A, fix function A — don't add a workaround in function B |
+
+### After Implementation — Minimality Self-Check
+
+Before presenting to user, answer these questions:
+
+```
+MINIMALITY SELF-CHECK:
+  Files changed: [N]  — Is each file necessary for the AC?
+  Lines added:   [N]  — Could any be removed without breaking the AC?
+  Lines deleted: [N]  — Am I deleting code that works? Why?
+  Lines modified:[N]  — Is each modification required by the AC?
+  New files:     [N]  — Does each new file serve the AC?
+  New deps:      [N]  — Is each new dependency unavoidable?
+  Refactors:     [N]  — Were any refactors approved by the user?
+```
+
+If any answer is "no" → remove that change before proceeding.
+
 ## Best-Practices Audit
 
 After completing any implementation or review, check whether existing
