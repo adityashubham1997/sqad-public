@@ -33,7 +33,7 @@ function assert(label, condition) {
 
 // ── Test 1: JS/React/Next.js + LangChain + GitHub Actions ──────────
 console.log('\n═══ Test 1: JS/React/Next.js + LangChain + GitHub Actions ═══');
-const t1 = mkdtempSync(join(tmpdir(), 'sqad-t1-'));
+const t1 = mkdtempSync(join(tmpdir(), 'squad-t1-'));
 writeJSON(t1, 'package.json', {
   dependencies: { react: '^18', next: '^14', '@langchain/core': '^0.3' },
   devDependencies: { jest: '^29', typescript: '^5' },
@@ -58,7 +58,7 @@ assert('Detects github-actions', c1.ci_cd.includes('github-actions'));
 
 // ── Test 2: Python/Django + OpenAI + CrewAI + AWS Terraform ─────────
 console.log('\n═══ Test 2: Python/Django + OpenAI + CrewAI + AWS Terraform ═══');
-const t2 = mkdtempSync(join(tmpdir(), 'sqad-t2-'));
+const t2 = mkdtempSync(join(tmpdir(), 'squad-t2-'));
 writeText(t2, 'requirements.txt', 'django==4.2\nopenai>=1.0\ncrewai>=0.2\npytest>=7.0\n');
 writeText(t2, 'pyproject.toml', '[tool.pytest]\n');
 makeDir(t2, 'infra');
@@ -77,7 +77,7 @@ assert('Detects aws provider', c2.providers.includes('aws'));
 
 // ── Test 3: Java/Spring + Gradle + Docker + K8s ────────────────────
 console.log('\n═══ Test 3: Java/Spring + Gradle + Docker + K8s ═══');
-const t3 = mkdtempSync(join(tmpdir(), 'sqad-t3-'));
+const t3 = mkdtempSync(join(tmpdir(), 'squad-t3-'));
 writeText(t3, 'build.gradle', "plugins { id 'org.springframework.boot' version '3.2.0' }\n");
 writeText(t3, 'Dockerfile', 'FROM openjdk:17\n');
 makeDir(t3, 'k8s');
@@ -93,7 +93,7 @@ assert('Detects kubernetes', c3.container.includes('kubernetes'));
 
 // ── Test 4: C#/.NET + Azure ────────────────────────────────────────
 console.log('\n═══ Test 4: C#/.NET + Azure ═══');
-const t4 = mkdtempSync(join(tmpdir(), 'sqad-t4-'));
+const t4 = mkdtempSync(join(tmpdir(), 'squad-t4-'));
 makeDir(t4, 'src', 'Api');
 writeText(join(t4, 'src', 'Api'), 'Api.csproj', '<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup><TargetFramework>net8.0</TargetFramework></PropertyGroup><ItemGroup><PackageReference Include="xunit" /></ItemGroup></Project>');
 writeText(t4, 'host.json', '{"version": "2.0"}');
@@ -111,7 +111,7 @@ assert('Detects azure-devops CI', c4.ci_cd.includes('azure-devops'));
 
 // ── Test 5: Android + Kotlin ───────────────────────────────────────
 console.log('\n═══ Test 5: Android + Kotlin ═══');
-const t5 = mkdtempSync(join(tmpdir(), 'sqad-t5-'));
+const t5 = mkdtempSync(join(tmpdir(), 'squad-t5-'));
 makeDir(t5, 'app', 'src', 'main');
 writeText(join(t5, 'app', 'src', 'main'), 'AndroidManifest.xml', '<manifest/>');
 writeText(t5, 'build.gradle.kts', "plugins { id(\"com.android.application\") id(\"org.jetbrains.kotlin.android\") }");
@@ -123,7 +123,7 @@ assert('Detects gradle', s5.build_tools.includes('gradle'));
 
 // ── Test 6: iOS + Swift ────────────────────────────────────────────
 console.log('\n═══ Test 6: iOS + Swift (Podfile + Package.swift) ═══');
-const t6 = mkdtempSync(join(tmpdir(), 'sqad-t6-'));
+const t6 = mkdtempSync(join(tmpdir(), 'squad-t6-'));
 writeText(t6, 'Podfile', "platform :ios, '15.0'\ntarget 'MyApp'");
 writeText(t6, 'Package.swift', '// swift-tools-version:5.9');
 
@@ -135,7 +135,7 @@ assert('Detects spm', s6.build_tools.includes('spm'));
 
 // ── Test 7: Ionic/Angular + Capacitor ──────────────────────────────
 console.log('\n═══ Test 7: Ionic/Angular + Capacitor ═══');
-const t7 = mkdtempSync(join(tmpdir(), 'sqad-t7-'));
+const t7 = mkdtempSync(join(tmpdir(), 'squad-t7-'));
 writeJSON(t7, 'package.json', {
   dependencies: { '@ionic/angular': '^7', '@angular/core': '^17', '@capacitor/core': '^5' },
   devDependencies: { cypress: '^13' },
@@ -150,7 +150,7 @@ assert('Detects cypress', s7.test_frameworks.includes('cypress'));
 
 // ── Test 8: Go + GCP + Helm ───────────────────────────────────────
 console.log('\n═══ Test 8: Go + GCP + Helm ═══');
-const t8 = mkdtempSync(join(tmpdir(), 'sqad-t8-'));
+const t8 = mkdtempSync(join(tmpdir(), 'squad-t8-'));
 writeText(t8, 'go.mod', 'module example.com/myapp\ngo 1.21\n');
 writeText(t8, '.gcloudignore', '');
 makeDir(t8, 'charts', 'myapp');
@@ -165,7 +165,7 @@ assert('Detects kubernetes (helm)', c8.container.includes('kubernetes'));
 
 // ── Test 9: Rust ───────────────────────────────────────────────────
 console.log('\n═══ Test 9: Rust ═══');
-const t9 = mkdtempSync(join(tmpdir(), 'sqad-t9-'));
+const t9 = mkdtempSync(join(tmpdir(), 'squad-t9-'));
 writeText(t9, 'Cargo.toml', '[package]\nname = "myapp"\nversion = "0.1.0"\n');
 
 const s9 = detectStack(t9);
@@ -175,7 +175,7 @@ assert('test command = cargo test', s9.test_command === 'cargo test');
 
 // ── Test 10: Ruby/Rails + Jira ────────────────────────────────────
 console.log('\n═══ Test 10: Ruby/Rails + Jira ═══');
-const t10 = mkdtempSync(join(tmpdir(), 'sqad-t10-'));
+const t10 = mkdtempSync(join(tmpdir(), 'squad-t10-'));
 writeText(t10, 'Gemfile', "source 'https://rubygems.org'\ngem 'rails', '~> 7.1'\ngem 'rspec'\n");
 writeText(t10, '.jira.yml', 'project: MYPROJ');
 
@@ -189,7 +189,7 @@ assert('Detects jira tracker', t10tracker.type === 'jira');
 
 // ── Test 11: Python + LlamaIndex + AutoGen ─────────────────────────
 console.log('\n═══ Test 11: Python + LlamaIndex + AutoGen ═══');
-const t11 = mkdtempSync(join(tmpdir(), 'sqad-t11-'));
+const t11 = mkdtempSync(join(tmpdir(), 'squad-t11-'));
 writeText(t11, 'requirements.txt', 'llama-index>=0.10\npyautogen>=0.3\nfastapi>=0.100\n');
 writeText(t11, 'pyproject.toml', '[project]\nname = "myapp"\n');
 
@@ -201,7 +201,7 @@ assert('Detects fastapi', s11.frameworks.includes('fastapi'));
 
 // ── Test 12: Empty workspace ───────────────────────────────────────
 console.log('\n═══ Test 12: Empty workspace (graceful fallback) ═══');
-const t12 = mkdtempSync(join(tmpdir(), 'sqad-t12-'));
+const t12 = mkdtempSync(join(tmpdir(), 'squad-t12-'));
 const s12 = detectStack(t12);
 const c12 = detectCloud(t12);
 const t12tracker = detectTracker(t12);

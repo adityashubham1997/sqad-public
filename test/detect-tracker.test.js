@@ -13,7 +13,7 @@ describe('detectTracker', () => {
   let tempDir;
 
   before(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'sqad-test-tracker-'));
+    tempDir = mkdtempSync(join(tmpdir(), 'squad-test-tracker-'));
   });
 
   after(() => {

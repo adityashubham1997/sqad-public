@@ -8,16 +8,16 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in SQAD-Public, please report it responsibly:
+If you discover a security vulnerability in SQUAD-Public, please report it responsibly:
 
 1. **Do NOT** open a public GitHub issue
-2. Email: **aditya.shubham1997@gmail.com** with subject `[SQAD-Public Security]`
+2. Email: **aditya.shubham1997@gmail.com** with subject `[SQUAD-Public Security]`
 3. Include: description, reproduction steps, impact assessment
 4. You will receive a response within 48 hours
 
 ## Security Design
 
-SQAD-Public is designed with security as a first-class concern:
+SQUAD-Public is designed with security as a first-class concern:
 
 ### Zero Dependencies
 - **0 npm dependencies** — eliminates supply chain attack vectors entirely
@@ -30,12 +30,12 @@ SQAD-Public is designed with security as a first-class concern:
 
 ### No Credentials Required
 - No API keys, tokens, or secrets needed to operate
-- LLM communication is handled by your AI IDE, not by SQAD
+- LLM communication is handled by your AI IDE, not by SQUAD
 
 ### Read-Only Detection
-- `sqad-public init` only reads marker files (package.json, Gemfile, etc.)
+- `squad-public init` only reads marker files (package.json, Gemfile, etc.)
 - Source code is never read during initialization
-- Only writes to `sqad-method/` and IDE config directories
+- Only writes to `squad-method/` and IDE config directories
 
 ### npm Provenance
 - All published versions include npm provenance attestation

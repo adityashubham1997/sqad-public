@@ -1,9 +1,9 @@
-# Contributing to SQAD-Public
+# Contributing to SQUAD-Public
 
 ## Architecture
 
 ```
-sqad-public/
+squad-public/
 ├── bin/                  # CLI entry point
 ├── lib/
 │   ├── detect/           # Stack, cloud, IDE, tracker detection
@@ -12,7 +12,7 @@ sqad-public/
 │   ├── init.js           # Installation orchestrator
 │   ├── update.js         # Update logic
 │   └── uninstall.js      # Cleanup
-├── sqad-method/
+├── squad-method/
 │   ├── agents/           # 14 agents + _base-agent
 │   ├── fragments/        # Modular knowledge (rubric/, stack/, cloud/, tracker/)
 │   ├── skills/           # 25 canonical skills
@@ -26,33 +26,33 @@ sqad-public/
 
 ## Adding a New Agent
 
-1. Create `sqad-method/agents/your-agent.md` following the frontmatter schema:
+1. Create `squad-method/agents/your-agent.md` following the frontmatter schema:
    ```yaml
    ---
    extends: _base-agent
    name: YourAgent
-   agent_id: sqad-your-role
+   agent_id: squad-your-role
    role: Your Role Title
    icon: "🎯"
    review_lens: "What this agent specifically looks for"
    capabilities: [list, of, capabilities]
    ---
    ```
-2. Add to `sqad-method/config.yaml` agents list
+2. Add to `squad-method/config.yaml` agents list
 3. Reference in relevant skills
 
 ## Adding a New Skill
 
-1. Create `sqad-method/skills/sqad-your-skill/SKILL.md`
+1. Create `squad-method/skills/squad-your-skill/SKILL.md`
 2. Use frontmatter:
    ```yaml
    ---
-   name: sqad-your-skill
+   name: squad-your-skill
    description: >
      One-paragraph description of what this skill does and when to trigger it.
    ---
    ```
-3. Reference agents by their SQAD-Public names (not original SQAD names)
+3. Reference agents by their SQUAD-Public names (not original SQUAD names)
 4. Include user gates at every phase transition
 5. Include tracking step as final step
 
@@ -86,7 +86,7 @@ For IDEs with custom formats (like Cursor's `.mdc`), implement a content transfo
 
 ## Adding a Tracker Adapter
 
-1. Create `sqad-method/fragments/tracker/your-tracker.md`
+1. Create `squad-method/fragments/tracker/your-tracker.md`
 2. Follow the schema in `_tracker-base.md`
 3. Map statuses to canonical: `TODO`, `IN_PROGRESS`, `IN_REVIEW`, `DONE`, `BLOCKED`
 4. Add detection logic to `lib/detect/tracker.js`
@@ -114,17 +114,17 @@ Tests use Node.js built-in test runner (no dependencies). Tests should:
 
 | Agent | Role | ID |
 |---|---|---|
-| Nova | Dev Analyst | sqad-analyst |
-| Atlas | Solution Architect | sqad-architect |
-| Forge | Dev Lead | sqad-dev-lead |
-| Cipher | QA Engineer | sqad-qa |
-| Sentinel | QA Architect | sqad-qa-architect |
-| Tempo | Scrum Master | sqad-scrum |
-| Raven | Code Reviewer | sqad-reviewer |
-| Catalyst | Release Engineer | sqad-release |
-| Oracle | Technical Researcher | sqad-researcher |
-| Scribe | Tech Writer | sqad-doc |
-| Compass | Product Manager | sqad-pm |
-| Aegis | Security Analyst | sqad-security |
-| Stratos | Cloud Architect | sqad-cloud-architect |
-| Phoenix | Cloud DevOps/SRE | sqad-devops |
+| Nova | Dev Analyst | squad-analyst |
+| Atlas | Solution Architect | squad-architect |
+| Forge | Dev Lead | squad-dev-lead |
+| Cipher | QA Engineer | squad-qa |
+| Sentinel | QA Architect | squad-qa-architect |
+| Tempo | Scrum Master | squad-scrum |
+| Raven | Code Reviewer | squad-reviewer |
+| Catalyst | Release Engineer | squad-release |
+| Oracle | Technical Researcher | squad-researcher |
+| Scribe | Tech Writer | squad-doc |
+| Compass | Product Manager | squad-pm |
+| Aegis | Security Analyst | squad-security |
+| Stratos | Cloud Architect | squad-cloud-architect |
+| Phoenix | Cloud DevOps/SRE | squad-devops |

@@ -1,10 +1,10 @@
 {
-  "name": "sqad-public",
+  "name": "squad-public",
   "version": "1.4.0",
   "description": "26-agent AI development framework — any stack, any IDE, any cloud. Zero dependencies.",
   "type": "module",
   "bin": {
-    "sqad-public": "./bin/sqad-public.js"
+    "squad-public": "./bin/squad-public.js"
   },
   "scripts": {
     "postinstall": "node ./bin/postinstall.js || true",
@@ -37,11 +37,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adityashubham1997/sqad-public.git"
+    "url": "git+https://github.com/adityashubham1997/squad-public.git"
   },
-  "homepage": "https://github.com/adityashubham1997/sqad-public#readme",
+  "homepage": "https://github.com/adityashubham1997/squad-public#readme",
   "bugs": {
-    "url": "https://github.com/adityashubham1997/sqad-public/issues"
+    "url": "https://github.com/adityashubham1997/squad-public/issues"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -53,7 +53,7 @@
   "files": [
     "bin/",
     "lib/",
-    "sqad-method/",
+    "squad-method/",
     "README.md",
     "LICENSE"
   ]

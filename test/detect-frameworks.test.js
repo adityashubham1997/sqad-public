@@ -8,7 +8,7 @@ import { detectStack } from '../lib/detect/stack.js';
 let TMP;
 
 function setup() {
-  TMP = mkdtempSync(join(tmpdir(), 'sqad-frameworks-'));
+  TMP = mkdtempSync(join(tmpdir(), 'squad-frameworks-'));
 }
 
 function teardown() {

@@ -13,7 +13,7 @@ describe('detectStack', () => {
   let tempDir;
 
   before(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'sqad-test-stack-'));
+    tempDir = mkdtempSync(join(tmpdir(), 'squad-test-stack-'));
   });
 
   after(() => {

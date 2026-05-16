@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQUAD-Public — System Overview</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232736;
+    --border: #2e3348;
+    --text: #e1e4ed;
+    --text-dim: #8b90a5;
+    --accent: #6366f1;
+    --accent-light: #818cf8;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --cyan: #06b6d4;
+    --pink: #ec4899;
+    --purple: #a855f7;
+    --orange: #f97316;
+    --blue: #3b82f6;
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent-light); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(180deg, #1a1040 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-light), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .hero p { color: var(--text-dim); font-size: 1.15rem; max-width: 700px; margin: 0 auto 20px; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+    background: var(--surface2); border: 1px solid var(--border);
+  }
+  .badge.green { border-color: var(--green); color: var(--green); }
+  .badge.blue { border-color: var(--blue); color: var(--blue); }
+  .badge.purple { border-color: var(--purple); color: var(--purple); }
+
+  /* Navigation */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 0; overflow-x: auto; padding: 0 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav a {
+    padding: 14px 18px; font-size: 0.85rem; font-weight: 600;
+    color: var(--text-dim); white-space: nowrap; border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav a:hover, .nav a.active {
+    color: var(--accent-light); border-bottom-color: var(--accent); text-decoration: none;
+  }
+
+  /* Container */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 50px 0; }
+  section h2 {
+    font-size: 1.8rem; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  section h2 .icon { font-size: 1.5rem; }
+  section > .subtitle { color: var(--text-dim); margin-bottom: 30px; font-size: 1rem; }
+
+  /* Cards Grid */
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px; transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .card .role { font-size: 0.8rem; color: var(--accent-light); font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 0.88rem; color: var(--text-dim); }
+  .card .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag {
+    font-size: 0.72rem; padding: 3px 10px; border-radius: 12px;
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); font-weight: 500;
+  }
+  .tag.accent { border-color: var(--accent); color: var(--accent-light); }
+  .tag.green { border-color: var(--green); color: var(--green); }
+  .tag.cyan { border-color: var(--cyan); color: var(--cyan); }
+  .tag.pink { border-color: var(--pink); color: var(--pink); }
+  .tag.orange { border-color: var(--orange); color: var(--orange); }
+  .tag.purple { border-color: var(--purple); color: var(--purple); }
+
+  /* Flow Diagram */
+  .flow-container { overflow-x: auto; padding: 20px 0; }
+  .flow {
+    display: flex; align-items: center; gap: 0; min-width: max-content; padding: 10px 0;
+  }
+  .flow-step {
+    display: flex; flex-direction: column; align-items: center; min-width: 140px;
+  }
+  .flow-box {
+    background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius);
+    padding: 16px 20px; text-align: center; width: 140px; transition: all 0.2s;
+  }
+  .flow-box:hover { border-color: var(--accent); }
+  .flow-box .icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .flow-box .label { font-size: 0.8rem; font-weight: 700; }
+  .flow-box .sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 2px; }
+  .flow-arrow {
+    font-size: 1.4rem; color: var(--accent); padding: 0 4px; flex-shrink: 0;
+  }
+  .flow-box.highlight { border-color: var(--accent); background: rgba(99,102,241,0.1); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th {
+    background: var(--surface2); padding: 12px 16px; text-align: left;
+    font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--text-dim); border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    color: var(--text); vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(99,102,241,0.04); }
+
+  /* Stats */
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 30px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px 28px; min-width: 150px; text-align: center;
+  }
+  .stat .num {
+    font-size: 2.2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-light), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat .label { font-size: 0.8rem; color: var(--text-dim); font-weight: 600; margin-top: 2px; }
+
+  /* Architecture Layers */
+  .layers { display: flex; flex-direction: column; gap: 12px; }
+  .layer {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 22px; background: var(--surface); position: relative;
+    padding-left: 60px;
+  }
+  .layer::before {
+    content: attr(data-level);
+    position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+    font-size: 1.2rem; font-weight: 800; color: var(--accent);
+  }
+  .layer h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .layer p { font-size: 0.82rem; color: var(--text-dim); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tab-btn {
+    padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
+    color: var(--text-dim); cursor: pointer; border: none; background: none;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    color: var(--accent-light); border-bottom-color: var(--accent);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Footer */
+  footer {
+    text-align: center; padding: 40px 20px; border-top: 1px solid var(--border);
+    color: var(--text-dim); font-size: 0.82rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .stats { flex-direction: column; }
+    .stat { min-width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <h1>SQUAD-Public</h1>
+  <p>16-agent AI development framework — any stack, any IDE, any cloud. Dynamic stack detection, modular review rubrics, and agentic AI workflows.</p>
+  <div class="badges">
+    <span class="badge green">✓ Phase 3 Complete</span>
+    <span class="badge blue">16 Agents</span>
+    <span class="badge purple">27 Skills</span>
+    <span class="badge">73 Tests Passing</span>
+  </div>
+</div>
+
+<!-- ========== NAV ========== -->
+<nav class="nav">
+  <a href="#overview">Overview</a>
+  <a href="#flow">System Flow</a>
+  <a href="#agents">Agents</a>
+  <a href="#detection">Detection</a>
+  <a href="#fragments">Fragments</a>
+  <a href="#rubrics">Rubrics</a>
+  <a href="#skills">Skills</a>
+  <a href="#stacks">Stacks</a>
+  <a href="#ai-agents">AI Agents</a>
+  <a href="#architecture">Architecture</a>
+</nav>
+
+<!-- ========== OVERVIEW ========== -->
+<section id="overview">
+  <div class="container">
+    <h2><span class="icon">📊</span> Framework Overview</h2>
+    <p class="subtitle">At a glance — what SQUAD-Public provides</p>
+    <div class="stats">
+      <div class="stat"><div class="num">16</div><div class="label">Built-in Agents</div></div>
+      <div class="stat"><div class="num">27</div><div class="label">Skills</div></div>
+      <div class="stat"><div class="num">20+</div><div class="label">Stack Fragments</div></div>
+      <div class="stat"><div class="num">18+</div><div class="label">Rubric Modules</div></div>
+      <div class="stat"><div class="num">73</div><div class="label">Tests Passing</div></div>
+      <div class="stat"><div class="num">7</div><div class="label">IDEs Supported</div></div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>🔍 Auto-Detection</h3>
+        <p>Scans your workspace to detect languages, frameworks, cloud providers, CI/CD, containers, and monitoring tools. Deep recursive scan up to 4 levels.</p>
+      </div>
+      <div class="card">
+        <h3>🧩 Dynamic Loading</h3>
+        <p>Loads only the relevant fragments and rubric checks based on your detected stack. No manual configuration needed.</p>
+      </div>
+      <div class="card">
+        <h3>🔒 Security First</h3>
+        <p>Zero Trust & Least Privilege principles enforced by Aegis agent. SAST/DAST tool integration. Cloud security rubrics for AWS, Azure, GCP.</p>
+      </div>
+      <div class="card">
+        <h3>⚡ AI-Native</h3>
+        <p>Spark and Muse agents specialize in generative AI and agentic workflows — audit, ideate, and implement intelligent automation.</p>
+      </div>
+      <div class="card">
+        <h3>🌐 Multi-IDE</h3>
+        <p>Works with Claude Code, Windsurf, Cursor, Codex CLI, Kiro, Gemini CLI, and AntiGravity. Skills transform automatically per IDE.</p>
+      </div>
+      <div class="card">
+        <h3>📋 Tracker Agnostic</h3>
+        <p>Integrates with Jira, Linear, Shortcut, Notion, and GitHub Issues through a unified abstraction layer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SYSTEM FLOW ========== -->
+<section id="flow" style="background: var(--surface);">
+  <div class="container">
+    <h2><span class="icon">🔄</span> System Flow — How It All Connects</h2>
+    <p class="subtitle">From setup to implementation, every step is agent-powered</p>
+
+    <h3 style="margin-bottom:12px; font-size:1.05rem;">Setup &amp; Detection Flow</h3>
+    <div class="flow-container">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box highlight"><div class="icon">🚀</div><div class="label">/setup</div><div class="sub">CLI init</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box"><div class="icon">🔍</div><div class="label">Stack Detect</div><div class="sub">stack.js</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box"><div class="icon">☁️</div><div class="label">Cloud Detect</div><div class="sub">cloud.js</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box"><div class="icon">📋</div><div class="label">Tracker Detect</div><div class="sub">tracker.js</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box"><div class="icon">⚙️</div><div class="label">Config Gen</div><div class="sub">config.yaml</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box"><div class="icon">📄</div><div class="label">Context Gen</div><div class="sub">CONTEXT.md</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box highlight"><div class="icon">🧠</div><div class="label">IDE Skills</div><div class="sub">Transform</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin: 28px 0 12px; font-size:1.05rem;">Dev Task Flow (6-Phase Pipeline)</h3>
+    <div class="flow-container">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--cyan);"><div class="icon">📖</div><div class="label">1. ANALYSE</div><div class="sub">Nova + Atlas</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--purple);"><div class="icon">📐</div><div class="label">2. SPEC</div><div class="sub">Forge + Compass</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--green);"><div class="icon">💻</div><div class="label">3. IMPLEMENT</div><div class="sub">Forge</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--amber);"><div class="icon">🧪</div><div class="label">4. TEST</div><div class="sub">Cipher</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--red);"><div class="icon">🔍</div><div class="label">5. REVIEW</div><div class="sub">Raven + Sentinel</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--accent);"><div class="icon">🚢</div><div class="label">6. PR</div><div class="sub">Forge + Tempo</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin: 28px 0 12px; font-size:1.05rem;">AI Workflow Flow (Spark + Muse)</h3>
+    <div class="flow-container">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--pink);"><div class="icon">🔮</div><div class="label">DISCOVER</div><div class="sub">Muse scans stack</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--pink);"><div class="icon">💡</div><div class="label">IDEATE</div><div class="sub">Muse brainstorms</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--orange);"><div class="icon">⚡</div><div class="label">ASSESS</div><div class="sub">Spark feasibility</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--orange);"><div class="icon">🔧</div><div class="label">IMPLEMENT</div><div class="sub">Spark builds</div></div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-box" style="border-color:var(--green);"><div class="icon">📊</div><div class="label">EVALUATE</div><div class="sub">Automated evals</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== AGENTS ========== -->
+<section id="agents">
+  <div class="container">
+    <h2><span class="icon">🤖</span> 16 Agents</h2>
+    <p class="subtitle">Each agent has a unique personality, review lens, and area of expertise</p>
+    <div class="grid grid-3" id="agents-grid"></div>
+  </div>
+</section>
+
+<!-- ========== DETECTION ========== -->
+<section id="detection" style="background: var(--surface);">
+  <div class="container">
+    <h2><span class="icon">🔍</span> Dynamic Detection Engine</h2>
+    <p class="subtitle">Three detection engines scan your workspace automatically</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>📦 stack.js</h3>
+        <p>Detects languages, frameworks, build tools, test frameworks. Deep recursive scan for C#/.NET, Android, iOS. AI framework detection (LangChain, OpenAI, etc.)</p>
+        <div class="tag-row">
+          <span class="tag accent">JS/TS</span><span class="tag accent">Python</span><span class="tag accent">Java</span>
+          <span class="tag accent">Go</span><span class="tag accent">Rust</span><span class="tag accent">Ruby</span>
+          <span class="tag accent">C#</span><span class="tag accent">Swift</span><span class="tag accent">Kotlin</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>☁️ cloud.js</h3>
+        <p>Detects cloud providers, IaC, containers, CI/CD, monitoring. Deep recursive Terraform/Dockerfile/K8s manifest scanning.</p>
+        <div class="tag-row">
+          <span class="tag cyan">AWS</span><span class="tag cyan">GCP</span><span class="tag cyan">Azure</span>
+          <span class="tag cyan">Docker</span><span class="tag cyan">K8s</span><span class="tag cyan">Terraform</span>
+          <span class="tag cyan">Pulumi</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📋 tracker.js</h3>
+        <p>Detects issue trackers from workspace markers and configuration files.</p>
+        <div class="tag-row">
+          <span class="tag purple">Jira</span><span class="tag purple">Linear</span><span class="tag purple">Shortcut</span>
+          <span class="tag purple">Notion</span><span class="tag purple">GitHub Issues</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin: 30px 0 14px; font-size:1.1rem;">Detected Frameworks (Full Matrix)</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Category</th><th>Frameworks Detected</th><th>Detection Method</th></tr>
+        <tr><td>Frontend Web</td><td>React, Angular, Vue, Svelte, SvelteKit, Next.js</td><td>package.json deps</td></tr>
+        <tr><td>Backend JS</td><td>Express, NestJS</td><td>package.json deps</td></tr>
+        <tr><td>Python</td><td>Django, Flask, FastAPI</td><td>requirements.txt, pyproject.toml</td></tr>
+        <tr><td>Java/Kotlin</td><td>Spring Boot, Quarkus, Micronaut</td><td>pom.xml, build.gradle</td></tr>
+        <tr><td>Ruby</td><td>Rails, Sinatra</td><td>Gemfile</td></tr>
+        <tr><td>Mobile</td><td>React Native, Android, iOS, Ionic</td><td>package.json, AndroidManifest.xml, .xcodeproj, Podfile, ionic.config.json</td></tr>
+        <tr><td>.NET</td><td>.NET Core, .NET Framework, ASP.NET, EF Core</td><td>Deep scan *.csproj content</td></tr>
+        <tr><td>AI/ML</td><td>LangChain, LlamaIndex, OpenAI, Anthropic, CrewAI, AutoGen</td><td>package.json + requirements.txt</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FRAGMENTS ========== -->
+<section id="fragments">
+  <div class="container">
+    <h2><span class="icon">🧩</span> Fragment Architecture</h2>
+    <p class="subtitle">Modular knowledge units loaded dynamically based on detected stack</p>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('stack-frags')">Stack (20)</button>
+      <button class="tab-btn" onclick="switchTab('cloud-frags')">Cloud (5)</button>
+      <button class="tab-btn" onclick="switchTab('core-frags')">Core (7)</button>
+      <button class="tab-btn" onclick="switchTab('tracker-frags')">Tracker (3)</button>
+    </div>
+    <div id="stack-frags" class="tab-content active">
+      <div class="grid grid-4" id="stack-frag-grid"></div>
+    </div>
+    <div id="cloud-frags" class="tab-content">
+      <div class="grid grid-4" id="cloud-frag-grid"></div>
+    </div>
+    <div id="core-frags" class="tab-content">
+      <div class="grid grid-4" id="core-frag-grid"></div>
+    </div>
+    <div id="tracker-frags" class="tab-content">
+      <div class="grid grid-4" id="tracker-frag-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RUBRICS ========== -->
+<section id="rubrics" style="background: var(--surface);">
+  <div class="container">
+    <h2><span class="icon">✅</span> Review Rubric Modules</h2>
+    <p class="subtitle">Dynamic review checks loaded per detected framework and cloud provider</p>
+    <div class="grid grid-3" id="rubric-grid"></div>
+  </div>
+</section>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills">
+  <div class="container">
+    <h2><span class="icon">⚙️</span> 27 Skills</h2>
+    <p class="subtitle">Phase-gated, multi-agent workflows triggered by slash commands</p>
+    <div class="grid grid-2" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- ========== SUPPORTED STACKS ========== -->
+<section id="stacks" style="background: var(--surface);">
+  <div class="container">
+    <h2><span class="icon">🏗️</span> Supported Stacks</h2>
+    <p class="subtitle">Full-spectrum support — fragment + rubric + detection for each</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Stack</th><th>Fragment</th><th>Rubric</th><th>Detection</th><th>Status</th></tr>
+        <tr><td>JavaScript / TypeScript</td><td>✅</td><td>—</td><td>✅ package.json, tsconfig</td><td><span class="tag green">Phase 1</span></td></tr>
+        <tr><td>React</td><td>✅</td><td>✅</td><td>✅ react dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>React Native</td><td>✅</td><td>✅</td><td>✅ react-native dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Angular</td><td>✅</td><td>✅</td><td>✅ @angular/core dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Vue.js</td><td>✅</td><td>—</td><td>✅ vue dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Svelte / SvelteKit</td><td>✅</td><td>—</td><td>✅ svelte dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Next.js</td><td>✅</td><td>—</td><td>✅ next dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Express</td><td>✅</td><td>—</td><td>✅ express dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>NestJS</td><td>✅</td><td>—</td><td>✅ @nestjs/core dep</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Android (Kotlin/Java)</td><td>✅</td><td>✅</td><td>✅ AndroidManifest.xml deep scan</td><td><span class="tag purple">Phase 3+</span></td></tr>
+        <tr><td>iOS (Swift/SwiftUI)</td><td>✅</td><td>✅</td><td>✅ .xcodeproj, Podfile, Package.swift</td><td><span class="tag purple">Phase 3+</span></td></tr>
+        <tr><td>Ionic / Capacitor</td><td>✅</td><td>✅</td><td>✅ ionic.config.json, @ionic/* deps</td><td><span class="tag purple">Phase 3+</span></td></tr>
+        <tr><td>C# / .NET</td><td>✅</td><td>✅</td><td>✅ .csproj deep scan</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>.NET Core / ASP.NET</td><td>✅</td><td>✅</td><td>✅ TargetFramework in csproj</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Python / Django / Flask / FastAPI</td><td>✅</td><td>—</td><td>✅ requirements.txt, pyproject.toml</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Java / Spring Boot</td><td>✅</td><td>✅</td><td>✅ pom.xml, build.gradle</td><td><span class="tag green">Phase 3</span></td></tr>
+        <tr><td>Ruby / Rails</td><td>✅</td><td>✅</td><td>✅ Gemfile</td><td><span class="tag green">Phase 2-3</span></td></tr>
+        <tr><td>Go</td><td>✅</td><td>✅</td><td>✅ go.mod</td><td><span class="tag green">Phase 1-2</span></td></tr>
+        <tr><td>Rust</td><td>✅</td><td>✅</td><td>✅ Cargo.toml</td><td><span class="tag green">Phase 1-2</span></td></tr>
+        <tr><td>LangChain / OpenAI / CrewAI</td><td>✅</td><td>✅</td><td>✅ pkg deps + requirements</td><td><span class="tag purple">Phase 3+</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== AI AGENTS ========== -->
+<section id="ai-agents">
+  <div class="container">
+    <h2><span class="icon">🧠</span> Generative / Agentic AI Agents</h2>
+    <p class="subtitle">Purpose-built agents for AI-powered development and research</p>
+    <div class="grid grid-2">
+      <div class="card" style="border-color: var(--orange);">
+        <h3>⚡ Spark — AI Developer</h3>
+        <div class="role">Generative/Agentic AI Developer</div>
+        <p>Designs and implements agentic workflows, LLM integrations, RAG pipelines, prompt engineering. Evaluates cost, reliability, and safety of AI features.</p>
+        <div class="tag-row">
+          <span class="tag orange">LLM Integration</span><span class="tag orange">RAG Pipelines</span>
+          <span class="tag orange">Prompt Engineering</span><span class="tag orange">Agent Orchestration</span>
+          <span class="tag orange">Cost Optimization</span><span class="tag orange">Guardrails</span>
+        </div>
+      </div>
+      <div class="card" style="border-color: var(--pink);">
+        <h3>🔮 Muse — AI Researcher</h3>
+        <div class="role">Generative/Agentic AI Researcher</div>
+        <p>Researches latest AI techniques, evaluates models, identifies automation opportunities, designs agentic architectures tailored to the project's stack.</p>
+        <div class="tag-row">
+          <span class="tag pink">Model Evaluation</span><span class="tag pink">Architecture Design</span>
+          <span class="tag pink">Automation Discovery</span><span class="tag pink">Cost-Benefit Analysis</span>
+          <span class="tag pink">Responsible AI</span><span class="tag pink">Emerging Patterns</span>
+        </div>
+      </div>
+    </div>
+    <h3 style="margin: 30px 0 14px; font-size:1.1rem;">AI-Specific Skills</h3>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>🔍 /ai-audit</h3>
+        <div class="role">squad-ai-workflow-audit</div>
+        <p>Comprehensive audit of all AI/LLM integration points. Discovers providers, frameworks, vector stores, evaluates architecture, runs GAI rubric checks, and identifies improvement opportunities.</p>
+      </div>
+      <div class="card">
+        <h3>💡 /ai-ideate</h3>
+        <div class="role">squad-ai-ideate</div>
+        <p>Brainstorms AI automation opportunities tailored to detected stack. Developer workflow automation, product feature ideas, multi-agent system designs with feasibility assessment and cost projections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARCHITECTURE ========== -->
+<section id="architecture" style="background: var(--surface);">
+  <div class="container">
+    <h2><span class="icon">🏛️</span> Architecture Layers</h2>
+    <p class="subtitle">How the framework components stack together</p>
+    <div class="layers">
+      <div class="layer" data-level="1">
+        <h4>CLI Layer — <code>bin/squad-public.js</code></h4>
+        <p>Entry point. Parses commands, dispatches to lib modules. <code>npx squad-public init</code></p>
+      </div>
+      <div class="layer" data-level="2">
+        <h4>Detection Layer — <code>lib/detect/</code></h4>
+        <p>stack.js + cloud.js + tracker.js — auto-detect everything about the workspace</p>
+      </div>
+      <div class="layer" data-level="3">
+        <h4>Generation Layer — <code>lib/generate/</code></h4>
+        <p>config.js + context.js + ide-skills.js — generate config, context files, and IDE-specific skills</p>
+      </div>
+      <div class="layer" data-level="4">
+        <h4>Transform Layer — <code>lib/transform/</code></h4>
+        <p>8 IDE transformers: Claude, Windsurf, Cursor, Codex, Kiro, Gemini, AntiGravity, KG tools</p>
+      </div>
+      <div class="layer" data-level="5">
+        <h4>Agent Layer — <code>squad-method/agents/</code></h4>
+        <p>16 agents with unique personalities, review lenses, capabilities. Extends _base-agent.</p>
+      </div>
+      <div class="layer" data-level="6">
+        <h4>Skill Layer — <code>squad-method/skills/</code></h4>
+        <p>27 phase-gated skills orchestrating multi-agent workflows (dev-task, review, QA, AI audit, etc.)</p>
+      </div>
+      <div class="layer" data-level="7">
+        <h4>Fragment Layer — <code>squad-method/fragments/</code></h4>
+        <p>35+ modular knowledge units: stack (20), cloud (5), core (7), tracker (3), rubric (18+)</p>
+      </div>
+      <div class="layer" data-level="8">
+        <h4>Knowledge Graph — <code>lib/kg/</code></h4>
+        <p>build.js + summary.js — extract and organize project context into queryable graphs</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>SQUAD-Public — Open Source Multi-Agent AI Development Framework</p>
+  <p style="margin-top:4px;">Phase 1 (Foundation) → Phase 2 (Skills & IDE) → Phase 3 (Stacks & Detection) → Phase 3+ (Mobile, AI Agents)</p>
+</footer>
+
+<script>
+// === DATA ===
+const agents = [
+  { icon:'🌟', name:'Nova', role:'Orchestrator', desc:'Routes tasks, resolves conflicts, enforces protocols. The conductor of the 16-agent ensemble.' },
+  { icon:'🗺️', name:'Atlas', role:'Architect', desc:'System design, dependency analysis, knowledge graph queries. Sees the big picture.' },
+  { icon:'💻', name:'Forge', role:'Dev Lead', desc:'Code quality, implementation planning, pattern enforcement. Less code is better code.' },
+  { icon:'🧪', name:'Cipher', role:'QA Engineer', desc:'Test strategy, TDD workflow, test adequacy assessment. Tests prove code works.' },
+  { icon:'🛡️', name:'Sentinel', role:'Test Architect', desc:'Test pyramid, risk coverage, framework selection. Tests at the right layer.' },
+  { icon:'⏱️', name:'Tempo', role:'Sprint Master', desc:'Sprint planning, velocity tracking, blocker escalation. Keeps the cadence.' },
+  { icon:'🦅', name:'Raven', role:'Adversarial Reviewer', desc:'Bug hunting, edge cases, failure mode analysis. What happens when assumptions break?' },
+  { icon:'🚀', name:'Catalyst', role:'Release Engineer', desc:'Release readiness, promotion, bundle assembly. Gate before ship.' },
+  { icon:'🔬', name:'Oracle', role:'Technical Researcher', desc:'Deep research, documentation analysis, prior art discovery. Primary sources over hearsay.' },
+  { icon:'📝', name:'Scribe', role:'Tech Writer', desc:'Documentation standards, knowledge curation. If it\'s not documented, it doesn\'t exist.' },
+  { icon:'🧭', name:'Compass', role:'Product Manager', desc:'Requirements validation, scope management. Does this solve the customer problem?' },
+  { icon:'🔐', name:'Aegis', role:'Security Analyst', desc:'SAST/DAST, vulnerability assessment, zero-trust enforcement. Security is not optional.' },
+  { icon:'☁️', name:'Stratos', role:'Cloud Architect', desc:'Cloud design, IaC review, cost optimization. Multi-cloud expertise.' },
+  { icon:'🔥', name:'Phoenix', role:'DevOps/SRE', desc:'CI/CD, monitoring, incident response, reliability. If it\'s not observable, it\'s not production-ready.' },
+  { icon:'⚡', name:'Spark', role:'AI Developer', desc:'Agentic workflows, LLM integration, RAG pipelines, prompt engineering, eval design.', tags:['AI','NEW'] },
+  { icon:'🔮', name:'Muse', role:'AI Researcher', desc:'AI technique research, model evaluation, automation discovery, agentic architecture design.', tags:['AI','NEW'] },
+];
+
+const stackFrags = [
+  'javascript','react','react-native','angular','vue','svelte','nextjs','express','nestjs',
+  'android','ios','ionic','csharp','dotnet-core','spring','django','flask','fastapi','rails','generative-ai'
+];
+
+const cloudFrags = ['aws','gcp','azure','monitoring','sast-dast-tools'];
+const coreFrags = ['review-rubric','agent-loading-protocol','kg-query-protocol','tdd-workflow','review-protocol','tracking-protocol','best-practices'];
+const trackerFrags = ['linear','shortcut','notion'];
+
+const rubrics = [
+  { name:'React', id:'react', checks:5, color:'cyan' },
+  { name:'React Native', id:'react-native', checks:7, color:'cyan' },
+  { name:'Angular', id:'angular', checks:7, color:'cyan' },
+  { name:'Android', id:'android', checks:8, color:'green' },
+  { name:'iOS', id:'ios', checks:8, color:'green' },
+  { name:'Ionic', id:'ionic', checks:7, color:'green' },
+  { name:'C# / .NET', id:'csharp', checks:9, color:'purple' },
+  { name:'Spring Boot', id:'spring', checks:7, color:'purple' },
+  { name:'Go', id:'go', checks:6, color:'accent' },
+  { name:'Rust', id:'rust', checks:5, color:'accent' },
+  { name:'Ruby', id:'ruby', checks:5, color:'accent' },
+  { name:'Generative AI', id:'generative-ai', checks:10, color:'pink' },
+  { name:'AWS', id:'cloud-aws', checks:7, color:'orange' },
+  { name:'Azure', id:'cloud-azure', checks:7, color:'orange' },
+  { name:'GCP', id:'cloud-gcp', checks:7, color:'orange' },
+  { name:'Kubernetes', id:'kubernetes', checks:8, color:'orange' },
+  { name:'Docker', id:'docker', checks:7, color:'orange' },
+];
+
+const skills = [
+  { cmd:'/setup', name:'squad-setup', desc:'Initialize SQUAD for workspace — auto-detect + configure' },
+  { cmd:'/dev-task', name:'squad-dev-task', desc:'End-to-end story implementation — 6 phases with user gates' },
+  { cmd:'/review-code', name:'squad-review-code', desc:'Pre-commit review by 3 agents in parallel' },
+  { cmd:'/review-pr', name:'squad-review-pr', desc:'Full PR review — patterns, bugs, security, compliance' },
+  { cmd:'/review-story', name:'squad-review-story', desc:'Validate implementation against tracker AC' },
+  { cmd:'/qa-task', name:'squad-qa-task', desc:'Full QA lifecycle — deps, strategy, risk matrix, tests' },
+  { cmd:'/test-repo', name:'squad-test-repo', desc:'Run full test suite and report results' },
+  { cmd:'/test-project', name:'squad-test-project', desc:'Cross-repo test execution and report' },
+  { cmd:'/test-story', name:'squad-test-story', desc:'Story-aware test generation following patterns' },
+  { cmd:'/refresh', name:'squad-refresh', desc:'Rebuild knowledge graphs, regenerate context files' },
+  { cmd:'/refresh-git', name:'squad-refresh-git', desc:'Enrich context with git history learnings' },
+  { cmd:'/standup', name:'squad-standup', desc:'Auto-generate standup from git + tracker' },
+  { cmd:'/current-sprint', name:'squad-current-sprint', desc:'Pull sprint data and show status' },
+  { cmd:'/create-prd', name:'squad-create-prd', desc:'Multi-agent PRD creation' },
+  { cmd:'/create-story', name:'squad-create-story', desc:'Create story with AC refinement' },
+  { cmd:'/dev-analyst', name:'squad-dev-analyst', desc:'Deep story analysis — architecture, feasibility' },
+  { cmd:'/brainstorm', name:'squad-brainstorm', desc:'Multi-agent brainstorming session' },
+  { cmd:'/assemble', name:'squad-assemble', desc:'Multi-agent group discussion' },
+  { cmd:'/product-researcher', name:'squad-product-researcher', desc:'All-source research using codebase + web' },
+  { cmd:'/rrr', name:'squad-rrr', desc:'Release Readiness Report' },
+  { cmd:'/rrr-fix', name:'squad-rrr-fix', desc:'Auto-fix minor release violations' },
+  { cmd:'/release-bundle', name:'squad-release-bundle', desc:'Assemble release bundle with build + notes' },
+  { cmd:'/retro', name:'squad-retro', desc:'Sprint retrospective with live data' },
+  { cmd:'/health', name:'squad-health', desc:'Agent effectiveness and bias detection' },
+  { cmd:'/git-learn', name:'squad-git-learn', desc:'Learn from team git history and PR patterns' },
+  { cmd:'/ai-audit', name:'squad-ai-workflow-audit', desc:'Audit agentic workflows and LLM integrations', isNew:true },
+  { cmd:'/ai-ideate', name:'squad-ai-ideate', desc:'Brainstorm AI automation ideas for your stack', isNew:true },
+];
+
+// === RENDER ===
+const agentsGrid = document.getElementById('agents-grid');
+agents.forEach(a => {
+  const isNew = a.tags?.includes('NEW');
+  agentsGrid.innerHTML += `<div class="card" ${isNew ? 'style="border-color:var(--orange)"' : ''}>
+    <h3>${a.icon} ${a.name} ${isNew ? '<span class="tag orange" style="font-size:0.65rem;margin-left:auto;">NEW</span>' : ''}</h3>
+    <div class="role">${a.role}</div>
+    <p>${a.desc}</p>
+  </div>`;
+});
+
+function renderFragGrid(containerId, frags, color) {
+  const el = document.getElementById(containerId);
+  frags.forEach(f => {
+    el.innerHTML += `<div class="card" style="padding:14px 18px;">
+      <h3 style="font-size:0.9rem;">${f}.md</h3>
+      <span class="tag ${color}" style="margin-top:6px;">${f}</span>
+    </div>`;
+  });
+}
+renderFragGrid('stack-frag-grid', stackFrags, 'accent');
+renderFragGrid('cloud-frag-grid', cloudFrags, 'cyan');
+renderFragGrid('core-frag-grid', coreFrags, 'green');
+renderFragGrid('tracker-frag-grid', trackerFrags, 'purple');
+
+const rubricGrid = document.getElementById('rubric-grid');
+rubrics.forEach(r => {
+  rubricGrid.innerHTML += `<div class="card" style="padding:16px 20px;">
+    <h3 style="font-size:0.95rem;">${r.name}</h3>
+    <p style="font-size:0.82rem;">rubric/${r.id}.md — <strong>${r.checks} checks</strong></p>
+    <span class="tag ${r.color}" style="margin-top:8px;">Auto-loaded</span>
+  </div>`;
+});
+
+const skillsGrid = document.getElementById('skills-grid');
+skills.forEach(s => {
+  skillsGrid.innerHTML += `<div class="card" style="padding:14px 18px;">
+    <h3 style="font-size:0.92rem;">
+      <code style="color:var(--accent-light);font-weight:800;">${s.cmd}</code>
+      ${s.isNew ? '<span class="tag orange" style="font-size:0.65rem;margin-left:auto;">NEW</span>' : ''}
+    </h3>
+    <p style="font-size:0.82rem;margin-top:4px;">${s.desc}</p>
+  </div>`;
+});
+
+// === TABS ===
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// === NAV HIGHLIGHT ===
+const navLinks = document.querySelectorAll('.nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav a[href="#${entry.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

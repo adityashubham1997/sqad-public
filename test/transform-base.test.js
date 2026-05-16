@@ -22,7 +22,7 @@ describe('stripFrontmatter', () => {
 
 describe('toMdcFrontmatter', () => {
   it('generates Cursor MDC frontmatter', () => {
-    const fm = { name: 'sqad-test', description: 'Test skill for testing.' };
+    const fm = { name: 'squad-test', description: 'Test skill for testing.' };
     const result = toMdcFrontmatter(fm);
     assert.ok(result.includes('description: Test skill for testing.'));
     assert.ok(result.includes('alwaysApply: false'));

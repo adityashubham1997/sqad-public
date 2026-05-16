@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * SQAD-Public Post-Install Hook
+ * SQUAD-Public Post-Install Hook
  *
- * Automatically runs `sqad-public init` after `npm install sqad-public`.
+ * Automatically runs `squad-public init` after `npm install squad-public`.
  * - Only runs on local installs (not global)
- * - Skips if sqad-method/ already exists (idempotent)
+ * - Skips if squad-method/ already exists (idempotent)
  * - Non-fatal — install succeeds even if init fails
  * - Uses INIT_CWD to find the user's project root
  */
@@ -28,31 +28,31 @@ if (!projectRoot) {
 // Skip if this is a global install
 const isGlobal = !projectRoot || process.env.npm_config_global === 'true';
 if (isGlobal) {
-  console.log('ℹ️  SQAD-Public installed globally. Run `sqad-public init` in your project to set up.');
+  console.log('ℹ️  SQUAD-Public installed globally. Run `squad-public init` in your project to set up.');
   process.exit(0);
 }
 
-// Skip if we're inside the sqad-public package itself (dev install)
+// Skip if we're inside the squad-public package itself (dev install)
 if (projectRoot === join(__dirname, '..')) {
   process.exit(0);
 }
 
 // Run init — always runs the full pipeline (detection, KG build, context files, skills).
-// The init function handles idempotency: it preserves existing sqad-method/config.yaml
+// The init function handles idempotency: it preserves existing squad-method/config.yaml
 // and only overwrites context files when --force is used.
 try {
   console.log('');
   const { init } = await import('../lib/init.js');
   await init(projectRoot, { ide: null });
   console.log('');
-  console.log('✅ SQAD-Public initialized! Edit sqad-method/config.yaml to add your team details.');
-  console.log('   Run `npx sqad-public doctor` to verify, or `npx sqad-public list` to see all skills.');
+  console.log('✅ SQUAD-Public initialized! Edit squad-method/config.yaml to add your team details.');
+  console.log('   Run `npx squad-public doctor` to verify, or `npx squad-public list` to see all skills.');
   console.log('');
 } catch (e) {
   // Non-fatal — don't break npm install
   console.log('');
   console.log(`⚠️  Auto-init skipped: ${e.message}`);
-  console.log('   Run \`npx sqad-public init\` manually to set up.');
+  console.log('   Run \`npx squad-public init\` manually to set up.');
   console.log('');
   process.exit(0);
 }

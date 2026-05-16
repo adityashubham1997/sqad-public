@@ -1,5 +1,5 @@
 /**
- * End-to-end init test — simulates `npx sqad-public init` in a fresh workspace.
+ * End-to-end init test — simulates `npx squad-public init` in a fresh workspace.
  */
 
 import { mkdtempSync, mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
@@ -11,7 +11,7 @@ import { dirname } from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const CLI = join(__dirname, '..', 'bin', 'sqad-public.js');
+const CLI = join(__dirname, '..', 'bin', 'squad-public.js');
 
 let pass = 0, fail = 0;
 function assert(label, condition) {
@@ -22,7 +22,7 @@ function assert(label, condition) {
 // ── Test: Full init in a JS/React/Next.js/LangChain + Terraform/AWS workspace ──
 console.log('\n═══ E2E Init: JS/React/Next.js + LangChain + Terraform/AWS ═══\n');
 
-const ws = mkdtempSync(join(tmpdir(), 'sqad-init-'));
+const ws = mkdtempSync(join(tmpdir(), 'squad-init-'));
 writeFileSync(join(ws, 'package.json'), JSON.stringify({
   dependencies: { react: '^18', next: '^14', '@langchain/core': '^0.3' },
   devDependencies: { jest: '^29', typescript: '^5' },
@@ -35,7 +35,7 @@ writeFileSync(join(ws, 'infra', 'main.tf'), 'provider "aws" {\n  region = "us-ea
 writeFileSync(join(ws, 'Dockerfile'), 'FROM node:20\n');
 
 console.log(`Workspace: ${ws}`);
-console.log('Running: sqad-public init --ide claude,windsurf\n');
+console.log('Running: squad-public init --ide claude,windsurf\n');
 
 const output = execSync(`node ${CLI} init --ide claude,windsurf`, {
   cwd: ws,
@@ -46,19 +46,19 @@ const output = execSync(`node ${CLI} init --ide claude,windsurf`, {
 console.log(output);
 console.log('── Verifying results ──\n');
 
-// Check that sqad-method/ was created
-assert('sqad-method/ exists', existsSync(join(ws, 'sqad-method')));
-assert('config.yaml exists', existsSync(join(ws, 'sqad-method', 'config.yaml')));
-assert('agents/ exists', existsSync(join(ws, 'sqad-method', 'agents')));
-assert('skills/ exists', existsSync(join(ws, 'sqad-method', 'skills')));
-assert('fragments/ exists', existsSync(join(ws, 'sqad-method', 'fragments')));
-assert('output/ exists', existsSync(join(ws, 'sqad-method', 'output')));
-assert('output/specs/ exists', existsSync(join(ws, 'sqad-method', 'output', 'specs')));
-assert('output/reviews/ exists', existsSync(join(ws, 'sqad-method', 'output', 'reviews')));
-assert('output/releases/ exists', existsSync(join(ws, 'sqad-method', 'output', 'releases')));
+// Check that squad-method/ was created
+assert('squad-method/ exists', existsSync(join(ws, 'squad-method')));
+assert('config.yaml exists', existsSync(join(ws, 'squad-method', 'config.yaml')));
+assert('agents/ exists', existsSync(join(ws, 'squad-method', 'agents')));
+assert('skills/ exists', existsSync(join(ws, 'squad-method', 'skills')));
+assert('fragments/ exists', existsSync(join(ws, 'squad-method', 'fragments')));
+assert('output/ exists', existsSync(join(ws, 'squad-method', 'output')));
+assert('output/specs/ exists', existsSync(join(ws, 'squad-method', 'output', 'specs')));
+assert('output/reviews/ exists', existsSync(join(ws, 'squad-method', 'output', 'reviews')));
+assert('output/releases/ exists', existsSync(join(ws, 'squad-method', 'output', 'releases')));
 
 // Read config and verify detection results
-const config = readFileSync(join(ws, 'sqad-method', 'config.yaml'), 'utf8');
+const config = readFileSync(join(ws, 'squad-method', 'config.yaml'), 'utf8');
 assert('config has javascript', config.includes('"javascript"'));
 assert('config has typescript', config.includes('"typescript"'));
 assert('config has react', config.includes('"react"'));
@@ -75,11 +75,11 @@ assert('config has windsurf IDE', config.includes('"windsurf"'));
 assert('config has 26 agents', config.includes('built_in: 26'));
 
 // Verify agent count
-const agents = execSync(`ls ${join(ws, 'sqad-method', 'agents')}`, { encoding: 'utf8' }).trim().split('\n');
+const agents = execSync(`ls ${join(ws, 'squad-method', 'agents')}`, { encoding: 'utf8' }).trim().split('\n');
 assert(`Has 29 agent files (26 + 3 bases)`, agents.length === 29);
 
 // Verify skill count
-const skills = execSync(`ls ${join(ws, 'sqad-method', 'skills')}`, { encoding: 'utf8' }).trim().split('\n');
+const skills = execSync(`ls ${join(ws, 'squad-method', 'skills')}`, { encoding: 'utf8' }).trim().split('\n');
 assert(`Has 29 skills`, skills.length === 29);
 
 // Verify output

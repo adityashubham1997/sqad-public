@@ -2,28 +2,28 @@
 set -euo pipefail
 
 # ─────────────────────────────────────────────────────────────
-# SQAD-Public Installer (git-based, no npm required)
+# SQUAD-Public Installer (git-based, no npm required)
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
+#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash -s -- --ide claude,windsurf
 #
 # What it does:
 #   1. Checks git and Node.js >= 18 are installed
-#   2. Clones (or pulls latest) sqad-public from GitHub
-#   3. Runs sqad-public init/update/uninstall via node directly
+#   2. Clones (or pulls latest) squad-public from GitHub
+#   3. Runs squad-public init/update/uninstall via node directly
 #
 # No npm, npx, or package manager required.
 #
 # Flags:
 #   --ide <list>     Comma-separated IDEs (claude,windsurf,cursor,codex,kiro,gemini,antigravity,all)
-#   --update         Update existing SQAD-Public installation
-#   --uninstall      Remove SQAD-Public from workspace
+#   --update         Update existing SQUAD-Public installation
+#   --uninstall      Remove SQUAD-Public from workspace
 #   --help           Show usage
 # ─────────────────────────────────────────────────────────────
 
-REPO_URL="https://github.com/adityashubham1997/sqad-public.git"
-CACHE_DIR="${SQAD_CACHE_DIR:-${HOME}/.sqad-public}"
+REPO_URL="https://github.com/adityashubham1997/squad-public.git"
+CACHE_DIR="${SQUAD_CACHE_DIR:-${HOME}/.squad-public}"
 NODE_MIN=18
 
 BOLD='\033[1m'
@@ -41,17 +41,17 @@ fail()  { echo -e "${RED}❌${NC} $1"; exit 1; }
 usage() {
   cat <<EOF
 
-${BOLD}SQAD-Public Installer${NC}  (git-based — no npm required)
+${BOLD}SQUAD-Public Installer${NC}  (git-based — no npm required)
 26-agent AI development framework — any stack, any IDE, any cloud
 
 ${BOLD}Usage:${NC}
-  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
-  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
+  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash -s -- --ide claude,windsurf
 
 ${BOLD}Options:${NC}
   --ide <list>     Comma-separated IDEs to configure
   --update         Update existing installation (pulls latest first)
-  --uninstall      Remove SQAD-Public from workspace
+  --uninstall      Remove SQUAD-Public from workspace
   --help           Show this help
 
 ${BOLD}Requirements:${NC}
@@ -60,8 +60,8 @@ ${BOLD}Requirements:${NC}
   - An AI-powered IDE (Claude Code, Windsurf, Cursor, etc.)
 
 ${BOLD}Cache:${NC}
-  Repo is cloned to ~/.sqad-public and reused on subsequent runs.
-  Set SQAD_CACHE_DIR to override. Delete to force a fresh clone.
+  Repo is cloned to ~/.squad-public and reused on subsequent runs.
+  Set SQUAD_CACHE_DIR to override. Delete to force a fresh clone.
 
 EOF
   exit 0
@@ -97,7 +97,7 @@ done
 
 # ── Preflight checks ────────────────────────────────────────
 echo ""
-echo -e "${BOLD}━━━ SQAD-Public Installer ━━━${NC}"
+echo -e "${BOLD}━━━ SQUAD-Public Installer ━━━${NC}"
 echo ""
 
 # Check git
@@ -130,12 +130,12 @@ if [[ -d "${CACHE_DIR}/.git" ]]; then
     ok "Already up to date ($(git -C "${CACHE_DIR}" log -1 --format='%h'))"
   fi
 else
-  info "Cloning sqad-public from GitHub..."
+  info "Cloning squad-public from GitHub..."
   git clone --depth 1 "${REPO_URL}" "${CACHE_DIR}" --quiet
   ok "Cloned v$(node -e "console.log(JSON.parse(require('fs').readFileSync('${CACHE_DIR}/package.json','utf8')).version)")"
 fi
 
-CLI="${CACHE_DIR}/bin/sqad-public.js"
+CLI="${CACHE_DIR}/bin/squad-public.js"
 
 # ── Run the command ──────────────────────────────────────────
 echo ""
@@ -143,17 +143,17 @@ WORKSPACE="$(pwd)"
 
 case "$MODE" in
   init)
-    info "Initializing SQAD-Public in ${WORKSPACE}..."
+    info "Initializing SQUAD-Public in ${WORKSPACE}..."
     echo ""
     node "${CLI}" init ${IDE_FLAG}
     ;;
   update)
-    info "Updating SQAD-Public in ${WORKSPACE}..."
+    info "Updating SQUAD-Public in ${WORKSPACE}..."
     echo ""
     node "${CLI}" update
     ;;
   uninstall)
-    info "Removing SQAD-Public from ${WORKSPACE}..."
+    info "Removing SQUAD-Public from ${WORKSPACE}..."
     echo ""
     node "${CLI}" uninstall
     ;;
@@ -161,6 +161,6 @@ esac
 
 echo ""
 echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}${BOLD} SQAD-Public ${MODE} complete!${NC}"
+echo -e "${GREEN}${BOLD} SQUAD-Public ${MODE} complete!${NC}"
 echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""

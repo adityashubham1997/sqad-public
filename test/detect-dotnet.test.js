@@ -8,7 +8,7 @@ import { detectStack, deepFindByExtension } from '../lib/detect/stack.js';
 let TMP;
 
 function setup() {
-  TMP = mkdtempSync(join(tmpdir(), 'sqad-dotnet-'));
+  TMP = mkdtempSync(join(tmpdir(), 'squad-dotnet-'));
 }
 
 function teardown() {

@@ -13,7 +13,7 @@ describe('detectCloud', () => {
   let tempDir;
 
   before(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'sqad-test-cloud-'));
+    tempDir = mkdtempSync(join(tmpdir(), 'squad-test-cloud-'));
   });
 
   after(() => {

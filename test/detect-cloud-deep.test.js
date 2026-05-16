@@ -8,7 +8,7 @@ import { detectCloud } from '../lib/detect/cloud.js';
 let TMP;
 
 function setup() {
-  TMP = mkdtempSync(join(tmpdir(), 'sqad-cloud-deep-'));
+  TMP = mkdtempSync(join(tmpdir(), 'squad-cloud-deep-'));
 }
 
 function teardown() {

@@ -17,9 +17,9 @@ describe('generateConfig', () => {
   let configPath;
 
   before(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'sqad-test-config-'));
+    tempDir = mkdtempSync(join(tmpdir(), 'squad-test-config-'));
     // Copy the real config.yaml template
-    const srcConfig = join(__dirname, '..', 'sqad-method', 'config.yaml');
+    const srcConfig = join(__dirname, '..', 'squad-method', 'config.yaml');
     configPath = join(tempDir, 'config.yaml');
     copyFileSync(srcConfig, configPath);
   });
@@ -81,7 +81,7 @@ describe('readConfig', () => {
   });
 
   it('parses basic config structure', () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'sqad-test-readcfg-'));
+    const tempDir = mkdtempSync(join(tmpdir(), 'squad-test-readcfg-'));
     const configPath = join(tempDir, 'config.yaml');
     writeFileSync(configPath, `
 user:
