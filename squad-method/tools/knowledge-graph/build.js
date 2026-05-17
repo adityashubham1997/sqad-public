@@ -16,6 +16,9 @@
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, extname, basename, dirname, resolve } from 'node:path';
+import { gitPass } from './git-pass.js';
+import { detectCommunities } from './cluster.js';
+import { findSurprises, findHotspots, computeComplexity } from './analyze.js';
 
 const LANGUAGE_PATTERNS = {
   // JavaScript/TypeScript
@@ -132,24 +135,32 @@ function main() {
     edges,
   };
 
-  // Compute communities (group by top-level directory)
-  const communities = [];
-  const communityMap = new Map();
-  for (const node of graph.nodes) {
-    const dir = node.path.split('/').slice(0, 2).join('/') || '.';
-    if (!communityMap.has(dir)) communityMap.set(dir, []);
-    communityMap.get(dir).push(node);
+  // Pass 2: Git history enrichment (co-change edges, churn data)
+  let gitStats = { coChanges: 0, hotspots: 0, authors: 0, churnFiles: 0 };
+  if (existsSync(join(repoPath, '.git'))) {
+    console.log('   Running git pass (co-change + churn analysis)...');
+    gitStats = gitPass(graph, repoPath, { maxCommits: 500, verbose: true });
+    console.log(`   Co-changes: ${gitStats.coChanges} | Hotspots: ${gitStats.hotspots} | Authors: ${gitStats.authors}`);
   }
-  for (const [dir, members] of communityMap) {
-    const sorted = members.sort((a, b) => b.degree - a.degree);
-    communities.push({
-      id: dir,
-      size: members.length,
-      keyNode: sorted[0]?.path || dir,
-      members: members.map(m => m.path),
-    });
-  }
+
+  // Pass 3: Community detection via label propagation
+  console.log('   Detecting communities (label propagation)...');
+  const communities = detectCommunities(graph, { maxIterations: 50 });
   graph.communities = communities;
+
+  // Pass 4: Surprise edges + hotspot analysis
+  const surprises = findSurprises(graph, communities);
+  const hotspots = findHotspots(graph);
+  const complexity = computeComplexity(graph, communities, surprises);
+  graph.stats.surprises = surprises.length;
+  graph.stats.hotspots = hotspots.length;
+  graph.stats.complexity_score = complexity.score;
+  graph.stats.complexity_grade = complexity.grade;
+  graph.stats.co_change_edges = gitStats.coChanges;
+  graph.stats.authors = gitStats.authors;
+  graph.surprises = surprises;
+  graph.hotspots = hotspots;
+  graph.complexity = complexity;
 
   // Write graph.json
   mkdirSync(outputDir, { recursive: true });
@@ -167,6 +178,7 @@ function main() {
   console.log(`   Nodes: ${graph.stats.nodes} | Edges: ${graph.stats.edges}`);
   console.log(`   Source: ${graph.stats.source_files} | Tests: ${graph.stats.test_files}`);
   console.log(`   God nodes: ${graph.stats.god_nodes} | Communities: ${communities.length}`);
+  console.log(`   Surprises: ${surprises.length} | Hotspots: ${hotspots.length} | Complexity: ${complexity.grade} (${complexity.score})`);
   console.log(`   Output: ${outputDir}/ (graph.json, graph.html, KG_REPORT.md)`);
 }
 
@@ -505,12 +517,70 @@ function generateReport(graph, communities, degreeMap) {
   }
   lines.push('');
 
+  // Git History / Co-Change
+  if (graph.stats.co_change_edges > 0) {
+    lines.push('## Git History Analysis');
+    lines.push('');
+    lines.push(`Authors: ${graph.stats.authors || 'N/A'} | Co-change edges: ${graph.stats.co_change_edges}`);
+    lines.push('');
+    const coChangeEdges = graph.edges.filter(e => e.type === 'co-change').sort((a, b) => (b.weight || 0) - (a.weight || 0));
+    if (coChangeEdges.length > 0) {
+      lines.push('| File A | File B | Co-changed (commits) |');
+      lines.push('|---|---|---|');
+      for (const e of coChangeEdges.slice(0, 15)) {
+        lines.push(`| ${e.source} | ${e.target} | ${e.weight || 0} |`);
+      }
+    }
+    lines.push('');
+  }
+
+  // Surprise Edges
+  if (graph.surprises && graph.surprises.length > 0) {
+    lines.push('## Surprise Edges (cross-community coupling)');
+    lines.push('');
+    lines.push('| Source | Target | Why |');
+    lines.push('|---|---|---|');
+    for (const s of graph.surprises.slice(0, 15)) {
+      lines.push(`| ${s.source} | ${s.target} | ${s.reason} |`);
+    }
+    lines.push('');
+  }
+
+  // Hotspots
+  if (graph.hotspots && graph.hotspots.length > 0) {
+    lines.push('## Hotspots (high coupling + high churn)');
+    lines.push('');
+    lines.push('| File | Degree | Churn | Risk |');
+    lines.push('|---|---|---|---|');
+    for (const h of graph.hotspots.slice(0, 15)) {
+      lines.push(`| ${h.path} | ${h.degree} | ${h.churn} | ${h.risk} |`);
+    }
+    lines.push('');
+  }
+
+  // Complexity Score
+  if (graph.complexity) {
+    lines.push('## Complexity Score');
+    lines.push('');
+    lines.push(`**Grade: ${graph.complexity.grade}** (score: ${graph.complexity.score})`);
+    lines.push('');
+    lines.push('| Factor | Score |');
+    lines.push('|---|---|');
+    for (const [factor, score] of Object.entries(graph.complexity.factors)) {
+      lines.push(`| ${factor} | ${score} |`);
+    }
+    lines.push('');
+  }
+
   lines.push('## Summary for Agents');
   lines.push('');
   lines.push('When implementing changes in this repo:');
   lines.push(`- **${godNodes.length} god nodes** require extra review and user approval before modification`);
   lines.push(`- **${untested.length}/${sourceNodes.length}** source files lack test coverage — add tests before modifying`);
   lines.push(`- **${communities.length} communities** — cross-community changes have higher blast radius`);
+  if (graph.surprises?.length > 0) lines.push(`- **${graph.surprises.length} surprise edges** — unexpected cross-module coupling detected`);
+  if (graph.hotspots?.length > 0) lines.push(`- **${graph.hotspots.length} hotspots** — frequently-changed, highly-coupled files need extra care`);
+  if (graph.complexity) lines.push(`- **Complexity grade: ${graph.complexity.grade}** — ${graph.complexity.grade === 'A' ? 'well-structured' : graph.complexity.grade === 'B' ? 'manageable' : 'needs attention'}`);
   lines.push(`- Read \`knowledge-graph-out/graph.json\` for impact analysis before any change`);
   lines.push('');
 

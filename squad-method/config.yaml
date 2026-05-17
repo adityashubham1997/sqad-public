@@ -11,7 +11,8 @@ company:
 project:
   name: ""                      # e.g., "Widget Platform"
   description: ""               # One-line summary for agent context
-  type: ""                      # Valid: web-app | api | library | cli | mobile | infra | monorepo
+  type: ""                      # Valid: web-app | api | library | cli | mobile | infra | monorepo | game | ai-ml | data-pipeline
+  maturity: ""                  # Valid: greenfield | brownfield | migration
 
 # --- Team & User ---
 team:
@@ -49,6 +50,7 @@ tracker:
   type: ""                      # Auto-detected. Valid: jira | linear | shortcut | notion | github-issues
   project_key: ""               # e.g., "PROJ" (Jira project key)
   api_url: ""                   # e.g., "https://acme.atlassian.net" (Jira base URL)
+  board_url: ""                 # Sprint board URL (e.g., "https://acme.atlassian.net/jira/software/projects/PROJ/boards/1")
   mcp_available: false          # Set true if MCP tracker integration is configured
 
 # --- Context Files ---
@@ -95,7 +97,7 @@ classifier:
 
 # --- Agents ---
 agents:
-  built_in: 16
+  built_in: 27
   custom: []
 
 # --- Plugins ---

@@ -47,6 +47,12 @@ function repoSummary(repoPath) {
   console.log(`   Nodes: ${graph.stats.nodes} | Edges: ${graph.stats.edges}`);
   console.log(`   Source: ${graph.stats.source_files} | Tests: ${graph.stats.test_files}`);
   console.log(`   God nodes: ${graph.stats.god_nodes}`);
+  if (graph.stats.complexity_grade) {
+    console.log(`   Complexity: ${graph.stats.complexity_grade} (${graph.stats.complexity_score})`);
+  }
+  if (graph.stats.co_change_edges) {
+    console.log(`   Co-change edges: ${graph.stats.co_change_edges} | Authors: ${graph.stats.authors || 'N/A'}`);
+  }
 
   // Top god nodes
   const godNodes = graph.nodes
@@ -77,20 +83,44 @@ function repoSummary(repoPath) {
     }
   }
 
-  // Communities (simple clustering by directory)
-  const communities = new Map();
-  for (const node of graph.nodes) {
-    const dir = node.path.split('/').slice(0, 2).join('/') || '.';
-    if (!communities.has(dir)) communities.set(dir, []);
-    communities.get(dir).push(node);
+  // Communities — use graph-detected communities if available, else fall back to directory
+  if (graph.communities && graph.communities.length > 0) {
+    console.log(`\n   📁 Communities (label propagation): ${graph.communities.length}`);
+    const sorted = [...graph.communities].sort((a, b) => b.size - a.size);
+    for (const c of sorted.slice(0, 8)) {
+      const cohesion = c.cohesion !== undefined ? ` (cohesion: ${c.cohesion})` : '';
+      console.log(`     ${c.id}: ${c.size} files, key: ${c.keyNode}${cohesion}`);
+    }
+  } else {
+    const communities = new Map();
+    for (const node of graph.nodes) {
+      const dir = node.path.split('/').slice(0, 2).join('/') || '.';
+      if (!communities.has(dir)) communities.set(dir, []);
+      communities.get(dir).push(node);
+    }
+    if (communities.size > 1) {
+      console.log(`\n   📁 Communities (by directory):`);
+      const sorted = [...communities.entries()].sort((a, b) => b[1].length - a[1].length);
+      for (const [dir, nodes] of sorted.slice(0, 8)) {
+        const tests = nodes.filter(n => n.isTest).length;
+        console.log(`     ${dir}: ${nodes.length} files (${tests} tests)`);
+      }
+    }
   }
 
-  if (communities.size > 1) {
-    console.log(`\n   📁 Communities (by directory):`);
-    const sorted = [...communities.entries()].sort((a, b) => b[1].length - a[1].length);
-    for (const [dir, nodes] of sorted.slice(0, 8)) {
-      const tests = nodes.filter(n => n.isTest).length;
-      console.log(`     ${dir}: ${nodes.length} files (${tests} tests)`);
+  // Hotspots
+  if (graph.hotspots && graph.hotspots.length > 0) {
+    console.log(`\n   🔥 Hotspots (high coupling + high churn): ${graph.hotspots.length}`);
+    for (const h of graph.hotspots.slice(0, 5)) {
+      console.log(`     ${h.path}: degree=${h.degree}, churn=${h.churn}, risk=${h.risk}`);
+    }
+  }
+
+  // Surprise edges
+  if (graph.surprises && graph.surprises.length > 0) {
+    console.log(`\n   ⚡ Surprise edges (cross-community coupling): ${graph.surprises.length}`);
+    for (const s of graph.surprises.slice(0, 5)) {
+      console.log(`     ${s.source} → ${s.target}: ${s.reason}`);
     }
   }
 }
@@ -118,15 +148,18 @@ function crossRepoSummary(repoPaths) {
     return;
   }
 
-  let totalNodes = 0, totalEdges = 0, totalGodNodes = 0;
+  let totalNodes = 0, totalEdges = 0, totalGodNodes = 0, totalHotspots = 0, totalSurprises = 0;
   for (const { repo, graph } of allGraphs) {
     totalNodes += graph.stats.nodes;
     totalEdges += graph.stats.edges;
     totalGodNodes += graph.stats.god_nodes;
-    console.log(`\n   ${repo}: ${graph.stats.nodes} nodes, ${graph.stats.edges} edges, ${graph.stats.god_nodes} god nodes`);
+    totalHotspots += graph.stats.hotspots || 0;
+    totalSurprises += graph.stats.surprises || 0;
+    const grade = graph.stats.complexity_grade ? ` | grade: ${graph.stats.complexity_grade}` : '';
+    console.log(`\n   ${repo}: ${graph.stats.nodes} nodes, ${graph.stats.edges} edges, ${graph.stats.god_nodes} god nodes${grade}`);
   }
 
-  console.log(`\n   Total: ${totalNodes} nodes, ${totalEdges} edges, ${totalGodNodes} god nodes`);
+  console.log(`\n   Total: ${totalNodes} nodes, ${totalEdges} edges, ${totalGodNodes} god nodes, ${totalHotspots} hotspots, ${totalSurprises} surprises`);
 }
 
 main();

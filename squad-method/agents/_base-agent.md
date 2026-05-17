@@ -36,6 +36,7 @@ After reading `squad-method/config.yaml`, verify essential fields are populated:
 
 ```
 REQUIRED for all commands:  user.name
+RECOMMENDED for all:        company.name, project.name, company.domain
 REQUIRED for tracker commands:  tracker.type, tracker.project_key
 REQUIRED for PR commands:   github.host, github.org
 ```
@@ -43,6 +44,11 @@ REQUIRED for PR commands:   github.host, github.org
 If `user.name` is empty, **STOP** and tell the user:
 "⚠️ `squad-method/config.yaml` is not configured — `user.name` is empty.
 Run `/setup` first, or edit `config.yaml` manually."
+
+If `company.name`, `project.name`, or `company.domain` are empty, **WARN once** at
+session start: "ℹ️ Some config fields are empty (company, project, or domain).
+Agents work better with project context — run `/setup` to fill them."
+Do NOT repeat this warning after the first mention.
 
 If a command-specific field is empty (e.g., `tracker.project_key` for `/standup`),
 **WARN** the user and ask whether to proceed without that data, rather than
