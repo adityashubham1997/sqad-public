@@ -22,7 +22,7 @@ set -euo pipefail
 #   --help           Show usage
 # ─────────────────────────────────────────────────────────────
 
-REPO_URL="https://github.com/adityashubham1997/squad-public.git"
+REPO_URL="https://github.com/adityashubham1997/sqad-public.git"
 CACHE_DIR="${SQUAD_CACHE_DIR:-${HOME}/.squad-public}"
 NODE_MIN=18
 
