@@ -41,8 +41,8 @@ fail()  { echo -e "${RED}❌${NC} $1"; exit 1; }
 usage() {
   cat <<EOF
 
-${BOLD}SQAD-Public Installer${NC}  (git-based — no npm required)
-26-agent AI development framework — any stack, any IDE, any cloud
+${BOLD}SQUAD-Public Installer${NC}  (git-based — no npm required)
+27-agent AI development framework — any stack, any IDE, any cloud
 
 ${BOLD}Usage:${NC}
   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
@@ -51,7 +51,7 @@ ${BOLD}Usage:${NC}
 ${BOLD}Options:${NC}
   --ide <list>     Comma-separated IDEs to configure
   --update         Update existing installation (pulls latest first)
-  --uninstall      Remove SQAD-Public from workspace
+  --uninstall      Remove SQUAD-Public from workspace
   --help           Show this help
 
 ${BOLD}Requirements:${NC}
@@ -61,7 +61,7 @@ ${BOLD}Requirements:${NC}
 
 ${BOLD}Cache:${NC}
   Repo is cloned to ~/.sqad-public and reused on subsequent runs.
-  Set SQAD_CACHE_DIR to override. Delete to force a fresh clone.
+  Set SQUAD_CACHE_DIR to override. Delete to force a fresh clone.
 
 EOF
   exit 0
@@ -97,7 +97,7 @@ done
 
 # ── Preflight checks ────────────────────────────────────────
 echo ""
-echo -e "${BOLD}━━━ SQAD-Public Installer ━━━${NC}"
+echo -e "${BOLD}━━━ SQUAD-Public Installer ━━━${NC}"
 echo ""
 
 # Check git
@@ -130,12 +130,12 @@ if [[ -d "${CACHE_DIR}/.git" ]]; then
     ok "Already up to date ($(git -C "${CACHE_DIR}" log -1 --format='%h'))"
   fi
 else
-  info "Cloning sqad-public from GitHub..."
+  info "Cloning SQUAD-Public from GitHub..."
   git clone --depth 1 "${REPO_URL}" "${CACHE_DIR}" --quiet
   ok "Cloned v$(node -e "console.log(JSON.parse(require('fs').readFileSync('${CACHE_DIR}/package.json','utf8')).version)")"
 fi
 
-CLI="${CACHE_DIR}/bin/sqad-public.js"
+CLI="${CACHE_DIR}/bin/squad-public.js"
 
 # ── Run the command ──────────────────────────────────────────
 echo ""
@@ -143,17 +143,17 @@ WORKSPACE="$(pwd)"
 
 case "$MODE" in
   init)
-    info "Initializing SQAD-Public in ${WORKSPACE}..."
+    info "Initializing SQUAD-Public in ${WORKSPACE}..."
     echo ""
     node "${CLI}" init ${IDE_FLAG}
     ;;
   update)
-    info "Updating SQAD-Public in ${WORKSPACE}..."
+    info "Updating SQUAD-Public in ${WORKSPACE}..."
     echo ""
     node "${CLI}" update
     ;;
   uninstall)
-    info "Removing SQAD-Public from ${WORKSPACE}..."
+    info "Removing SQUAD-Public from ${WORKSPACE}..."
     echo ""
     node "${CLI}" uninstall
     ;;
@@ -161,6 +161,6 @@ esac
 
 echo ""
 echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}${BOLD} SQAD-Public ${MODE} complete!${NC}"
+echo -e "${GREEN}${BOLD} SQUAD-Public ${MODE} complete!${NC}"
 echo -e "${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""

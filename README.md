@@ -43,6 +43,7 @@ SQUAD:   Dispatches 6 agents across 6 phases:
 
 - [What is SQUAD?](#what-is-squad)
 - [Installation](#installation)
+- [Setup](#setup)
 - [Quick Start](#quick-start)
 - [How SQUAD Works — The Orchestrators](#how-squad-works--the-orchestrators)
   - [Agent Orchestrator](#1-agent-orchestrator)
@@ -73,27 +74,72 @@ SQUAD:   Dispatches 6 agents across 6 phases:
 
 ## Installation
 
+### Option A: npm (recommended)
+
 ```bash
-# One-line install (clones from GitHub, no npm required)
-curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash
+# Install and initialize in one step
+npx squad-public init
 
 # Or with specific IDEs
-curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash -s -- --ide claude,cursor,kiro
+npx squad-public init --ide claude,cursor,kiro
+
+# Or install globally
+npm install -g squad-public
+squad-public init
 ```
 
-**Requirements:** Git + Node.js >= 18. No npm/npx needed.
+### Option B: curl (no npm required)
+
+```bash
+# One-line install (clones from GitHub)
+curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
+
+# Or with specific IDEs
+curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,cursor,kiro
+```
+
+**Requirements:** Node.js >= 18. Git required for curl method.
 
 **What it does:**
-1. Clones SQUAD to `~/.squad-public` (cached, reused on updates)
+1. Copies `squad-method/` to your workspace (agents, skills, fragments, config)
 2. Detects your tech stack (languages, frameworks, cloud, CI/CD)
-3. Deploys skills to your installed IDEs
-4. Generates a `config.yaml` with your detected setup
+3. Builds knowledge graphs for each repo
+4. Deploys skills to your installed IDEs
+5. Generates `config.yaml` with your detected setup
+
+---
+
+## Setup
+
+After installation, run `/squad-setup` inside your IDE to complete configuration:
+
+```
+/squad-setup
+```
+
+This asks **3 required + 6 optional questions** to give agents full context about your project:
+
+| # | Question | Required | Example |
+|---|---|---|---|
+| 1 | Your name | ✅ | "Aditya" |
+| 2 | Your role | ✅ | "Senior Engineer" |
+| 3 | Team name | ✅ | "Platform Team" |
+| 4 | Company name | | "Acme Corp" |
+| 5 | Industry | | "fintech" |
+| 6 | Project name | | "Widget Platform" |
+| 7 | Project description | | "E-commerce API" |
+| 8 | Project type | | "backend-api" |
+| 9 | Sprint board URL | | Auto-detects Jira/Linear/GitHub/Shortcut/Notion |
+
+Setup also auto-detects your git config, scans repos, and runs `/refresh` to build context files. You'll see a **config completeness score** at the end.
+
+> **Without `/squad-setup`:** SQUAD still works — all tech detection runs at install. But agents won't know your name, team, or project context. They'll show: *"ℹ️ Some config fields are empty — run /setup to fill them."*
 
 ---
 
 ## Quick Start
 
-After installation, open your IDE and try:
+After setup, open your IDE and try:
 
 | Command | What it does |
 |---|---|
@@ -970,6 +1016,6 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 **Built with focus on developer experience, not vendor lock-in.**
 
-[Report Bug](https://github.com/adityashubham1997/squad-public/issues) · [Request Feature](https://github.com/adityashubham1997/squad-public/issues) · [Contribute](#contributing)
+[Report Bug](https://github.com/adityashubham1997/sqad-public/issues) · [Request Feature](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
 
 </div>

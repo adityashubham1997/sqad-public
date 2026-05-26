@@ -24,7 +24,7 @@ const command = args[0];
 
 function printUsage() {
   console.log(`
-SQUAD-Public v${VERSION} — 26-agent AI development framework
+SQUAD-Public v${VERSION} — 27-agent AI development framework
 
 Usage:
   squad-public init [options]     Initialize in current workspace
