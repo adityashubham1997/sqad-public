@@ -132,12 +132,22 @@ function listSkills(workspacePath) {
     if (existsSync(skillPath)) {
       try {
         const content = readFileSync(skillPath, 'utf8');
-        const descMatch = content.match(/^description:\s*["']?(.+?)["']?\s*$/m);
-        if (descMatch) description = descMatch[1];
+        // YAML block scalar (description: >\n  line1\n  line2)
+        if (/^description:\s*[>|]\s*$/m.test(content)) {
+          const blockMatch = content.match(/^description:\s*[>|]\s*\n((?:[ \t]+[^\n]+\n?)+)/m);
+          if (blockMatch) {
+            description = blockMatch[1].replace(/^[ \t]+/gm, ' ').replace(/\n/g, ' ').trim();
+          }
+        } else {
+          // Inline: description: "some text" or description: some text
+          const inlineMatch = content.match(/^description:\s*["']?(.+?)["']?\s*$/m);
+          if (inlineMatch) description = inlineMatch[1].trim();
+        }
       } catch (e) { /* ignore */ }
     }
     const cmd = '/' + skill.replace('squad-', '');
-    console.log(`  ${cmd.padEnd(23)} ${description}`);
+    const shortDesc = description.length > 60 ? description.slice(0, 57) + '...' : description;
+    console.log(`  ${cmd.padEnd(23)} ${shortDesc}`);
   }
   console.log('');
 }
