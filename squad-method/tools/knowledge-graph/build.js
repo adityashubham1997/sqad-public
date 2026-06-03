@@ -16,9 +16,11 @@
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, extname, basename, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gitPass } from './git-pass.js';
 import { detectCommunities } from './cluster.js';
 import { findSurprises, findHotspots, computeComplexity } from './analyze.js';
+import { astPass } from './ast-pass.js';
 
 const LANGUAGE_PATTERNS = {
   // JavaScript/TypeScript
@@ -30,20 +32,54 @@ const LANGUAGE_PATTERNS = {
   '.jsx':  { type: 'js', importRegex: [/from\s+['"]([^'"]+)['"]/g, /require\(['"]([^'"]+)['"]\)/g] },
   // Python
   '.py':   { type: 'py', importRegex: [/^import\s+(\S+)/gm, /^from\s+(\S+)\s+import/gm] },
-  // Go
-  '.go':   { type: 'go', importRegex: [/"\s*([^"]+)\s*"/g] },  // inside import blocks
+  // Go — fixed regex: only match strings inside import(...) blocks or import "..." statements
+  '.go':   { type: 'go', importRegex: [/^import\s+"([^"]+)"/gm, /^\s+"([^"]+)"\s*$/gm] },
   // Rust
   '.rs':   { type: 'rs', importRegex: [/use\s+([\w:]+)/g, /mod\s+(\w+)/g] },
   // Java
   '.java': { type: 'java', importRegex: [/^import\s+([\w.]+)/gm] },
   // Ruby
   '.rb':   { type: 'rb', importRegex: [/require\s+['"]([^'"]+)['"]/g, /require_relative\s+['"]([^'"]+)['"]/g] },
+  // C/C++ (1.3.1)
+  '.c':    { type: 'c',   importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  '.cpp':  { type: 'cpp', importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  '.cc':   { type: 'cpp', importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  '.cxx':  { type: 'cpp', importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  '.h':    { type: 'c',   importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  '.hpp':  { type: 'cpp', importRegex: [/#include\s*["<]([^">]+)[">]/g] },
+  // C# (1.3.1)
+  '.cs':   { type: 'cs',  importRegex: [/^using\s+([\w.]+)\s*;/gm] },
+  // Swift (1.3.1)
+  '.swift':{ type: 'swift', importRegex: [/^import\s+(\w+)/gm] },
+  // Kotlin (1.3.1)
+  '.kt':   { type: 'kt',  importRegex: [/^import\s+([\w.]+)/gm] },
+  '.kts':  { type: 'kt',  importRegex: [/^import\s+([\w.]+)/gm] },
+  // Scala (1.3.1)
+  '.scala':{ type: 'scala', importRegex: [/^import\s+([\w.{}_ ,*]+)/gm] },
+  // PHP (1.3.1)
+  '.php':  { type: 'php', importRegex: [
+    /use\s+([\w\\]+)/g,
+    /require(?:_once)?\s+['"]([^'"]+)['"]/g,
+    /include(?:_once)?\s+['"]([^'"]+)['"]/g,
+  ] },
+  // Protocol Buffers (1.3.2)
+  '.proto':{ type: 'proto', importRegex: [/^import\s+["']([^"']+)["']/gm] },
+  // GraphQL (1.3.2)
+  '.graphql':{ type: 'graphql', importRegex: [/#import\s+["']([^"']+)["']/g] },
+  '.gql':    { type: 'graphql', importRegex: [/#import\s+["']([^"']+)["']/g] },
 };
 
+// Directories to always skip (explicit list — allows .github/, .circleci/ through)
 const IGNORE_DIRS = new Set([
-  'node_modules', '.git', 'dist', 'build', 'out', '.next', '__pycache__',
-  'target', 'vendor', '.venv', 'venv', 'coverage', '.nyc_output',
-  'knowledge-graph-out', '.squad', 'squad-method',
+  'node_modules', 'dist', 'build', 'out', '__pycache__',
+  'target', 'vendor', 'coverage', 'knowledge-graph-out', 'squad-method',
+]);
+
+// Dot-prefixed dirs to skip (explicit — .github/ and .circleci/ are intentionally NOT here)
+const SKIP_DOT_DIRS = new Set([
+  '.git', '.venv', '.nyc_output', '.next', '.squad',
+  '.cache', '.temp', '.tmp', '.svn', '.hg', '.DS_Store',
+  'venv', '.tox', '.pytest_cache', '.mypy_cache',
 ]);
 
 const TEST_PATTERNS = [
@@ -54,7 +90,7 @@ const TEST_PATTERNS = [
 /**
  * Main entry point.
  */
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   if (args.length === 0) {
     console.error('Usage: node build.js <repo-path> [--output <dir>]');
@@ -162,6 +198,18 @@ function main() {
   graph.hotspots = hotspots;
   graph.complexity = complexity;
 
+  // Pass 5: AST analysis (opt-in via config knowledge_graph.ast_enabled: true)
+  const astArg = args.includes('--ast');
+  if (astArg) {
+    console.log('   Running AST pass (function-level analysis)...');
+    try {
+      await astPass(graph, files, { useTreeSitter: false });
+      console.log(`   AST: ${graph.stats.function_nodes || 0} function nodes, ${graph.stats.call_edges || 0} call edges`);
+    } catch (e) {
+      console.warn(`   AST pass failed: ${e.message} — continuing without AST data`);
+    }
+  }
+
   // Write graph.json
   mkdirSync(outputDir, { recursive: true });
   const outputPath = join(outputDir, 'graph.json');
@@ -190,7 +238,8 @@ function scanFiles(dir, files = []) {
     const entries = readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
       if (IGNORE_DIRS.has(entry.name)) continue;
-      if (entry.name.startsWith('.')) continue;
+      // Selective dot-dir skip: allow .github/, .circleci/, etc. through
+      if (entry.name.startsWith('.') && SKIP_DOT_DIRS.has(entry.name)) continue;
 
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -232,8 +281,10 @@ function extractImports(filePath, lang) {
     let match;
     while ((match = re.exec(content)) !== null) {
       const imp = match[1];
-      if (imp && !imp.startsWith('.') && lang === 'go') continue; // skip stdlib Go imports
-      if (imp) imports.push(imp);
+      if (!imp) continue;
+      // Skip stdlib Go imports (no dot in path = stdlib or short external package)
+      if (lang === 'go' && !imp.includes('.') && !imp.includes('/')) continue;
+      imports.push(imp);
     }
   }
 
@@ -282,6 +333,47 @@ function resolveImport(repoPath, sourceFile, importStr, lang) {
   } else if (lang === 'java') {
     const parts = importStr.replace(/\./g, '/');
     candidates.push(join(repoPath, 'src', 'main', 'java', parts + '.java'));
+  } else if (lang === 'c' || lang === 'cpp') {
+    // C/C++: only resolve relative includes (system headers like <stdio.h> → null)
+    if (!importStr.startsWith('/') && !importStr.includes('<')) {
+      candidates.push(
+        join(sourceDir, importStr),
+        join(repoPath, importStr),
+        join(repoPath, 'include', importStr),
+        join(repoPath, 'src', importStr),
+      );
+    }
+  } else if (lang === 'cs') {
+    // C#: namespace → file path (heuristic: last segment is class name)
+    const parts = importStr.replace(/\./g, '/');
+    candidates.push(
+      join(repoPath, parts + '.cs'),
+      join(repoPath, 'src', parts + '.cs'),
+    );
+  } else if (lang === 'kt') {
+    // Kotlin: package.ClassName → file path
+    const parts = importStr.replace(/\./g, '/');
+    candidates.push(
+      join(repoPath, 'src', 'main', 'kotlin', parts + '.kt'),
+      join(repoPath, parts + '.kt'),
+    );
+  } else if (lang === 'php') {
+    // PHP: resolve relative includes and require paths
+    if (importStr.startsWith('.') || importStr.startsWith('/')) {
+      candidates.push(join(sourceDir, importStr));
+    } else {
+      candidates.push(
+        join(repoPath, importStr),
+        join(repoPath, 'src', importStr),
+      );
+    }
+  } else if (lang === 'proto') {
+    // Protobuf: resolve relative imports
+    candidates.push(
+      join(sourceDir, importStr),
+      join(repoPath, importStr),
+      join(repoPath, 'proto', importStr),
+    );
   }
 
   for (const candidate of candidates) {
@@ -292,6 +384,9 @@ function resolveImport(repoPath, sourceFile, importStr, lang) {
 
   return null;
 }
+
+// Export for testing
+export { LANGUAGE_PATTERNS, SKIP_DOT_DIRS };
 
 /**
  * Generate an interactive HTML visualization of the knowledge graph.
@@ -587,4 +682,7 @@ function generateReport(graph, communities, degreeMap) {
   return lines.join('\n');
 }
 
-main();
+// Only run main() when executed directly (not when imported by tests)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}

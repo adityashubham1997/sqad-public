@@ -1,10 +1,107 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gitPass } from '../squad-method/tools/knowledge-graph/git-pass.js';
 import { detectCommunities } from '../squad-method/tools/knowledge-graph/cluster.js';
 import { findSurprises, findHotspots, computeComplexity } from '../squad-method/tools/knowledge-graph/analyze.js';
+import { LANGUAGE_PATTERNS, SKIP_DOT_DIRS } from '../squad-method/tools/knowledge-graph/build.js';
 
-// --- git-pass.js ---
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// ─── Language Pattern Tests (1.3) ──────────────────────────────────────────
+
+function extractWithPatterns(content, patterns) {
+  const imports = [];
+  for (const regex of patterns) {
+    const re = new RegExp(regex.source, regex.flags);
+    let match;
+    while ((match = re.exec(content)) !== null) {
+      if (match[1]) imports.push(match[1]);
+    }
+  }
+  return imports;
+}
+
+describe('LANGUAGE_PATTERNS — new languages (1.3.1-1.3.2)', () => {
+  it('exports patterns for all new languages', () => {
+    const requiredExts = ['.c', '.cpp', '.h', '.hpp', '.cs', '.swift', '.kt', '.scala', '.php', '.proto', '.graphql'];
+    for (const ext of requiredExts) {
+      assert.ok(LANGUAGE_PATTERNS[ext], `Missing pattern for ${ext}`);
+    }
+  });
+
+  it('C/C++ — extracts #include paths', () => {
+    const content = readFileSync(join(__dirname, 'fixtures/kg-cpp/main.c'), 'utf8');
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.c'].importRegex);
+    assert.ok(imports.includes('utils.h'), `Expected "utils.h" in imports: ${imports}`);
+    assert.ok(imports.includes('math/calc.h'), `Expected "math/calc.h" in imports: ${imports}`);
+    // System header is included — we don't filter at pattern level, only at resolve level
+    assert.ok(imports.some(i => i.includes('stdio')), 'Expected stdio.h');
+  });
+
+  it('C# — extracts using statements (not system namespaces at resolve level)', () => {
+    const content = readFileSync(join(__dirname, 'fixtures/kg-csharp/Program.cs'), 'utf8');
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.cs'].importRegex);
+    assert.ok(imports.includes('MyApp.Services'), `Expected MyApp.Services: ${imports}`);
+    assert.ok(imports.includes('System'), 'Expected System namespace');
+  });
+
+  it('Kotlin — extracts import statements', () => {
+    const content = readFileSync(join(__dirname, 'fixtures/kg-kotlin/Main.kt'), 'utf8');
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.kt'].importRegex);
+    assert.ok(imports.some(i => i.includes('UserService')), `Expected UserService: ${imports}`);
+  });
+
+  it('PHP — extracts use, require, and include paths', () => {
+    const content = readFileSync(join(__dirname, 'fixtures/kg-php/index.php'), 'utf8');
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.php'].importRegex);
+    assert.ok(imports.some(i => i.includes('UserService')), `Expected UserService: ${imports}`);
+    assert.ok(imports.some(i => i.includes('autoload')), `Expected autoload: ${imports}`);
+  });
+
+  it('Proto — extracts import statements', () => {
+    const content = readFileSync(join(__dirname, 'fixtures/kg-proto/user.proto'), 'utf8');
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.proto'].importRegex);
+    assert.ok(imports.includes('address.proto'), `Expected address.proto: ${imports}`);
+  });
+
+  it('Go — fixed regex does not match bare string literals', () => {
+    const content = `
+package main
+
+import (
+  "fmt"
+  "github.com/user/mylib"
+)
+
+func hello() string {
+  msg := "this is not an import"
+  return msg
+}
+`;
+    const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.go'].importRegex);
+    assert.ok(!imports.includes('this is not an import'), 'Should NOT match bare string literals');
+    assert.ok(imports.some(i => i.includes('github.com')), `Expected github.com import: ${imports}`);
+  });
+});
+
+describe('SKIP_DOT_DIRS — dot-directory fix (1.3.3)', () => {
+  it('contains .git but NOT .github or .circleci', () => {
+    assert.ok(SKIP_DOT_DIRS.has('.git'), '.git should be in skip list');
+    assert.ok(!SKIP_DOT_DIRS.has('.github'), '.github should NOT be skipped');
+    assert.ok(!SKIP_DOT_DIRS.has('.circleci'), '.circleci should NOT be skipped');
+  });
+
+  it('contains common cache directories to skip', () => {
+    assert.ok(SKIP_DOT_DIRS.has('.venv'));
+    assert.ok(SKIP_DOT_DIRS.has('.nyc_output'));
+    assert.ok(SKIP_DOT_DIRS.has('.next'));
+  });
+});
+
+// ─── git-pass.js ───────────────────────────────────────────────────────────
 
 describe('gitPass', () => {
   it('returns zero stats for a non-git directory', () => {
