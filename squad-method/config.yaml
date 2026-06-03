@@ -66,6 +66,8 @@ knowledge_graph:
   enabled: true
   auto_rebuild: true
   include_in_context_file: true
+  ast_enabled: false            # Set true to enable function-level AST analysis (S4)
+  ast_languages: [js, ts, py]  # Languages to run AST pass on (requires ast_enabled: true)
 
 # --- Model Routing (drives router/index.js decisions) ---
 model_routing:
@@ -83,6 +85,30 @@ model_routing:
     max_heavy_agents_per_phase: 3
   fallback: "default"          # If heavy unavailable → use this tier
 
+# --- Token Budget (S2.2) ---
+token_budget:
+  max_context_tokens: 50000       # Soft cap — agents prioritize within this
+  compression: none               # none | native (squad-method/tools/compress/)
+  compress_targets:               # Content types to compress when compression: native
+    - file_reads
+    - grep_results
+    - context_files
+    - file_listings
+    - log_output
+  learned_schemas_path: squad-method/output/compress-schemas.json
+  fragment_priority:              # Load order when approaching budget
+    - _base-agent                 # Always loaded (rank 1)
+    - review-rubric               # Always loaded (rank 2)
+    - kg-query-protocol           # Loaded for dev-task, review (rank 3)
+    - tdd-workflow                # Loaded for test phases (rank 4)
+    - review-protocol             # Loaded for review phases (rank 5)
+    - tracking-protocol           # Loaded at end (rank 6)
+  never_compress:                 # These are NEVER compressed even with native compressor
+    - test_output
+    - error_messages
+    - kg_data
+    - user_input
+
 # --- Quality Gate (V2 — passive until calibrated) ---
 quality_gate:
   enabled: false               # Flip to true after 20-30 completions
@@ -97,7 +123,7 @@ classifier:
 
 # --- Agents ---
 agents:
-  built_in: 27
+  built_in: 32    # 27 dev agents + 5 new financial agents (ledger, herald, sage, maven, quant) + prism-adversarial
   custom: []
 
 # --- Plugins ---
