@@ -150,7 +150,29 @@ The CLI already detected this during `init`. Read from config.yaml:
 Read from config.yaml (auto-detected during `init`):
 - Cloud providers, IaC tools, container orchestration, CI/CD, monitoring
 
-### 4e. Tracker Detection
+### 4e. Extended Artifact Detection (1.2.4 expansion)
+
+Scan beyond source code for architecture artifacts:
+```bash
+# Docs — architecture decision records, README
+find . -path ./node_modules -prune -o \( -name "*.md" -o -name "ADR*.md" \) -print 2>/dev/null | grep -v ".git/" | head -5
+
+# Schemas — proto, graphql, SQL migrations
+find . -path ./node_modules -prune -o \( -name "*.proto" -o -name "*.graphql" -o -name "*.sql" \) -print 2>/dev/null | grep -v ".git/" | head -5
+
+# Infra — Dockerfile, docker-compose, Terraform, Helm
+find . -path ./node_modules -prune -o \( -name "Dockerfile*" -o -name "docker-compose*" -o -name "*.tf" -o -name "Chart.yaml" \) -print 2>/dev/null | grep -v ".git/" | head -5
+
+# API specs — OpenAPI, Swagger
+find . -path ./node_modules -prune -o \( -name "openapi.yaml" -o -name "openapi.json" -o -name "swagger.*" \) -print 2>/dev/null | grep -v ".git/" | head -5
+
+# CI/CD — GitHub Actions, GitLab CI, CircleCI, Jenkins
+ls .github/workflows/*.yml .gitlab-ci.yml .circleci/config.yml Jenkinsfile 2>/dev/null
+```
+
+Report detected artifacts under "Technical" in the scan complete display.
+
+### 4f. Tracker Detection
 Read `tracker.type` from config.yaml. If empty:
 - Check for `.jira`, `.linear` config files
 - Check for `JIRA_*`, `LINEAR_*`, `SHORTCUT_*` environment variables

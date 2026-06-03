@@ -50,6 +50,30 @@ Total discussions, consensus rate, most discussed topics.
 
 If 5+ operations: compute trend (findings, assumptions, discussions, completion).
 
+## Step 5d — Skill Utility Scoring (2.3.2)
+
+For each skill with 5+ records, compute:
+- **Success rate**: completed / total records
+- **Avg phases completed**: mean of `phases_completed` field
+- **Avg critical findings**: mean of `findings.critical` field
+- **Utility grade**: A (>80% success, <0.5 avg critical) → B → C → D (<50% or >2 avg critical)
+
+Display:
+```
+📊 Skill Utility Scores (from tracking.jsonl):
+
+| Skill        | Runs | Success | Avg Findings | Utility | Status |
+|---|---|---|---|---|---|
+| dev-task     | [N]  | [X]%    | [Y] critical | [A-D]   | Healthy / ⚠️ Candidate |
+| review-pr    | [N]  | [X]%    | [Y] critical | [A-D]   | Healthy / ⚠️ Candidate |
+
+🔄 Evolution Candidates (success <50%):
+  - [skill]: [N] failures. Common failure pattern: [description]
+    → Run /evolve to propose evidence-backed improvements
+
+Note: Skills with <5 records are skipped (insufficient data).
+```
+
 ## Step 6 — Recommendations
 
 ```
@@ -57,6 +81,7 @@ If 5+ operations: compute trend (findings, assumptions, discussions, completion)
 📋 Convention Updates: [new rules from data]
 🤖 Agent Behavior: [bias alerts, improvements]
 📈 Process: [trend-based suggestions]
+🔄 Evolution: [skills flagged as evolution candidates — run /evolve]
 ```
 
 **USER GATE:** "Apply recommendations? [Select/Skip]"

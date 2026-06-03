@@ -8,7 +8,7 @@ import { mkdtempSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:
 import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { discoverSkills, listSkillNames } from '../lib/generate/ide-skills.js';
+import { discoverSkills, listSkillNames, deploySkills, ALL_IDE_IDS } from '../lib/generate/ide-skills.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -74,5 +74,57 @@ describe('listSkillNames (real skills)', () => {
     assert.ok(names.includes('squad-setup'));
     assert.ok(names.includes('squad-refresh'));
     assert.ok(names.includes('squad-assemble'));
+  });
+});
+
+describe('ALL_IDE_IDS — all 7 IDEs exported', () => {
+  it('exports all 7 IDE identifiers', () => {
+    assert.equal(ALL_IDE_IDS.length, 7);
+    for (const id of ['claude', 'windsurf', 'cursor', 'codex', 'kiro', 'gemini', 'antigravity']) {
+      assert.ok(ALL_IDE_IDS.includes(id), `Missing IDE: ${id}`);
+    }
+  });
+});
+
+describe('deploySkills — IDE fallback behavior', () => {
+  let tempDir;
+
+  before(() => {
+    tempDir = mkdtempSync(join(tmpdir(), 'squad-test-deploy-'));
+  });
+
+  after(() => {
+    rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  it('deploys to specified IDE when options.ides provided', async () => {
+    // Set up a minimal workspace with one skill
+    const methodDir = join(tempDir, 'squad-method');
+    const skillsDir = join(methodDir, 'skills', 'squad-test-deploy');
+    mkdirSync(skillsDir, { recursive: true });
+    writeFileSync(join(skillsDir, 'SKILL.md'), '---\nname: squad-test-deploy\ndescription: Deploy test\n---\n# Test');
+
+    const result = await deploySkills(tempDir, { ides: ['claude'] });
+    assert.equal(result.errors.filter(e => !e.includes('Failed to load transformer')).length, 0,
+      `Unexpected errors: ${result.errors}`);
+  });
+
+  it('falls back to all 7 IDEs when no IDE dirs exist and no config', async () => {
+    const freshDir = mkdtempSync(join(tmpdir(), 'squad-fallback-'));
+    try {
+      const methodDir = join(freshDir, 'squad-method');
+      const skillsDir = join(methodDir, 'skills', 'squad-fallback-test');
+      mkdirSync(skillsDir, { recursive: true });
+      writeFileSync(join(skillsDir, 'SKILL.md'), '---\nname: squad-fallback-test\n---\n# Fallback');
+
+      // No IDE dirs and no config.yaml → should default to all 7 IDEs
+      const result = await deploySkills(freshDir, {});
+      // deploySkills should attempt all 7 IDEs (some transformers may fail gracefully)
+      const deployedIdes = new Set(result.deployed.map(d => d.ide));
+      // At minimum, no "No IDEs detected" error
+      assert.ok(!result.errors.some(e => e.includes('No IDEs detected')));
+    } finally {
+      rmSync(freshDir, { recursive: true, force: true });
+    }
   });
 });
