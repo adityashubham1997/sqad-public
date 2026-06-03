@@ -85,6 +85,11 @@ is displayed and any output files are saved.
 | `pr_quality_signals` | object | dev-task Phase 6 — filled after PR merge (see below) |
 | `usage_surface_updated` | boolean | dev-task Phase 5 — true if Scribe updated usage-docs |
 | `blast_radius_gate_triggered` | boolean | dev-task Phase 2 — true if KG degree > 20 hard gate fired |
+| `context_tokens_loaded` | number | Approximate token count of loaded context (S2.2) |
+| `fragments_loaded` | string[] | Fragments loaded during this run (S2.2) |
+| `phases_count` | number | Number of phases executed (S2.2) |
+| `skill_utility_score` | string | Grade A-D assigned by /health (S2.3) |
+| `evolution_cycle` | number | Which /evolve cycle this record was analyzed in (S2.3) |
 
 ### `pr_quality_signals` Sub-fields
 
@@ -118,7 +123,8 @@ Or if using file write tools, append to `squad-method/output/tracking.jsonl`.
 
 | Consumer | What It Reads |
 |---|---|
-| `/health` | All records — bias detection, agent effectiveness |
+| `/health` | All records — bias detection, agent effectiveness, skill utility scores |
 | `/retro` | Records since last sprint — velocity, pattern analysis |
 | `/git-learn` | Review records — enriches learned rules |
+| `/evolve` | Success/failure records — proposes evidence-backed skill edits |
 | Agent learned-rules | Per-agent effectiveness over time |

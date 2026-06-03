@@ -580,6 +580,31 @@ and summarization is lossy. The agent doesn't know this happened.
    Phase 1 decided but the details are fuzzy — you've been summarized.
    Read the doc. The doc is ground truth, not your context window.
 
+## Token Discipline (S2.2)
+
+Check `squad-method/config.yaml → token_budget` before loading additional context.
+
+### Token Rules
+
+1. **Prioritized loading**: When approaching `max_context_tokens`, load only the
+   fragments listed in `token_budget.fragment_priority[]` — in that order.
+2. **Phase-gated loading is mandatory**: Each skill's phase-gated loading list is the
+   MAXIMUM context for that phase. Never pre-load fragments for future phases.
+3. **Never compress protected content**: `token_budget.never_compress[]` lists items
+   that must never be summarized, abbreviated, or omitted.
+4. **Lightweight skills use fast agents**: Multi-step skills with < 3 phases do not
+   need heavy-tier routing. Check `model_routing.mode` in config.
+
+### Phase Budget Display (for multi-phase skills)
+
+At the start of each phase, note what's loaded:
+
+```text
+Phase [N] context: _base-agent (loaded) + [phase-specific agents] — estimated [~N]k tokens
+```
+
+If context is approaching `max_context_tokens`: load from `fragment_priority` only.
+
 ## Tracking
 
 Every SQUAD-Public operation is tracked. See `squad-method/fragments/tracking-protocol.md`.

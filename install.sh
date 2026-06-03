@@ -69,12 +69,16 @@ EOF
 
 # ── Parse arguments ──────────────────────────────────────────
 MODE="init"
-IDE_FLAG=""
+IDE_FLAG="--ide all"   # default: deploy to all 7 IDEs
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --ide)
-      IDE_FLAG="--ide $2"
+      if [[ "$2" == "pick" ]]; then
+        IDE_FLAG=""    # no --ide flag → interactive picker in Node
+      else
+        IDE_FLAG="--ide $2"
+      fi
       shift 2
       ;;
     --update)

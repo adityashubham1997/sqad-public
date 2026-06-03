@@ -16,6 +16,7 @@ Six phases, each with user gates. All 27 agents participate per their lens.
 
 **Phase-gated loading:**
 - Phase 1: `squad-method/agents/nova.md`, `squad-method/agents/atlas.md`, `squad-method/fragments/kg-query-protocol.md`
+- Phase 1.5: `squad-method/fragments/tdd-scaffold.md`
 - Phase 2: `squad-method/agents/forge.md`, `squad-method/agents/compass.md`
 - Phase 3: `squad-method/agents/forge.md` (if not loaded), `squad-method/fragments/review-rubric.md`
 - Phase 4: `squad-method/agents/cipher.md`, `squad-method/fragments/tdd-workflow.md`
@@ -77,7 +78,60 @@ Atlas assesses:
 For EVERY claim, cite the file path and line number.
 If unverifiable: `[ASSUMPTION-N]: [what] — CONFIDENCE: UNCERTAIN`
 
+### 1c. Context Digest (MANDATORY — Phase 1 is INCOMPLETE without this)
+
+Before the user gate, produce a **Context Digest** block. If any field is empty
+→ Phase 1 is incomplete. Do NOT proceed until all fields have a value or "none found".
+
+```
+━━━ CONTEXT DIGEST ━━━
+
+Files Read:
+  ✅/❌ CONTEXT.md — [repo] ([N] lines)
+  ✅/❌ DEEP-CONTEXT.md — [repo] ([N] lines)
+  ✅/❌ KG_REPORT.md — [N] nodes, [N] edges
+  ✅/❌ complete-flow.md
+
+Scope Analysis (from KG):
+  Files in change path: [N]
+  God nodes in scope: [list or "none"]
+  Untested files in scope: [list or "none"]
+  Cross-community changes: [YES — communities X, Y / NO]
+
+Existing Patterns Found:
+  - [pattern description] — [file:line citation]
+  (or "none found — see [DESIGN-N] assumptions below")
+
+Blast Radius: [LOW / MEDIUM / HIGH]
+  Reverse dependencies: [N] files
+  Test files covering scope: [N]
+  Communities affected: [N]
+
+Assumptions:
+  [ASSUMPTION-1]: [description] — CONFIDENCE: [HIGH/MEDIUM/UNCERTAIN]
+```
+
 **USER GATE:** "Review analysis. Anything to add or correct? [Continue/Adjust]"
+
+---
+
+---
+
+## Phase 1.5 — TEMPORARY TEST SCAFFOLD (Characterization)
+
+**Load now:** `squad-method/fragments/tdd-scaffold.md`
+
+Write characterization tests BEFORE implementation to capture current behavior.
+Follow the full protocol in `tdd-scaffold.md`.
+
+**Quick summary:**
+1. Identify 3-5 critical functions in the modification area
+2. Write `// SQUAD:characterization-test` tagged tests capturing current behavior
+3. Run them — ALL must pass (they test existing code, not new code)
+4. If any fail → existing bug. Report to user: "Found pre-existing bug in [file:line]. Include in scope? [Yes/No]"
+5. After Phase 3: re-run characterization tests and report any behavioral changes
+
+**USER GATE:** "Characterization tests written: [N]. All passing. Continue to spec? [Continue]"
 
 ---
 
@@ -121,7 +175,22 @@ Atlas validates the spec's approach:
 - What is the blast radius of the proposed changes?
 - **Propose at least one alternative** with fewer cross-component changes
 
-**USER GATE:** "Review spec. Change plan: [N] files, ~[N] lines. Alternative: [brief]. [Approve/Revise/Use alternative]"
+### 2d. KG Blast Radius Display
+
+Before the user gate, show the blast radius for each file in the spec:
+
+```
+📊 KG Blast Radius:
+  File                          Degree  Reverse Deps  Test Coverage
+  ─────────────────────────────────────────────────────────────────
+  lib/generate/ide-skills.js    5       3 files       ⚠️ UNTESTED
+  lib/init.js                   5       1 file        ⚠️ UNTESTED
+  ─────────────────────────────────────────────────────────────────
+  Total reverse deps: [N] | Tests covering scope: [N] | God nodes: [N]
+  Blast Radius: [LOW / MEDIUM / HIGH]
+```
+
+**USER GATE:** "Review spec. Change plan: [N] files, ~[N] lines. Blast radius: [LOW/MEDIUM/HIGH]. Alternative: [brief]. [Approve/Revise/Use alternative]"
 
 ---
 
@@ -175,7 +244,34 @@ Fix any issues found before proceeding.
 ```
 If any EXISTING tests fail → diagnose and fix before proceeding. New tests passing but old tests failing = regression = CRITICAL.
 
-**USER GATE:** "Implementation complete. [N] files changed, [N] lines. Minimality check: [PASS/findings]. [Continue to tests/Revise]"
+### 3d. Re-Run Characterization Tests (from Phase 1.5)
+
+```bash
+[detected_test_command]  # with characterization test filter
+```
+
+If any characterization tests FAIL → behavioral change detected:
+```
+⚠️ Behavioral changes detected:
+  - [test name]: Expected [X], now returns [Y]
+Approve these changes? [Yes / Revert / Adjust]
+```
+
+### 3e. Intermediate Diff Preview
+
+Show the diff with KG annotations before proceeding to test phase:
+
+```
+📋 Diff Preview (KG-annotated):
+  + lib/generate/ide-skills.js (+15 lines) — degree=5, 3 rev deps, UNTESTED
+  + lib/init.js (+35 lines) — degree=5, 1 rev dep, UNTESTED
+  Total: +50 lines, 0 deletions
+
+  KG Impact: 4 reverse dependencies will be affected
+  Untested files changed: 2 (consider adding tests in Phase 4)
+```
+
+**USER GATE:** "Implementation complete. [N] files changed, [N] lines. Minimality check: [PASS/findings]. Characterization tests: [all pass / N behavioral changes]. [Continue to tests/Revise]"
 
 ---
 
@@ -240,11 +336,20 @@ Dispatch agents in parallel:
 - Test pyramid balanced?
 - Risk coverage adequate?
 
+**Context Verification Checkpoint (2.1.4):** Before reporting findings, each reviewer MUST check:
+- Does the implementation reference specific CONTEXT.md sections?
+- Does it contradict KG data (e.g., agent said "no existing patterns" but KG shows relevant nodes)?
+- If agent output ignores context → add CRITICAL finding: "Context not consumed — [specific claim] contradicts KG data at [file:line]"
+
 Consolidated report:
 ```
 CRITICAL: [N] | MAJOR: [N] | MINOR: [N] | NIT: [N]
 Verdict: APPROVE / REQUEST CHANGES
 [Per-agent verdicts]
+
+Context Verification:
+  ✅/❌ Implementation references CONTEXT.md? [YES/NO — specific section]
+  ✅/❌ KG data respected? [YES/NO — any contradictions]
 ```
 
 **USER GATE:** "Review complete. [Fix findings/Accept/Discuss]"
