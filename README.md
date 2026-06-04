@@ -16,25 +16,60 @@
 
 ---
 
-## What is SQUAD?
+## Why SQUAD?
 
-SQUAD is an open-source framework that gives your AI coding assistant a **team of 32 specialized agents** — each with a distinct professional lens — that collaborate on every task.
+Every AI coding assistant uses the same approach: one model, one chat window, trying to be an architect, security expert, test engineer, and product manager simultaneously.
 
-Instead of one general-purpose model trying to do everything, SQUAD dispatches specialists:
+SQUAD does something different. It gives you a **team of specialists** that each look at your code from a different angle — the way a real senior engineering team would.
+
+### The 4 things no other AI dev tool does
+
+**1. Pre-computed blast radius, not grepping**
+When you ask "what breaks if I change this file?", every other AI tool runs grep across your codebase. SQUAD reads a pre-built knowledge graph and answers in milliseconds — with 2-hop dependency tracing, god node detection, and test coverage gaps already computed. That's 80% fewer exploration tokens per workflow.
+
+**2. Specialists with real lenses, not personas**
+Raven actively tries to break your code (adversarial). Sentinel asks "are you testing the right thing?" (QA architecture). Atlas flags "this touches 12 reverse dependencies" before you write a line (blast radius). Each agent has a specific job — none says "looks good" when it shouldn't.
+
+**3. You stay in control at every phase**
+Every skill pauses at user gates. Phase 1 finishes → you see the analysis → you approve before Phase 2 starts. You can redirect, correct, or abort at any point. You're the decision-maker; SQUAD is the team.
+
+**4. Quant-grade financial analysis alongside your dev work**
+Type `/financial-analysis AAPL` and get: technical analysis (Charts agent — multi-timeframe, RSI, options flow), fundamental forensics (Ledger — Beneish M-Score, accrual anomaly, footnote forensics), quantitative risk (Quant — EVT tail risk, Kelly criterion, ruin probability), and research (Sage + Herald — industry structure, insider signals, Granger causality). Works with free data (yfinance) or your Bloomberg/Reuters subscription. Every claim verified through a 4-gate protocol.
+
+---
+
+### What it looks like
 
 ```
 You:    "/dev-task — implement JWT authentication"
 
 SQUAD:  Phase 1  → Nova finds 2 missing acceptance criteria in the story
-        Phase 2  → Atlas flags rate-limiting gap, shows KG blast radius
+        Phase 2  → Atlas flags rate-limiting gap, shows KG blast radius (8 files)
         Phase 3  → Forge writes code matching your patterns, not boilerplate
-        Phase 4  → Cipher generates tests following your test framework
-        Phase 5  → Raven + Sentinel review for logic bugs + security issues
+               → Phase 1.5: characterization tests written before any code
+        Phase 4  → Cipher generates tests following your test framework (Jest/pytest/etc)
+        Phase 5  → Raven + Sentinel: 0 critical, 1 major (null check missing on line 47)
         Phase 6  → PR created, tracking logged
-        You approve at every phase before it proceeds.
+        You approve before each phase. You can correct any finding before it proceeds.
 ```
 
-**No vendor lock-in. No cloud dependency. Works offline. Zero npm dependencies.**
+```
+You:    "/financial-analysis RELIANCE.NS"
+
+SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
+               → Provides Python snippet if needed, waits for you to paste output
+        Phase 1  → Charts: RSI 61, above 200 SMA, bullish engulfing on daily
+                   Options P/C ratio 0.72 (bullish lean), IV squeeze building
+        Phase 2  → Ledger: PE 24x vs sector 28x (undervalued), FCF growing 18% YoY
+                   Beneish M-Score -2.4 (safe), 3/25 forensic screens triggered
+        Phase 3  → Quant: Sharpe 0.84 (good), Kelly 11%, P(ruin|1yr) 2.3%
+                   EVT tail risk: normal understates by 3.1x
+        Phase 4  → Sage: O&G-to-Jio pivot — reinvestment runway ~7 years at current ROIC
+        Phase 5  → Prism: Devil's advocate — regulatory risk on Jio is unpriced [VERIFIED-3]
+        Phase 6  → 3 options: Buy now / Wait for pullback / Avoid (Kelly fractions for each)
+```
+
+**Works offline. Zero npm dependencies. Same agents, config, and skills across 7 IDEs.**
 
 ---
 
@@ -167,7 +202,7 @@ All 33 commands available after install:
 | `/assemble` | All agents | Full group discussion — architecture debates, post-mortems |
 | `/create-prd` | Compass, Nova, Atlas, Oracle | Multi-agent product requirements document |
 | `/create-story` | Compass, Nova | Well-formed story with GIVEN/WHEN/THEN acceptance criteria |
-| `/financial-analysis` | Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | Quant-grade forensic financial analysis (5-phase pipeline) |
+| `/financial-analysis` | Charts, Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | By ticker. 4 streams: Technical + Fundamental + Quantitative + Research. Adapts to your data subscriptions. |
 | `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Structural market and industry deep-dive |
 | `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic problem architecture with decision science |
 | `/evolve` | — | Skill self-evolution: analyze tracking → propose edits → branch |
@@ -192,7 +227,7 @@ All 33 commands available after install:
 
 ## Agents
 
-SQUAD ships with **32 specialized agents** across four domains:
+SQUAD ships with **33 specialized agents** across four domains:
 
 ### Dev Agents (27)
 
@@ -226,16 +261,17 @@ SQUAD ships with **32 specialized agents** across four domains:
 | **Muse** | AI Researcher | Research synthesis, paper analysis |
 | **Neuron** | ML Engineer | Pipelines, model eval, data drift |
 
-### Financial & Consulting Agents (5 new in v1.5)
+### Financial & Consulting Agents (7 new in v1.5)
 
 | Agent | Role | Specialty |
 |---|---|---|
-| **Ledger** | Forensic Quantitative Analyst | Beneish M-Score, Benford's Law, accrual anomaly, footnote forensics |
-| **Herald** | Quantitative Intelligence Analyst | Granger causality signals, Shannon entropy, Bayesian composite scoring |
-| **Sage** | Structural Quantitative Researcher | Industry CAS modeling, Bass diffusion, power law, causal inference |
-| **Maven** | Quantitative Strategic Architect | Bayesian decision theory, EVPI, Kelly criterion, mechanism design |
-| **Quant** | Chief Risk & Mathematical Analyst | EVT tail risk, copulas, ruin probability, bootstrap CI |
-| **Prism-Adversarial** | Adversarial Epistemics | 12-lens framework, superforecasting, Dutch Book coherence audit |
+| **Charts** | Technical & Quantitative Market Analyst | Price action, RSI/MACD, options flow, volume analysis, Hurst exponent, volatility regimes |
+| **Ledger** | Forensic Quantitative Analyst | Beneish M-Score, Benford's Law, accrual anomaly, footnote forensics, DuPont decomposition |
+| **Herald** | Quantitative Intelligence Analyst | Granger causality signals, Shannon entropy, insider activity, Bayesian composite scoring |
+| **Sage** | Structural Quantitative Researcher | Industry CAS modeling, Bass diffusion, power law, causal inference, moat velocity |
+| **Maven** | Quantitative Strategic Architect | Bayesian decision theory, EVPI, Kelly criterion, pre-mortem (7+ paths), mechanism design |
+| **Quant** | Chief Risk & Mathematical Analyst | EVT tail risk, copulas, ruin probability, bootstrap CI, factor decomposition |
+| **Prism-Adversarial** | Adversarial Epistemics | 12-lens framework, superforecasting, Dutch Book coherence audit, falsifiability certification |
 
 Agents are **lazy-loaded** — only agents needed for the current skill are loaded into context.
 
@@ -433,7 +469,7 @@ const { canIncremental, changedFiles } = analyzeChanges(repoPath);
 
 ## Financial & Consulting Analysis Suite
 
-New in v1.5. Six quant-grade agents produce forensic-quality financial and strategic analysis.
+New in v1.5. Seven quant-grade agents across four analysis streams — triggered by ticker symbol, adapts to your data subscriptions.
 
 > **Design principle:** "McKinsey gives you frameworks. Renaissance Technologies gives you edge. Every claim is falsifiable. Every conclusion has a confidence interval."
 
@@ -441,9 +477,40 @@ New in v1.5. Six quant-grade agents produce forensic-quality financial and strat
 
 | Skill | Agents | What It Produces |
 |---|---|---|
-| `/financial-analysis` | Ledger → Herald → Sage → Quant → Maven → Prism-Adversarial | 5-phase forensic pipeline: diverge → 12-lens → debate → converge → recommend |
-| `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Industry structure, TAM validation, competitive dynamics |
-| `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic brief with mandatory pre-mortem + EVPI + Kelly criterion |
+| `/financial-analysis` | Charts, Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | By ticker. 7-phase pipeline: intake → technical → fundamental → quant → research → adversarial → recommend |
+| `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Industry structure, TAM validation via Bass model, competitive dynamics |
+| `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic brief: pre-mortem (7+ paths) + EVPI + Kelly criterion + 3 options |
+
+### How `/financial-analysis` Works
+
+```
+/financial-analysis [TICKER]
+```
+
+**Phase 0 — Intake**
+Asks for the ticker symbol, then asks what data you have access to:
+
+| What you have | What gets unlocked |
+|---|---|
+| **Nothing** | LLM training data only — tagged [LLM-TRAINING], lower confidence |
+| **yfinance (free)** | Provides Python snippet → you run + paste → full OHLCV + options |
+| **Screener.in / Tickertape** | Indian fundamentals + sector context |
+| **TradingView** | Paste chart key levels + indicators |
+| **Bloomberg / Reuters** | Full data: real-time, options chain, insider flow, transcripts |
+| **Earnings call transcript** | Herald runs Shannon entropy + tone shift analysis |
+
+**Four analysis streams run in parallel:**
+
+| Stream | Agent | Key Outputs |
+|---|---|---|
+| **Technical** | Charts | Multi-timeframe trend, RSI/MACD, volume/OBV, options P/C ratio, max pain, GEX, chart patterns with win rates |
+| **Fundamental** | Ledger | Valuation (PE/EV/DCF), earnings quality (Beneish, accrual), balance sheet, forensic flags, management quality |
+| **Quantitative** | Quant + Herald | Sharpe, CVaR, EVT tail risk, Kelly fraction, scenario matrix, factor decomposition, smart money signals |
+| **Research** | Sage + Maven | Moat velocity, industry structure, reinvestment runway, pre-mortem (7+ failure paths), EVPI |
+
+**Phase 5:** Prism-Adversarial speaks last — 12-lens challenge, red team on the bull/bear case, Dutch Book coherence audit.
+
+**Phase 6:** Three options (never one): Buy / Wait / Avoid — each with Kelly fraction, CVaR, and ruin probability.
 
 ### 4-Gate Verification Protocol
 
@@ -968,7 +1035,7 @@ Test coverage includes:
 ### How is SQUAD different from just using an AI IDE?
 
 AI IDEs give you one model in a chat. SQUAD adds:
-- **32 specialized agents** with distinct review lenses
+- **33 specialized agents** with distinct review lenses
 - **Pre-computed knowledge** via the knowledge graph — agents check dependency data before grepping
 - **Conditional fragment loading** — only project-relevant knowledge is loaded
 - **Phase-gated workflows** — complex tasks have user approval at each gate

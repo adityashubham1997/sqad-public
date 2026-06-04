@@ -10,11 +10,101 @@ description: >
 
 Six phases, each with user gates. All 27 agents participate per their lens.
 
-**Bootstrap (read now):**
-- `squad-method/config.yaml` — team config
-- `squad-method/agents/_base-agent.md` — base protocols (discussions, tracking)
+## SKILL BOOTSTRAP (execute before Phase 1 — non-negotiable)
 
-**Phase-gated loading:**
+### B1 — Always load first
+
+```
+squad-method/config.yaml                      ← team config, model routing mode, stack
+squad-method/agents/_base-agent.md            ← grounding waterfall + progress doc + orchestrator + token discipline
+squad-method/fragments/agent-orchestrator.md  ← R1-R11 parallel dispatch rules
+squad-method/fragments/context-injection-protocol.md ← --context flag handling
+```
+
+### B2 — Check for existing progress report (anti-amnesia)
+
+```bash
+ls squad-method/output/progress/progress-dev-task-* 2>/dev/null
+```
+
+- **If found:** Read it. "Found in-progress work: [story] from [date]. Resume from Phase [N]? [Yes/Restart]"
+- **If not found:** Create `squad-method/output/progress/progress-dev-task-[story-id]-[date].md` NOW.
+- **Update at END of every phase, BEFORE the user gate.** Never skip this — it is the anti-amnesia record.
+
+### B3 — Run grounding waterfall (from _base-agent.md)
+
+```
+Level 0: <repo>/CLAUDE.md + DEEP-CONTEXT.md + KG_REPORT.md    ← ALWAYS first
+Level 1a: graph.json KG queries                                ← before any grep
+          reverseDeps(), godNodes(), untestedFiles(), ripple()
+Level 1b: grep / code search                                   ← after KG
+Level 2:  fragments (rubric, stack, cloud, tracker)            ← conditional
+Level 4:  nothing found → STOP, declare [DESIGN-N] assumptions, await user approval
+```
+
+**DO NOT skip Level 0 and proceed to Level 1c (grep). KG first.**
+
+### B4 — Detect dispatch path (auto)
+
+```
+Agent() tool in toolbox?  → PATH A — Claude Code, max 5 parallel
+claude CLI on PATH?       → PATH B — CLI subprocess, max 3 parallel
+Neither?                  → PATH C — Sequential (Windsurf/Cursor/Kiro/Gemini/Antigravity)
+```
+
+Write to progress report: `dispatch_path: [A/B/C]`
+
+### B5 — Model routing (resolve before dispatching any agent)
+
+Check `config.yaml → model_routing.mode` first:
+- `mode: quality` → upgrade ALL to **heavy**
+- `mode: budget` → downgrade ALL to **fast**
+- `mode: balanced` → use per-agent defaults below
+
+| Agent | Default Tier | Reason | Blast-radius auto-upgrade? |
+|---|---|---|---|
+| **Nova** | default | Requirements analysis, AC structuring | No |
+| **Atlas** | **heavy** | Architecture impact, blast radius, god-node analysis | Yes — KG degree > 20 |
+| **Forge** | default | Code implementation, follows patterns | Yes — touching god nodes |
+| **Compass** | default | Product validation, scope check | No |
+| **Cipher** | default | Test generation, coverage analysis | No |
+| **Raven** | **heavy** | Adversarial review, logic bugs, second-order effects | Yes |
+| **Sentinel** | default | Test architecture, pyramid balance | No |
+
+Blast-radius auto-upgrade rule: if ANY file in scope has KG degree > 20 → upgrade Atlas and Raven to heavy regardless of mode.
+
+### B6 — Parallel dispatch plan per phase
+
+PATH A/B (true parallel):
+```
+Phase 1 — ANALYSE:        Nova → [Atlas parallel with Oracle if research needed]
+Phase 1.5 — SCAFFOLD:     Cipher writes characterization tests (solo)
+Phase 2 — SPEC:           Forge + Compass → PARALLEL (independent lenses)
+Phase 3 — IMPLEMENT:      Forge (solo, sequential by design)
+Phase 4 — TEST:           Cipher (solo, sequential by design)
+Phase 5 — REVIEW:         Raven + Sentinel + Forge + Cipher → PARALLEL (max 4)
+Phase 6 — PR:             Forge (solo)
+```
+
+PATH C (sequential simulation — maintain same dependency order, run one at a time):
+```
+Phase 5 order: Forge → Raven → Cipher → Sentinel (critical-path first: Raven is longest)
+```
+
+### B7 — Emit bootstrap confirmation before Phase 1
+
+```
+━━━ SQUAD DEV TASK — BOOTSTRAP COMPLETE ━━━
+Story:          [story ID or description]
+Dispatch path:  [A / B / C]
+Model routing:  [balanced — Atlas+Raven=heavy, rest=default]
+Progress report:[path — created / resumed from Phase N]
+Grounding:      L0 loaded: [CLAUDE.md: YES/NO] [DEEP-CONTEXT.md: YES/NO] [KG_REPORT: YES/NO]
+Context inject: [paths or "none"]
+━━━ Proceeding to Phase 1 — ANALYSE ━━━
+```
+
+**Phase-gated loading (load each fragment at the phase that needs it — not before):**
 - Phase 1: `squad-method/agents/nova.md`, `squad-method/agents/atlas.md`, `squad-method/fragments/kg-query-protocol.md`
 - Phase 1.5: `squad-method/fragments/tdd-scaffold.md`
 - Phase 2: `squad-method/agents/forge.md`, `squad-method/agents/compass.md`
@@ -22,8 +112,6 @@ Six phases, each with user gates. All 27 agents participate per their lens.
 - Phase 4: `squad-method/agents/cipher.md`, `squad-method/fragments/tdd-workflow.md`
 - Phase 5: `squad-method/agents/raven.md`, `squad-method/agents/sentinel.md`, `squad-method/fragments/review-protocol.md`
 - Phase 6: `squad-method/fragments/tracking-protocol.md`
-
-Track progress with TodoWrite.
 
 ---
 
