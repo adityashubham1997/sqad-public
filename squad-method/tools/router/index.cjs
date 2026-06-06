@@ -194,7 +194,7 @@ function buildDispatchCommand(ideId, agentId, phase, taskPrompt, ctx) {
       };
     case 'devin':
       return {
-        command: 'curl -s -X POST "https://api.devin.ai/v1/sessions" -H "Authorization: Bearer $DEVIN_API_KEY" -d \'{"model":"' + resolved.model + '","prompt":"' + taskPrompt.replace(/"/g, '\\"').replace(/'/g, "\\'") + '"}\'',
+        command: 'curl -s -X POST "https://api.devin.ai/v1/sessions" -H "Authorization: Bearer $DEVIN_API_KEY" -d \'' + JSON.stringify({ model: resolved.model, prompt: taskPrompt }) + '\'',
         model: resolved.model,
         provider: resolved.provider,
       };
