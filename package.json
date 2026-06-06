@@ -1,6 +1,6 @@
 {
   "name": "sqad-public",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "33-agent AI development framework — any stack, any IDE, any cloud. Zero dependencies.",
   "type": "module",
   "bin": {
