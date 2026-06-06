@@ -111,6 +111,127 @@ Verification Summary: VERIFIED-4: [N] | ... | UNVERIFIED: [N]
 
 ---
 
+## Phase 5.5 — Divergent-Convergent Multi-Agent Consensus Loop
+
+When executed by a Paid/Pro Agentic IDE that supports spawning parallel subagents or concurrent tool runs:
+1. **Divergent Phase:** The IDE Agent should spawn/simulate 8 distinct virtual agents in parallel (Sovereign Policy, Macro Interest Rates, Related Parties, Growth & Scale, Technical, Fundamental, Quantitative Risk, and Adversarial). Each agent evaluates the target industry data using its unique investigative lens and writes a draft memo.
+2. **Convergent Phase:** A virtual Moderator Agent consolidates the 8 drafts into a unified cohesive report.
+3. **Auditing Gate:** A virtual Pro Red Team Auditor reviews the unified report, compiling an adversarial critique log of all assumptions.
+4. **Fact Hardening Refinement:** A virtual Refiner Agent addresses the critique log to fact-harden all statements, outputting the final hardened synthesis.
+
+---
+
+## Phase 6 — AUTOMATED SLIDE-DECK DASHBOARD & SOCIAL SHARE BUILDER
+
+To support interactive visual reviews, the agent must programmatically compile and write a structured presentation database and an interactive HTML/CSS slide viewer under `squad-method/output/dashboard/[MARKET_NAME]/`.
+
+### 1. Compile Structured Database (`forensic_report.json`)
+Write a valid, minified JSON object with the following schema:
+```json
+{
+  "subject": "[MARKET_NAME]",
+  "forensic_case_study": {
+    "headline": "[High-impact market study title]",
+    "editorial_verdict": "[Final quality verdict / industry outlook rating]",
+    "side_by_side_comparison": {
+      "column_headers": {
+        "standard_label": "Mainstream Reported Metrics",
+        "target_label": "Forensic Audited Metrics"
+      },
+      "rows": [
+        {
+          "metric": "[e.g., TAM, CAGR, S-Curve Maturity, Power Law Consolidation]",
+          "standard_value": "[Value reported by industry sources]",
+          "target_value": "[Audited forensic value]",
+          "mismatch_percentage": "[Variance delta percentage]"
+        }
+      ]
+    },
+    "conclusion_question": "[Thought-provoking forward-looking market dynamic query]"
+  },
+  "forensic_trust_gap": {
+    "standard_sources_coverage": "[Mainstream consensus industry reports narrative]",
+    "our_forensic_exposure": "[Hidden barriers, regulatory shifts, or consolidation pivots uncovered]",
+    "unique_trust_rationale": "[Why this specific analysis provides an informational edge]"
+  },
+  "anomalies": [
+    {
+      "source_claim": "[Claim from industry association, report, or prospectus]",
+      "counter_claim": "[Reality found via cross-referencing and auditing]",
+      "verdict": "[Label: e.g. TAM Discrepancy, Moat Decay, Regulatory Risk]",
+      "severity": "[High / Medium / Low]",
+      "type": "[Fundamental / Technical / Regulatory / Operational]",
+      "citations": [
+        { "name": "[Source Name]", "url": "[Source URL]" }
+      ]
+    }
+  ],
+  "tracks": {
+    "corporate": "[Corporate/industry consolidation dynamics, mergers, and cost structures]",
+    "policy": "[Macro regulations, taxation rails, or infrastructure bottlenecks]",
+    "sovereign": "[Global macro risks, supply chain dependencies, and Fx exposures]"
+  },
+  "socioeconomic": [
+    {
+      "area": "[Segment or demographic affected]",
+      "impact": "[Structural and operational impact description]",
+      "outcome": "[Trend vector or strategic direction]"
+    }
+  ],
+  "india_growth_story": {
+    "title": "Slide 8: India Digital Public Infrastructure & Growth Outlook",
+    "narrative": "[Detailed analysis of UPI, DPDP Act, ONDC, NITI policy rails, and their impact on market growth]",
+    "outlook": "[Favorable / Unfavorable / Neutral]"
+  },
+  "strategic_benchmarks": [
+    {
+      "model_project": "[Precedent market/industry case]",
+      "what_they_did_well": "[Best practices implemented]",
+      "our_target_shortfall": "[Gap/shortfall observed in our target sector]",
+      "strategic_learning": "[Key takeaway for capital allocation]"
+    }
+  ],
+  "citations": [
+    { "name": "[Source Name]", "url": "[Source URL]" }
+  ],
+  "social_share_post": {
+    "skeptical": "[Twitter/LinkedIn post from a skeptical, high-conviction bear angle]",
+    "macro": "[Twitter/LinkedIn post highlighting macro interest rates and structural shifts]",
+    "question": "[Twitter/LinkedIn post posing an open, analytical question on TAM/unit economics]",
+    "short": "[1-sentence micro-thesis bullet point suitable for quick reading]"
+  },
+  "api_usage": {
+    "total_input_tokens": 0,
+    "total_output_tokens": 0,
+    "total_cost_usd": 0.0,
+    "total_cost_inr": 0.0,
+    "usd_to_inr_rate": 84.0
+  }
+}
+```
+
+### 2. Export Javascript Config (`forensic_data.js`)
+Write a file `forensic_data.js` containing:
+```javascript
+window.forensicData = [Insert the completed forensic_report.json object here];
+```
+
+### 3. Compile Premium Interactive HTML Slides (`index.html`)
+Write a single-page HTML application (`index.html`) with styling (`style.css`) incorporating modern dark glassmorphism (vibrant gradient backdrops, frosted-glass frames, and premium typography). 
+* The interface must parse `window.forensicData` and display a premium 8-slide presentation deck.
+* Include keyboard navigation (arrow keys), visual dot indicators, and an interactive side-by-side mismatch matrix table.
+* **Slide 1:** Title, Market Name, Editorial Verdict, and live token-to-Rupee HUD cost tracker footer.
+* **Slide 2:** Forensic Trust Gap (Mainstream Narrative vs. Exposure).
+* **Slide 3:** Variance Matrix (Side-by-side comparison table).
+* **Slide 4:** Deconstructed Anomalies (tabbed or paginated layout).
+* **Slide 5:** Multi-Track Auditing (Corporate, Policy, Sovereign views).
+* **Slide 6:** Strategic Benchmarks & Precedents.
+* **Slide 7:** Copyable Social Post Builder UI.
+* **Slide 8:** India Growth Story Panel (DPI, DPDP, ONDC audit).
+
+---
+
+
 ## Behavioral Rules
 
 - NEVER use TAM as growth justification without SAM conversion evidence

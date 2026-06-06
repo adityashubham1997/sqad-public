@@ -109,12 +109,20 @@ Phase 5 (Adversarial): Prism-Adversarial — serial, consumes ALL prior output
 Phase 6 (Synthesis): Maven re-synthesizes — serial, consumes Phase 5
 ```
 
-PATH C (Sequential simulation):
+PATH C (Sequential simulation / Agentic IDE Concurrency):
 ```
 Run in order: Charts → Ledger → Quant → Herald → Sage → Maven → Prism-Adversarial → Maven(synthesis)
 Each agent reads all prior outputs before producing its own.
 Phase completion table emitted after each agent (R6 C4).
 ```
+
+### B6.5 — Divergent-Convergent Multi-Agent Consensus Loop
+When executed by a Paid/Pro Agentic IDE that supports spawning parallel subagents or concurrent tool runs:
+1. **Divergent Phase:** The IDE Agent should spawn/simulate 8 distinct virtual agents in parallel (Sovereign Policy, Macro Interest Rates, Related Parties, Growth & Scale, Technical, Fundamental, Quantitative Risk, and Adversarial). Each agent evaluates the data using its unique investigative lens and writes a draft memo.
+2. **Convergent Phase:** A virtual Moderator Agent consolidates the 8 drafts into a unified cohesive report.
+3. **Auditing Gate:** A virtual Pro Red Team Auditor reviews the unified report, compiling an adversarial critique log of all assumptions.
+4. **Fact Hardening Refinement:** A virtual Refiner Agent addresses the critique log to fact-harden all statements, outputting the final hardened synthesis.
+
 
 ### B7 — Emit bootstrap confirmation before Phase 0
 
@@ -635,7 +643,117 @@ VERIFICATION SUMMARY:
 
 ---
 
-## PHASE 7 — ONGOING MONITORING (Optional)
+## PHASE 7 — AUTOMATED SLIDE-DECK DASHBOARD & SOCIAL SHARE BUILDER
+
+To support interactive visual reviews, the agent must programmatically compile and write a structured presentation database and an interactive HTML/CSS slide viewer under `squad-method/output/dashboard/[TICKER]/`.
+
+### 1. Compile Structured Database (`forensic_report.json`)
+Write a valid, minified JSON object with the following schema:
+```json
+{
+  "subject": "[TICKER]",
+  "forensic_case_study": {
+    "headline": "[High-impact investigative title]",
+    "editorial_verdict": "[Final quality verdict / overall investment rating]",
+    "side_by_side_comparison": {
+      "column_headers": {
+        "standard_label": "Standard Reported Metrics",
+        "target_label": "Forensic Audited Metrics"
+      },
+      "rows": [
+        {
+          "metric": "[e.g., EBITDA Margin, Sloan Accruals, Valuation PEG]",
+          "standard_value": "[Value reported by management]",
+          "target_value": "[Audited forensic value]",
+          "mismatch_percentage": "[Variance delta percentage]"
+        }
+      ]
+    },
+    "conclusion_question": "[Thought-provoking forward-looking macro query]"
+  },
+  "forensic_trust_gap": {
+    "standard_sources_coverage": "[Sell-side consensus and mainstream consensus narrative]",
+    "our_forensic_exposure": "[Hidden risks, controls failures, or structural pivots uncovered]",
+    "unique_trust_rationale": "[Why this specific analysis provides an informational edge]"
+  },
+  "anomalies": [
+    {
+      "source_claim": "[Claim from financial report, filing, or PR]",
+      "counter_claim": "[Reality found via cross-referencing and auditing]",
+      "verdict": "[Label: e.g. Accrual Divergence, Underreported Cost, Policy Bottleneck]",
+      "severity": "[High / Medium / Low]",
+      "type": "[Fundamental / Technical / Regulatory / Operational]",
+      "citations": [
+        { "name": "[Source Name]", "url": "[Source URL]" }
+      ]
+    }
+  ],
+  "tracks": {
+    "corporate": "[Corporate governance, capital allocation, and internal control findings]",
+    "policy": "[Macro regulations, taxation rails, or policy constraints]",
+    "sovereign": "[Global macro risks, trade dependencies, and currency exposures]"
+  },
+  "socioeconomic": [
+    {
+      "area": "[Segment or demographic affected]",
+      "impact": "[Structural and operational impact description]",
+      "outcome": "[Trend vector or strategic direction]"
+    }
+  ],
+  "india_growth_story": {
+    "title": "Slide 8: India Digital Public Infrastructure & Growth Outlook",
+    "narrative": "[Detailed analysis of UPI, DPDP Act, ONDC, NITI policy rails, and their impact on target's model]",
+    "outlook": "[Favorable / Unfavorable / Neutral]"
+  },
+  "strategic_benchmarks": [
+    {
+      "model_project": "[Peer or precedent entity/project]",
+      "what_they_did_well": "[Best practices implemented]",
+      "our_target_shortfall": "[Gap/shortfall observed in our target entity]",
+      "strategic_learning": "[Key takeaway for capital allocation]"
+    }
+  ],
+  "citations": [
+    { "name": "[Source Name]", "url": "[Source URL]" }
+  ],
+  "social_share_post": {
+    "skeptical": "[Twitter/LinkedIn post from a skeptical, high-conviction bear angle]",
+    "macro": "[Twitter/LinkedIn post highlighting macro interest rates and structural shifts]",
+    "question": "[Twitter/LinkedIn post posing an open, analytical question on TAM/unit economics]",
+    "short": "[1-sentence micro-thesis bullet point suitable for quick reading]"
+  },
+  "api_usage": {
+    "total_input_tokens": 0,
+    "total_output_tokens": 0,
+    "total_cost_usd": 0.0,
+    "total_cost_inr": 0.0,
+    "usd_to_inr_rate": 84.0
+  }
+}
+```
+
+### 2. Export Javascript Config (`forensic_data.js`)
+Write a file `forensic_data.js` containing:
+```javascript
+window.forensicData = [Insert the completed forensic_report.json object here];
+```
+
+### 3. Compile Premium Interactive HTML Slides (`index.html`)
+Write a single-page HTML application (`index.html`) with styling (`style.css`) incorporating modern dark glassmorphism (vibrant gradient backdrops, frosted-glass frames, and premium typography). 
+* The interface must parse `window.forensicData` and display a premium 8-slide presentation deck.
+* Include keyboard navigation (arrow keys), visual dot indicators, and an interactive side-by-side mismatch matrix table.
+* **Slide 1:** Title, Ticker, Editorial Verdict, and live token-to-Rupee HUD cost tracker footer.
+* **Slide 2:** Forensic Trust Gap (Mainstream Narrative vs. Exposure).
+* **Slide 3:** Variance Matrix (Side-by-side comparison table).
+* **Slide 4:** Deconstructed Anomalies (tabbed or paginated layout).
+* **Slide 5:** Multi-Track Auditing (Corporate, Policy, Sovereign views).
+* **Slide 6:** Strategic Benchmarks & Precedents.
+* **Slide 7:** Copyable Social Post Builder UI.
+* **Slide 8:** India Growth Story Panel (DPI, DPDP, ONDC audit).
+
+---
+
+## PHASE 8 — ONGOING MONITORING (Optional)
 
 If user wants to track the position:
 
