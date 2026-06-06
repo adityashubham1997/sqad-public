@@ -19,6 +19,7 @@ var CodexAdapter = require('./adapter-codex.cjs');
 var CursorAdapter = require('./adapter-cursor.cjs');
 var KiroAdapter = require('./adapter-kiro.cjs');
 var GeminiAdapter = require('./adapter-gemini.cjs');
+var DevinAdapter = require('./adapter-devin.cjs');
 var WindsurfAdapter = require('./adapter-windsurf.cjs');
 var AntigravityAdapter = require('./adapter-antigravity.cjs');
 
@@ -30,6 +31,7 @@ var ADAPTERS = {
   cursor: CursorAdapter,
   kiro: KiroAdapter,
   gemini: GeminiAdapter,
+  devin: DevinAdapter,
   windsurf: WindsurfAdapter,
   antigravity: AntigravityAdapter,
 };
@@ -66,6 +68,8 @@ function detectCurrentIde() {
   if (env.GEMINI_SESSION || env.GOOGLE_GEMINI_CLI) return 'gemini';
   // Cursor: CURSOR_SESSION
   if (env.CURSOR_SESSION) return 'cursor';
+  // Devin: DEVIN_SESSION or DEVIN_API_KEY
+  if (env.DEVIN_SESSION || env.DEVIN_API_KEY) return 'devin';
   // Antigravity
   if (env.ANTIGRAVITY_SESSION) return 'antigravity';
   // Windsurf: WINDSURF_SESSION or default
