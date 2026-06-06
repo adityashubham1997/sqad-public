@@ -731,7 +731,8 @@ Write a valid, minified JSON object with the following schema:
     "total_cost_usd": 0.0,
     "total_cost_local": 0.0,
     "local_currency": "[ISO 4217 code, e.g. INR, EUR, GBP, JPY]",
-    "usd_to_local_rate": 0.0
+    "usd_to_local_rate": 0.0,
+    "_note": "Look up usd_to_local_rate at runtime from a forex API or LLM training data"
   }
 }
 ```

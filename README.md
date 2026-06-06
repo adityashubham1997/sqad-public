@@ -110,13 +110,13 @@ SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
 ### Option A — npm (recommended)
 
 ```bash
-npx squad-public init
+npx sqad-public init
 ```
 
 With specific IDEs:
 
 ```bash
-npx squad-public init --ide claude,cursor,windsurf
+npx sqad-public init --ide claude,cursor,windsurf
 ```
 
 ### Option B — curl (no npm required)
@@ -814,7 +814,7 @@ ides:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│  Path 1: npx squad-public init  (programmatic, ~10s)        │
+│  Path 1: npx sqad-public init   (programmatic, ~10s)        │
 │  ──────────────────────────────────────────────────────     │
 │  1. Sync squad-method/ (agents, skills, tools, fragments)  │
 │  2. detectStack() → 15 languages, 40+ frameworks           │
