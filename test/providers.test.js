@@ -205,6 +205,18 @@ test('Kiro assigns raven to primary (Bedrock) for adversarial reasoning', functi
   assert.strictEqual(result.reason, 'adversarial_reasoning');
 });
 
+test('Devin assigns oracle to Google for long-context research', function() {
+  var result = providers.assignMultiModelAgent('devin', 'oracle', 'default');
+  assert.strictEqual(result.provider, 'google');
+  assert.strictEqual(result.reason, 'research_long_context');
+});
+
+test('Devin assigns sentinel to OpenAI for security reasoning', function() {
+  var result = providers.assignMultiModelAgent('devin', 'sentinel', 'default');
+  assert.strictEqual(result.provider, 'openai');
+  assert.strictEqual(result.reason, 'security_reasoning');
+});
+
 test('Windsurf assigns all agents to primary (single model)', function() {
   var result = providers.assignMultiModelAgent('windsurf', 'oracle', 'default');
   assert.strictEqual(result.reason, 'single_model_ide');
@@ -361,6 +373,27 @@ test('Gemini adapter: parallel dispatch via Vertex AI', function() {
   var cap = adapter.detectCapability();
   assert.strictEqual(cap.parallel.supported, true);
   assert.strictEqual(cap.parallel.mechanism, 'vertex_ai');
+});
+
+test('Devin adapter: parallel dispatch with multi-model', function() {
+  var adapter = dispatch.getAdapter('devin');
+  var cap = adapter.detectCapability();
+  assert.strictEqual(cap.parallel.supported, true);
+  assert.strictEqual(cap.parallel.mechanism, 'devin_api');
+  assert.strictEqual(cap.parallel.max, 3);
+  assert.strictEqual(cap.multiModel, true);
+  assert.ok(cap.providers.indexOf('anthropic') >= 0);
+  assert.ok(cap.providers.indexOf('openai') >= 0);
+  assert.ok(cap.providers.indexOf('google') >= 0);
+});
+
+test('Devin adapter: buildMultiModelPlan assigns diverse providers', function() {
+  var adapter = dispatch.getAdapter('devin');
+  var plan = adapter.buildMultiModelPlan(['oracle', 'raven', 'sentinel', 'scribe'], 'phase_5');
+  var oracleAssignment = plan.find(function(p) { return p.agentId === 'oracle'; });
+  var sentinelAssignment = plan.find(function(p) { return p.agentId === 'sentinel'; });
+  assert.strictEqual(oracleAssignment.provider, 'google');
+  assert.strictEqual(sentinelAssignment.provider, 'openai');
 });
 
 test('Windsurf adapter: sequential only, single model', function() {
