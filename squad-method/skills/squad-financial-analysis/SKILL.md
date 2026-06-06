@@ -152,8 +152,8 @@ What would you like to analyze?
   → Enter a ticker symbol (e.g., AAPL, RELIANCE.NS, TSLA, NIFTY50.NS, BTC-USD)
   → Or describe the entity: "analyze Apple" / "research Reliance Industries"
 
-For Indian markets use: SYMBOL.NS (NSE) or SYMBOL.BO (BSE)
-Examples: RELIANCE.NS, TCS.NS, HDFCBANK.NS, INFY.NS
+Market suffixes: .NS (NSE India), .BO (BSE India), .L (LSE UK), .T (TSE Japan), .HK (HKEX), .SS (Shanghai), .SZ (Shenzhen), .DE (XETRA Germany), .PA (Euronext Paris), .TO (TSX Canada), .AX (ASX Australia)
+Examples: RELIANCE.NS, HSBA.L, 7203.T, 0700.HK, SAP.DE
 ```
 
 Once the ticker is confirmed, print the header:
@@ -264,8 +264,9 @@ except:
     print("  Options not available for this ticker")
 ```
 
-For Indian markets (NSEpy):
+For regional markets (adapt library per exchange — examples: nsepy for India NSE, eodhd for global, investpy for EU):
 ```python
+# Example: India NSE via nsepy
 from nsepy import get_history
 from datetime import date, timedelta
 import yfinance as yf
@@ -279,8 +280,8 @@ data = get_history(symbol=symbol, start=start, end=end)
 print("--- PRICE ---")
 print(data[['Open','High','Low','Close','Volume','Turnover']].to_string())
 
-# Also fetch fundamentals via yfinance
-t = yf.Ticker(f"{symbol}.NS")
+# Also fetch fundamentals via yfinance (works for all markets)
+t = yf.Ticker(f"{symbol}.NS")  # adapt suffix per exchange
 print("\n--- METRICS ---")
 for k,v in t.info.items():
     if v is not None and k in ['trailingPE','priceToBook','debtToEquity',
@@ -728,8 +729,9 @@ Write a valid, minified JSON object with the following schema:
     "total_input_tokens": 0,
     "total_output_tokens": 0,
     "total_cost_usd": 0.0,
-    "total_cost_inr": 0.0,
-    "usd_to_inr_rate": 84.0
+    "total_cost_local": 0.0,
+    "local_currency": "[ISO 4217 code, e.g. INR, EUR, GBP, JPY]",
+    "usd_to_local_rate": 0.0
   }
 }
 ```
@@ -741,7 +743,7 @@ The HTML file must load `forensic_report.json` using a safe inline approach. Do 
 Write a single-page HTML application (`index.html`) with styling (`style.css`) incorporating modern dark glassmorphism (vibrant gradient backdrops, frosted-glass frames, and premium typography). 
 * The interface must parse the embedded JSON data and display a premium 8-slide presentation deck.
 * Include keyboard navigation (arrow keys), visual dot indicators, and an interactive side-by-side mismatch matrix table.
-* **Slide 1:** Title, Ticker, Editorial Verdict, and live token-to-Rupee HUD cost tracker footer.
+* **Slide 1:** Title, Ticker, Editorial Verdict, and live token cost HUD (USD + local currency) footer.
 * **Slide 2:** Forensic Trust Gap (Mainstream Narrative vs. Exposure).
 * **Slide 3:** Variance Matrix (Side-by-side comparison table).
 * **Slide 4:** Deconstructed Anomalies (tabbed or paginated layout).

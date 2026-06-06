@@ -83,7 +83,7 @@ func hello() string {
 `;
     const imports = extractWithPatterns(content, LANGUAGE_PATTERNS['.go'].importRegex);
     assert.ok(!imports.includes('this is not an import'), 'Should NOT match bare string literals');
-    assert.ok(imports.some(i => i.includes('github.com')), `Expected github.com import: ${imports}`);
+    assert.ok(imports.includes('github.com/user/mylib'), `Expected github.com/user/mylib import: ${imports}`);
   });
 });
 

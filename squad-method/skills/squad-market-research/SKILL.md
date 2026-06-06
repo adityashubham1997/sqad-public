@@ -207,8 +207,9 @@ Write a valid, minified JSON object with the following schema:
     "total_input_tokens": 0,
     "total_output_tokens": 0,
     "total_cost_usd": 0.0,
-    "total_cost_inr": 0.0,
-    "usd_to_inr_rate": 84.0
+    "total_cost_local": 0.0,
+    "local_currency": "[ISO 4217 code, e.g. INR, EUR, GBP, JPY]",
+    "usd_to_local_rate": 0.0
   }
 }
 ```
@@ -220,7 +221,7 @@ The HTML file must load `forensic_report.json` using a safe inline approach. Do 
 Write a single-page HTML application (`index.html`) with styling (`style.css`) incorporating modern dark glassmorphism (vibrant gradient backdrops, frosted-glass frames, and premium typography). 
 * The interface must parse the embedded JSON data and display a premium 8-slide presentation deck.
 * Include keyboard navigation (arrow keys), visual dot indicators, and an interactive side-by-side mismatch matrix table.
-* **Slide 1:** Title, Market Name, Editorial Verdict, and live token-to-Rupee HUD cost tracker footer.
+* **Slide 1:** Title, Market Name, Editorial Verdict, and live token cost HUD (USD + local currency) footer.
 * **Slide 2:** Forensic Trust Gap (Mainstream Narrative vs. Exposure).
 * **Slide 3:** Variance Matrix (Side-by-side comparison table).
 * **Slide 4:** Deconstructed Anomalies (tabbed or paginated layout).
