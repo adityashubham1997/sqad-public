@@ -4,7 +4,7 @@
 
 ### AI Development Framework — Multi-Agent, Multi-Model, Multi-IDE
 
-[![npm](https://img.shields.io/npm/v/squad-public.svg)](https://www.npmjs.com/package/squad-public)
+[![npm](https://img.shields.io/npm/v/sqad-public.svg)](https://www.npmjs.com/package/sqad-public)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/Tests-156%20passing-brightgreen.svg)](#testing)
@@ -80,7 +80,7 @@ SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
 - [All 33 Skills](#skills-slash-commands)
-- [All 32 Agents](#agents)
+- [All 33 Agents](#agents)
 
 **Going deeper**
 - [How SQUAD Works — The 3 Orchestrators](#how-squad-works--the-orchestrators)
@@ -229,37 +229,36 @@ All 33 commands available after install:
 
 SQUAD ships with **33 specialized agents** across four domains:
 
-### Dev Agents (27)
+### Dev Agents (26)
 
 | Agent | Role | Primary Skills |
 |---|---|---|
-| **Nova** | Requirements Analyst | AC validation, gap detection, story structuring |
+| **Nova** | Dev Analyst | AC validation, gap detection, story structuring |
 | **Atlas** | Solution Architect | Architecture impact, blast radius, threat modeling |
-| **Forge** | Senior Engineer | Code implementation, pattern compliance, self-review |
-| **Cipher** | Test Engineer | Test generation, coverage analysis, TDD |
+| **Forge** | Dev Lead | Code implementation, pattern compliance, self-review |
+| **Cipher** | QA Engineer | Test generation, coverage analysis, TDD |
 | **Sentinel** | QA Architect | Test strategy, risk-based planning, pyramid balance |
-| **Raven** | Adversarial Reviewer | Logic bugs, edge cases, second-order effects |
+| **Raven** | Code Reviewer | Adversarial review, logic bugs, edge cases |
 | **Shadow** | Security Engineer | Cloud/code/infra security, pen-test mindset |
-| **Catalyst** | Performance Engineer | Perf review, N+1 detection, scalability |
-| **Oracle** | Research Analyst | Domain research, precedent analysis, codebase investigation |
-| **Scribe** | Technical Writer | Documentation, changelog, API docs |
+| **Catalyst** | Release Engineer | Release readiness, quality gate validation, CI/CD |
+| **Oracle** | Technical Researcher | Domain research, precedent analysis, codebase investigation |
+| **Scribe** | Tech Writer | Documentation, changelog, API docs |
 | **Compass** | Product Manager | Value framing, story validation, scope control |
-| **Tempo** | Delivery Manager | Sprint status, velocity, retrospectives |
-| **Phoenix** | Synthesis Agent | Consolidates multi-agent findings into verdicts |
-| **Aegis** | Security Architect | Threat modeling, encryption, auth patterns |
+| **Tempo** | Scrum Master | Sprint status, velocity, retrospectives |
+| **Phoenix** | Cloud DevOps / SRE | CI/CD pipelines, deployment strategies, observability |
+| **Aegis** | Security Analyst | Threat modeling, encryption, auth patterns |
 | **Stratos** | Cloud Architect | Cloud infra, IaC, cost optimization |
-| **Kernel** | Systems Engineer | OS-level, memory, concurrency, C/C++ |
-| **Neuron** | ML Engineer | ML pipelines, model evaluation, data quality |
+| **Kernel** | OS & Systems Architect | OS-level, memory, concurrency, C/C++ |
+| **Neuron** | ML / Data Science Engineer | ML pipelines, model evaluation, data quality |
 | **Prism** | Data Analyst | SQL, analytics, data models, dashboard quality |
-| **Dynamo** | Database Engineer | Schema design, migrations, indexing strategy |
+| **Dynamo** | Database Architect | Schema design, migrations, indexing strategy |
 | **Pixel** | Game Developer | Game engine code, render pipelines |
 | **Quest** | Game Designer | Mechanics, balance, progression |
 | **Lore** | Narrative Designer | Dialogue, world-building |
-| **Flux** | Creative Problem Solver | Alternative approaches, simplification |
-| **Titan** | Quality Gate | Strict standards enforcement |
+| **Flux** | Creative Thinker | Alternative approaches, innovation, simplification |
+| **Titan** | Quality Enforcer | Strict standards enforcement |
 | **Spark** | AI Developer | AI/ML framework integration |
 | **Muse** | AI Researcher | Research synthesis, paper analysis |
-| **Neuron** | ML Engineer | Pipelines, model eval, data drift |
 
 ### Financial & Consulting Agents (7 new in v1.5)
 
@@ -382,7 +381,7 @@ Path C delivers all the same correctness guarantees (dependency ordering, valida
 | **Gemini** (Google) | ✅ Max 3 | ✅ Google + Anthropic + OpenAI | Script (hooks.sh) | `.gemini/skills/` |
 | **Cursor** | ❌ Sequential | ✅ Anthropic + OpenAI + Google | Script (hooks.sh) | `.cursor/rules/*.mdc` |
 | **Windsurf** | ❌ Sequential | ❌ Single model | Script (hooks.sh) | `.windsurf/skills/` |
-| **Antigravity** | ❌ Sequential | ✅ Anthropic + OpenAI | Script (hooks.sh) | `.antigravity/skills/` |
+| **Antigravity** | ❌ Sequential | ✅ Anthropic + OpenAI | Script (hooks.sh) | `.agent/skills/` |
 
 ---
 
@@ -657,11 +656,11 @@ workspace/
 │
 ├── squad-method/
 │   ├── config.yaml         ← Single source of truth for all configuration
-│   ├── agents/             ← 32 agent personas (lazy-loaded per skill)
+│   ├── agents/             ← 33 agent personas (lazy-loaded per skill)
 │   │   ├── _base-agent.md  ← Base protocols: grounding, communication, git, tracking
-│   │   ├── nova.md         ← Nova: requirements analyst
+│   │   ├── nova.md         ← Nova: dev analyst
 │   │   ├── atlas.md        ← Atlas: solution architect
-│   │   └── ...             ← 30 more agents
+│   │   └── ...             ← 31 more agents
 │   ├── skills/             ← 33 skill definitions (one per slash command)
 │   ├── fragments/          ← Conditional knowledge modules (rubric, stack, cloud, etc.)
 │   ├── tools/
@@ -800,7 +799,7 @@ knowledge_graph:
 
 # Agents
 agents:
-  built_in: 32
+  built_in: 33
   custom: []                   # add custom agents here
 
 # IDEs (auto-detected)
@@ -1199,6 +1198,6 @@ MIT — see [LICENSE](LICENSE) for details.
 
 **Built for developer experience, not vendor lock-in.**
 
-[npm](https://www.npmjs.com/package/squad-public) · [Issues](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
+[npm](https://www.npmjs.com/package/sqad-public) · [Issues](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
 
 </div>
