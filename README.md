@@ -4,12 +4,12 @@
 
 ### AI Development Framework — Multi-Agent, Multi-Model, Multi-IDE
 
-[![npm](https://img.shields.io/npm/v/squad-public.svg)](https://www.npmjs.com/package/squad-public)
+[![npm](https://img.shields.io/npm/v/sqad-public.svg)](https://www.npmjs.com/package/sqad-public)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/Tests-156%20passing-brightgreen.svg)](#testing)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-success.svg)](#security--privacy)
-[![IDEs](https://img.shields.io/badge/IDEs-7%20supported-blueviolet.svg)](#supported-ides)
+[![IDEs](https://img.shields.io/badge/IDEs-8%20supported-blueviolet.svg)](#supported-ides)
 [![Skills](https://img.shields.io/badge/Skills-33%20commands-orange.svg)](#skills-slash-commands)
 
 </div>
@@ -69,7 +69,7 @@ SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
         Phase 6  → 3 options: Buy now / Wait for pullback / Avoid (Kelly fractions for each)
 ```
 
-**Works offline. Zero npm dependencies. Same agents, config, and skills across 7 IDEs.**
+**Works offline. Zero npm dependencies. Same agents, config, and skills across 8 IDEs.**
 
 ---
 
@@ -80,7 +80,7 @@ SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
 - [All 33 Skills](#skills-slash-commands)
-- [All 32 Agents](#agents)
+- [All 33 Agents](#agents)
 
 **Going deeper**
 - [How SQUAD Works — The 3 Orchestrators](#how-squad-works--the-orchestrators)
@@ -229,7 +229,7 @@ All 33 commands available after install:
 
 SQUAD ships with **33 specialized agents** across four domains:
 
-### Dev Agents (27)
+### Dev Agents (26)
 
 | Agent | Role | Primary Skills |
 |---|---|---|
@@ -259,7 +259,6 @@ SQUAD ships with **33 specialized agents** across four domains:
 | **Titan** | Quality Gate | Strict standards enforcement |
 | **Spark** | AI Developer | AI/ML framework integration |
 | **Muse** | AI Researcher | Research synthesis, paper analysis |
-| **Neuron** | ML Engineer | Pipelines, model eval, data drift |
 
 ### Financial & Consulting Agents (7 new in v1.5)
 
@@ -363,7 +362,7 @@ Decides HOW agents actually execute based on your IDE's capabilities:
 | Path | Mechanism | IDEs | True Parallelism |
 |---|---|---|---|
 | **A** | Native subagent `Agent()` tool | Claude Code | ✅ Max 5 |
-| **B** | CLI subprocess / API calls | Codex, Kiro, Gemini | ✅ Max 3 |
+| **B** | CLI subprocess / API calls | Codex, Kiro, Gemini, Devin | ✅ Max 3 |
 | **C** | Sequential simulation | Windsurf, Cursor, Antigravity | ❌ One at a time |
 
 Path C delivers all the same correctness guarantees (dependency ordering, validation, anti-skip, gate enforcement) — only wall-clock time differs.
@@ -380,9 +379,10 @@ Path C delivers all the same correctness guarantees (dependency ordering, valida
 | **Codex** (OpenAI) | ✅ Max 3 | ✅ OpenAI + Anthropic | Script (hooks.sh) | `.codex/skills/` |
 | **Kiro** (AWS) | ✅ Max 3 | ✅ Bedrock + Q + OpenAI + Google + Anthropic | Script (hooks.sh) | `.kiro/skills/` |
 | **Gemini** (Google) | ✅ Max 3 | ✅ Google + Anthropic + OpenAI | Script (hooks.sh) | `.gemini/skills/` |
+| **Devin** (Cognition) | ✅ Max 3 | ✅ Anthropic + OpenAI + Google | Script (hooks.sh) | `.devin/skills/` |
 | **Cursor** | ❌ Sequential | ✅ Anthropic + OpenAI + Google | Script (hooks.sh) | `.cursor/rules/*.mdc` |
 | **Windsurf** | ❌ Sequential | ❌ Single model | Script (hooks.sh) | `.windsurf/skills/` |
-| **Antigravity** | ❌ Sequential | ✅ Anthropic + OpenAI | Script (hooks.sh) | `.antigravity/skills/` |
+| **Antigravity** | ❌ Sequential | ✅ Anthropic + OpenAI | Script (hooks.sh) | `.agent/skills/` |
 
 ---
 
@@ -657,11 +657,11 @@ workspace/
 │
 ├── squad-method/
 │   ├── config.yaml         ← Single source of truth for all configuration
-│   ├── agents/             ← 32 agent personas (lazy-loaded per skill)
+│   ├── agents/             ← 33 agent personas (lazy-loaded per skill)
 │   │   ├── _base-agent.md  ← Base protocols: grounding, communication, git, tracking
-│   │   ├── nova.md         ← Nova: requirements analyst
+│   │   ├── nova.md         ← Nova: dev analyst
 │   │   ├── atlas.md        ← Atlas: solution architect
-│   │   └── ...             ← 30 more agents
+│   │   └── ...             ← 31 more agents
 │   ├── skills/             ← 33 skill definitions (one per slash command)
 │   ├── fragments/          ← Conditional knowledge modules (rubric, stack, cloud, etc.)
 │   ├── tools/
@@ -800,12 +800,12 @@ knowledge_graph:
 
 # Agents
 agents:
-  built_in: 32
+  built_in: 33
   custom: []                   # add custom agents here
 
 # IDEs (auto-detected)
 ides:
-  installed: ["claude", "windsurf", "cursor", "codex", "kiro", "gemini", "antigravity"]
+  installed: ["claude", "devin", "windsurf", "cursor", "codex", "kiro", "gemini", "antigravity"]
 ```
 
 ---
@@ -820,7 +820,7 @@ ides:
 │  2. detectStack() → 15 languages, 40+ frameworks           │
 │  3. detectCloud() → providers / IaC / containers / CI      │
 │  4. detectTracker() → jira / linear / github / shortcut    │
-│  5. detectIDEs() → all 7 IDEs                              │
+│  5. detectIDEs() → all 8 IDEs                              │
 │  6. updateConfig() → write detected values                 │
 │  7. Create output dirs                                     │
 │  8. Scan repos                                             │
@@ -1020,7 +1020,7 @@ Current: **156 unit tests + 62 e2e assertions, 0 failures**.
 
 Test coverage includes:
 - Stack / cloud / IDE / tracker detection
-- IDE skill deployment (all 7 IDEs)
+- IDE skill deployment (all 8 IDEs)
 - Knowledge graph: language patterns (15 languages), dot-dir fix, Go import regex
 - KG prioritization, incremental updates, query API
 - AST extraction (JS/TS, Python, Go, Java)
@@ -1039,10 +1039,10 @@ AI IDEs give you one model in a chat. SQUAD adds:
 - **Pre-computed knowledge** via the knowledge graph — agents check dependency data before grepping
 - **Conditional fragment loading** — only project-relevant knowledge is loaded
 - **Phase-gated workflows** — complex tasks have user approval at each gate
-- **Cross-IDE portability** — same agents, skills, and config across 7 IDEs
+- **Cross-IDE portability** — same agents, skills, and config across 8 IDEs
 - **Self-evolution** — `/evolve` improves skills from execution history
 
-### Do I need all 7 IDEs?
+### Do I need all 8 IDEs?
 
 No. SQUAD auto-detects installed IDEs and deploys skills only to those. When you run `init` again after updating the package, new skills are synced to all detected IDEs automatically.
 
@@ -1199,6 +1199,6 @@ MIT — see [LICENSE](LICENSE) for details.
 
 **Built for developer experience, not vendor lock-in.**
 
-[npm](https://www.npmjs.com/package/squad-public) · [Issues](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
+[npm](https://www.npmjs.com/package/sqad-public) · [Issues](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
 
 </div>

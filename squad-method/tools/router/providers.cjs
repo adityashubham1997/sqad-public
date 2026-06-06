@@ -13,6 +13,7 @@
  *   Cursor       → Anthropic, OpenAI, Google (all native multi-model)
  *   Kiro         → Amazon Bedrock (native: Claude, Titan, Llama), OpenAI, Google, Anthropic direct
  *   Gemini       → Google (native), Anthropic (via Vertex), OpenAI (via API key)
+ *   Devin        → Anthropic (native), OpenAI + Google (via API keys), parallel sessions
  *   Windsurf     → Anthropic (native Cascade), single model only
  *   Antigravity  → Anthropic (native), OpenAI (via config)
  */
@@ -132,6 +133,14 @@ var IDE_PROVIDERS = {
     max_parallel: 3,
     supports_multi_model: true,
   },
+  devin: {
+    primary: ANTHROPIC,
+    secondary: [OPENAI, GOOGLE],
+    supports_parallel: true,
+    parallel_mechanism: 'devin_api',  // Devin session-based API
+    max_parallel: 3,
+    supports_multi_model: true,   // Full multi-model via API keys
+  },
   windsurf: {
     primary: ANTHROPIC,
     secondary: [],
@@ -154,7 +163,7 @@ var IDE_PROVIDERS = {
 
 /**
  * Get provider config for an IDE.
- * @param {string} ideId - IDE identifier (claude, codex, cursor, kiro, gemini, windsurf, antigravity)
+ * @param {string} ideId - IDE identifier (claude, devin, codex, cursor, kiro, gemini, windsurf, antigravity)
  * @returns {object} IDE provider config
  */
 function getIdeProviders(ideId) {

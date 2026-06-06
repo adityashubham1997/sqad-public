@@ -122,6 +122,16 @@ test('Windsurf: single model, sequential', function() {
   assert.strictEqual(config.secondary.length, 0);
 });
 
+test('Devin: primary=Anthropic, parallel via Devin API', function() {
+  var config = providers.getIdeProviders('devin');
+  assert.strictEqual(config.primary.id, 'anthropic');
+  assert.strictEqual(config.secondary.length, 2);
+  assert.strictEqual(config.supports_parallel, true);
+  assert.strictEqual(config.parallel_mechanism, 'devin_api');
+  assert.strictEqual(config.max_parallel, 3);
+  assert.strictEqual(config.supports_multi_model, true);
+});
+
 test('Antigravity: multi-model (Anthropic + OpenAI), sequential', function() {
   var config = providers.getIdeProviders('antigravity');
   assert.strictEqual(config.primary.id, 'anthropic');
@@ -173,6 +183,18 @@ test('Kiro assigns oracle to Google for long-context research', function() {
 
 test('Kiro assigns sentinel to OpenAI for security reasoning', function() {
   var result = providers.assignMultiModelAgent('kiro', 'sentinel', 'default');
+  assert.strictEqual(result.provider, 'openai');
+  assert.strictEqual(result.reason, 'security_reasoning');
+});
+
+test('Devin assigns oracle to Google for long-context research', function() {
+  var result = providers.assignMultiModelAgent('devin', 'oracle', 'default');
+  assert.strictEqual(result.provider, 'google');
+  assert.strictEqual(result.reason, 'research_long_context');
+});
+
+test('Devin assigns sentinel to OpenAI for security reasoning', function() {
+  var result = providers.assignMultiModelAgent('devin', 'sentinel', 'default');
   assert.strictEqual(result.provider, 'openai');
   assert.strictEqual(result.reason, 'security_reasoning');
 });
@@ -257,6 +279,13 @@ test('buildDispatchCommand for Gemini returns curl', function() {
   assert.strictEqual(result.provider, 'google');
 });
 
+test('buildDispatchCommand for Devin returns Devin API call', function() {
+  var result = router.buildDispatchCommand('devin', 'atlas', 'phase_1', 'analyze arch');
+  assert.ok(result.command.includes('api.devin.ai'));
+  assert.ok(result.command.includes('DEVIN_API_KEY'));
+  assert.strictEqual(result.provider, 'anthropic');
+});
+
 test('buildDispatchCommand for sequential IDEs returns comment', function() {
   var result = router.buildDispatchCommand('windsurf', 'forge', 'phase_3', 'implement');
   assert.ok(result.command.startsWith('# Sequential'));
@@ -265,14 +294,15 @@ test('buildDispatchCommand for sequential IDEs returns comment', function() {
 // ═══════════════════════════════════════════════════════════════════════════════
 console.log('\n━━━ Dispatch Orchestrator Tests ━━━\n');
 
-test('getCapabilityMatrix returns all 7 IDEs', function() {
+test('getCapabilityMatrix returns all 8 IDEs', function() {
   var matrix = dispatch.getCapabilityMatrix();
-  assert.strictEqual(Object.keys(matrix).length, 7);
+  assert.strictEqual(Object.keys(matrix).length, 8);
   assert.ok(matrix.claude);
   assert.ok(matrix.kiro);
   assert.ok(matrix.gemini);
   assert.ok(matrix.codex);
   assert.ok(matrix.cursor);
+  assert.ok(matrix.devin);
   assert.ok(matrix.windsurf);
   assert.ok(matrix.antigravity);
 });
@@ -299,6 +329,27 @@ test('Kiro adapter: buildMultiModelPlan assigns diverse providers', function() {
   var adapter = dispatch.getAdapter('kiro');
   var plan = adapter.buildMultiModelPlan(['oracle', 'raven', 'sentinel', 'scribe'], 'phase_5');
   // oracle → google (research), raven → primary (bedrock), sentinel → openai, scribe → fast
+  var oracleAssignment = plan.find(function(p) { return p.agentId === 'oracle'; });
+  var sentinelAssignment = plan.find(function(p) { return p.agentId === 'sentinel'; });
+  assert.strictEqual(oracleAssignment.provider, 'google');
+  assert.strictEqual(sentinelAssignment.provider, 'openai');
+});
+
+test('Devin adapter: parallel dispatch with multi-model', function() {
+  var adapter = dispatch.getAdapter('devin');
+  var cap = adapter.detectCapability();
+  assert.strictEqual(cap.parallel.supported, true);
+  assert.strictEqual(cap.parallel.mechanism, 'devin_api');
+  assert.strictEqual(cap.parallel.max, 3);
+  assert.strictEqual(cap.multiModel, true);
+  assert.ok(cap.providers.indexOf('anthropic') >= 0);
+  assert.ok(cap.providers.indexOf('openai') >= 0);
+  assert.ok(cap.providers.indexOf('google') >= 0);
+});
+
+test('Devin adapter: buildMultiModelPlan assigns diverse providers', function() {
+  var adapter = dispatch.getAdapter('devin');
+  var plan = adapter.buildMultiModelPlan(['oracle', 'raven', 'sentinel', 'scribe'], 'phase_5');
   var oracleAssignment = plan.find(function(p) { return p.agentId === 'oracle'; });
   var sentinelAssignment = plan.find(function(p) { return p.agentId === 'sentinel'; });
   assert.strictEqual(oracleAssignment.provider, 'google');
@@ -332,6 +383,17 @@ test('createPlan for Kiro generates parallel batch with multi-model', function()
   var assignments = plan.modelAssignments;
   var providers_used = assignments.map(function(a) { return a.provider; });
   assert.ok(providers_used.length === 3); // all agents get assigned
+});
+
+test('createPlan for Devin generates parallel batch with multi-model', function() {
+  var plan = dispatch.createPlan('devin', ['raven', 'atlas', 'oracle'], 'phase_5', {
+    taskPrompt: 'Review code changes',
+  });
+  assert.strictEqual(plan.ide, 'devin');
+  assert.strictEqual(plan.type, 'devin_parallel_batch');
+  assert.strictEqual(plan.multiModel, true);
+  assert.strictEqual(plan.totalAgents, 3);
+  assert.strictEqual(plan.totalBatches, 1);
 });
 
 test('createPlan for Windsurf generates sequential simulation', function() {
@@ -417,6 +479,14 @@ test('getAvailableProviders for Kiro returns 5 providers', function() {
 
 test('getAvailableProviders for Claude returns 3 providers', function() {
   var avail = providers.getAvailableProviders('claude');
+  assert.strictEqual(avail.length, 3);
+  assert.ok(avail.indexOf('anthropic') >= 0);
+  assert.ok(avail.indexOf('openai') >= 0);
+  assert.ok(avail.indexOf('google') >= 0);
+});
+
+test('getAvailableProviders for Devin returns 3 providers', function() {
+  var avail = providers.getAvailableProviders('devin');
   assert.strictEqual(avail.length, 3);
   assert.ok(avail.indexOf('anthropic') >= 0);
   assert.ok(avail.indexOf('openai') >= 0);

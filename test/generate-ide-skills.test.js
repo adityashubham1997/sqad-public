@@ -77,10 +77,10 @@ describe('listSkillNames (real skills)', () => {
   });
 });
 
-describe('ALL_IDE_IDS — all 7 IDEs exported', () => {
-  it('exports all 7 IDE identifiers', () => {
-    assert.equal(ALL_IDE_IDS.length, 7);
-    for (const id of ['claude', 'windsurf', 'cursor', 'codex', 'kiro', 'gemini', 'antigravity']) {
+describe('ALL_IDE_IDS — all 8 IDEs exported', () => {
+  it('exports all 8 IDE identifiers', () => {
+    assert.equal(ALL_IDE_IDS.length, 8);
+    for (const id of ['claude', 'devin', 'windsurf', 'cursor', 'codex', 'kiro', 'gemini', 'antigravity']) {
       assert.ok(ALL_IDE_IDS.includes(id), `Missing IDE: ${id}`);
     }
   });
@@ -109,7 +109,7 @@ describe('deploySkills — IDE fallback behavior', () => {
       `Unexpected errors: ${result.errors}`);
   });
 
-  it('falls back to all 7 IDEs when no IDE dirs exist and no config', async () => {
+  it('falls back to all 8 IDEs when no IDE dirs exist and no config', async () => {
     const freshDir = mkdtempSync(join(tmpdir(), 'squad-fallback-'));
     try {
       const methodDir = join(freshDir, 'squad-method');
@@ -117,9 +117,9 @@ describe('deploySkills — IDE fallback behavior', () => {
       mkdirSync(skillsDir, { recursive: true });
       writeFileSync(join(skillsDir, 'SKILL.md'), '---\nname: squad-fallback-test\n---\n# Fallback');
 
-      // No IDE dirs and no config.yaml → should default to all 7 IDEs
+      // No IDE dirs and no config.yaml → should default to all 8 IDEs
       const result = await deploySkills(freshDir, {});
-      // deploySkills should attempt all 7 IDEs (some transformers may fail gracefully)
+      // deploySkills should attempt all 8 IDEs (some transformers may fail gracefully)
       const deployedIdes = new Set(result.deployed.map(d => d.ide));
       // At minimum, no "No IDEs detected" error
       assert.ok(!result.errors.some(e => e.includes('No IDEs detected')));

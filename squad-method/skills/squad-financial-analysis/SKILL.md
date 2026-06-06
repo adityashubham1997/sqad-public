@@ -117,12 +117,13 @@ Phase completion table emitted after each agent (R6 C4).
 ```
 
 ### B6.5 — Divergent-Convergent Multi-Agent Consensus Loop
-When executed by a Paid/Pro Agentic IDE that supports spawning parallel subagents or concurrent tool runs:
+When executed by an IDE that supports spawning parallel subagents or concurrent tool runs (Path A/B):
 1. **Divergent Phase:** The IDE Agent should spawn/simulate 8 distinct virtual agents in parallel (Sovereign Policy, Macro Interest Rates, Related Parties, Growth & Scale, Technical, Fundamental, Quantitative Risk, and Adversarial). Each agent evaluates the data using its unique investigative lens and writes a draft memo.
 2. **Convergent Phase:** A virtual Moderator Agent consolidates the 8 drafts into a unified cohesive report.
 3. **Auditing Gate:** A virtual Pro Red Team Auditor reviews the unified report, compiling an adversarial critique log of all assumptions.
 4. **Fact Hardening Refinement:** A virtual Refiner Agent addresses the critique log to fact-harden all statements, outputting the final hardened synthesis.
 
+**Path C (sequential IDEs):** Run each of the 8 investigative lenses sequentially as persona-switching prompts. Each lens reads all prior memos before producing its own. Then run Moderator → Red Team → Refiner in order.
 
 ### B7 — Emit bootstrap confirmation before Phase 0
 
@@ -645,7 +646,7 @@ VERIFICATION SUMMARY:
 
 ## PHASE 7 — AUTOMATED SLIDE-DECK DASHBOARD & SOCIAL SHARE BUILDER
 
-To support interactive visual reviews, the agent must programmatically compile and write a structured presentation database and an interactive HTML/CSS slide viewer under `squad-method/output/dashboard/[TICKER]/`.
+To support interactive visual reviews, the agent must programmatically compile and write a structured presentation database and an interactive HTML/CSS slide viewer under `output/dashboard/[TICKER]/`.
 
 ### 1. Compile Structured Database (`forensic_report.json`)
 Write a valid, minified JSON object with the following schema:
@@ -700,9 +701,10 @@ Write a valid, minified JSON object with the following schema:
       "outcome": "[Trend vector or strategic direction]"
     }
   ],
-  "india_growth_story": {
-    "title": "Slide 8: India Digital Public Infrastructure & Growth Outlook",
-    "narrative": "[Detailed analysis of UPI, DPDP Act, ONDC, NITI policy rails, and their impact on target's model]",
+  "regional_growth_story": {
+    "title": "Slide 8: Regional Digital Infrastructure & Growth Outlook",
+    "region": "[Target region, e.g. India, Southeast Asia, EMEA]",
+    "narrative": "[Detailed analysis of regional digital infrastructure, regulatory frameworks, and their impact on target's model]",
     "outlook": "[Favorable / Unfavorable / Neutral]"
   },
   "strategic_benchmarks": [
@@ -732,15 +734,12 @@ Write a valid, minified JSON object with the following schema:
 }
 ```
 
-### 2. Export Javascript Config (`forensic_data.js`)
-Write a file `forensic_data.js` containing:
-```javascript
-window.forensicData = [Insert the completed forensic_report.json object here];
-```
+### 2. Load Data Safely in HTML
+The HTML file must load `forensic_report.json` using a safe inline approach. Do NOT use `window.*` globals with raw JS insertion. Instead, embed the JSON in a `<script type="application/json" id="forensic-data">` tag and parse it with `JSON.parse(document.getElementById('forensic-data').textContent)`. This prevents XSS from unescaped field values.
 
 ### 3. Compile Premium Interactive HTML Slides (`index.html`)
 Write a single-page HTML application (`index.html`) with styling (`style.css`) incorporating modern dark glassmorphism (vibrant gradient backdrops, frosted-glass frames, and premium typography). 
-* The interface must parse `window.forensicData` and display a premium 8-slide presentation deck.
+* The interface must parse the embedded JSON data and display a premium 8-slide presentation deck.
 * Include keyboard navigation (arrow keys), visual dot indicators, and an interactive side-by-side mismatch matrix table.
 * **Slide 1:** Title, Ticker, Editorial Verdict, and live token-to-Rupee HUD cost tracker footer.
 * **Slide 2:** Forensic Trust Gap (Mainstream Narrative vs. Exposure).
@@ -749,7 +748,7 @@ Write a single-page HTML application (`index.html`) with styling (`style.css`) i
 * **Slide 5:** Multi-Track Auditing (Corporate, Policy, Sovereign views).
 * **Slide 6:** Strategic Benchmarks & Precedents.
 * **Slide 7:** Copyable Social Post Builder UI.
-* **Slide 8:** India Growth Story Panel (DPI, DPDP, ONDC audit).
+* **Slide 8:** Regional Growth Story Panel (digital infrastructure, regulatory outlook).
 
 ---
 
