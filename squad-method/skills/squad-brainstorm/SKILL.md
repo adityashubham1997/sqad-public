@@ -8,8 +8,11 @@ description: >
 
 # SQUAD-Public Brainstorm — Multi-Agent Ideation
 
-All 14 agents contribute from their unique perspectives. This is a structured
+All agents contribute from their unique perspectives. This is a structured
 diverge → converge process with the user driving direction.
+
+Agents are organized in packs. ALL packs participate — the orchestrator selects
+which agents from each pack are most relevant to the topic.
 
 **Bootstrap (read now):**
 - `squad-method/config.yaml` — team config
@@ -29,10 +32,25 @@ Once topic is clear, frame it:
   Topic: [topic]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Agents participating:
+Core Agents:
 📊 Nova · 🏗️ Atlas · 💻 Forge · 🧪 Cipher · 🎯 Tempo
 🔍 Raven · 🚀 Catalyst · 🔬 Oracle · 📋 Compass · 📚 Scribe
 🧪 Sentinel · 🛡️ Aegis · ☁️ Stratos · 🔥 Phoenix
+
+Extended Core:
+🛡️ Trinity · 🔧 Otis · 🌟 Krishna
+
+Math & Theory Pack:
+∞ Tao · 📐 Knuth · ✨ Ramanujan · 🔬 Hardy · 🔗 Pearl · 📊 Gelman
+
+AI/ML Pack:
+🧠 Andrej · 🌊 Yann · 📱 Scott · 🔓 Woz · 📏 Percy
+
+Systems & Data Pack:
+🌐 Jeff · ⚙️ Sanjay · 🗄️ Stonebraker · 🔀 Reynold · 💥 Kyle
+
+Startup Pack:
+👑 Richard (CEO) · 📢 Monica (CMO) · 💰 Jared (CFO)
 ```
 
 ## Step 2 — Research Grounding (Oracle)
@@ -65,6 +83,28 @@ No criticism in this round — pure idea generation.
 | **Aegis** | Security | Attack surface, compliance, data protection |
 | **Stratos** | Cloud | Infrastructure needs, cost, cloud-native patterns |
 | **Phoenix** | DevOps | CI/CD impact, observability, deployment |
+| **Trinity** | Security Arch | ACL design, threat model, privilege escalation |
+| **Otis** | Platform | Build systems, deploy, framework detection |
+| **Krishna** | Overseer | Cross-agent gaps, 100x solutions, convergence |
+| **Tao** | Math | Proof of correctness, complexity bounds |
+| **Knuth** | Algorithms | Exact running time, data structure selection |
+| **Ramanujan** | Intuition | Radical shortcuts, cross-domain insights |
+| **Hardy** | Rigor | Proof validation, counter-examples |
+| **Pearl** | Causal | Causation vs correlation, confounders |
+| **Gelman** | Bayesian | Model critique, uncertainty, calibration |
+| **Andrej** | AI/Deep Learning | Neural architectures, training pipelines |
+| **Yann** | AI Science | World models, self-supervised learning |
+| **Scott** | Edge AI | On-device models, quantization, privacy |
+| **Woz** | Open Source AI | Reproducibility, open-weight models |
+| **Percy** | AI Eval | Benchmarking, bias/fairness, calibration |
+| **Jeff** | Distributed | Scale to 1000x, partitioning, consistency |
+| **Sanjay** | Systems | Memory layout, cache lines, lock contention |
+| **Stonebraker** | DB Arch | Workload-specific DB, schema design |
+| **Reynold** | Data Eng | Data pipelines, query optimization, ETL |
+| **Kyle** | DB Testing | Jepsen, consistency under failure |
+| **Richard** | Startup CEO | Product-market fit, vision, OKRs |
+| **Monica** | Startup CMO | Growth loops, GTM, user personas |
+| **Jared** | Startup CFO | Unit economics, runway, pricing |
 
 Present all ideas in a numbered list.
 

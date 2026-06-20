@@ -352,14 +352,15 @@ Read: squad-method/fragments/agent-orchestrator.md
 
 The orchestrator defines:
 - **Topological dispatch order** — agents run in dependency order, not alphabetical
-- **Three dispatch paths** — Path A (native subagent tool, true parallel), Path B (CLI subprocess, true parallel), Path C (sequential simulation for Windsurf/Cursor/Codex/Kiro/Gemini/Antigravity, no external calls)
+- **Three dispatch paths** — Path A (native subagent tool, true parallel), Path B (CLI subprocess / Devin API, true parallel), Path C (sequential simulation for Cursor/Kiro/Gemini/Antigravity, no external calls)
 - **Deterministic completion** — every agent must report findings before next wave
 - **Conflict resolution** — when agents disagree, escalate to user (not majority vote)
 
 **Path auto-detection (7 IDEs):**
 - Claude Code: `Agent()` tool exists → **Path A** (true parallel)
 - Codex: `codex` CLI on PATH → **Path B** (CLI subprocess parallel)
-- Windsurf / Cursor / Kiro / Gemini / Antigravity: → **Path C** (sequential simulation)
+- Devin: `DEVIN_API_KEY` set → **Path B** (API-based parallel)
+- Cursor / Kiro / Gemini / Antigravity: → **Path C** (sequential simulation)
 
 Path C runs every agent in the same conversation thread, one-at-a-time, preserving all contracts (R3 schemas, R4 manifests, R8 anti-skip, R9 gates). No external API calls required.
 
@@ -621,7 +622,7 @@ Never skip tracking. Never overwrite the file.
 ## Hook Enforcement (6 IDEs without automatic hooks)
 
 In Claude Code, hooks fire automatically via `settings.json` — the LLM cannot
-bypass them. In all other supported IDEs (Windsurf, Cursor, Codex, Kiro,
+bypass them. In all other supported IDEs (Devin, Cursor, Codex, Kiro,
 Gemini, Antigravity), every skill MUST run the hook script as its FIRST action:
 
 ```bash
@@ -655,7 +656,7 @@ See `squad-method/fragments/safety-guards.md` for the full guard list.
 - Never skip remaining phases — if progress doc shows pending phases, complete them
 - Never answer tangent questions without checkpointing first — save state, then answer
 - Never trust in-context memory over the progress doc — the doc survives summarization, your memory doesn't
-- Never skip hook checks — run `hooks.sh all` at skill start (Windsurf/Cursor/Codex/Kiro/Gemini/Antigravity)
+- Never skip hook checks — run `hooks.sh all` at skill start (Devin/Cursor/Codex/Kiro/Gemini/Antigravity)
 - Never modify repo `.gitignore` with SQUAD artifacts — use `.git/info/exclude` (local-only, never committed)
 - Never ignore active session files — if `session-*` exists in progress/, re-read it and respond in that skill's mode
 - Never drop agent personas mid-session — if session file says ACTIVE, every response uses agent format

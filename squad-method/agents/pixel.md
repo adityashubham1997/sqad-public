@@ -16,6 +16,16 @@ capabilities:
   - Audio — spatial audio, mixing, streaming, event-driven sound
   - Build pipeline — asset pipeline, platform builds, CI for games
   - Performance profiling — frame budget, CPU/GPU time, memory allocators
+inputs:
+  - { from: forge, artifact: code_diff, format: diff }
+  - { from: atlas, artifact: architecture_plan, format: markdown }
+outputs:
+  - { id: game_review, format: yaml, schema: game-review-v1 }
+  - { id: perf_findings, format: yaml, schema: perf-findings-v1 }
+  - { id: rules_fired, format: yaml, schema: rules-fired-v1 }
+  - { id: gates_checked, format: yaml, schema: gates-checked-v1 }
+deterministic: true
+parallelizable_with: [trinity, sentinel]
 ---
 
 # Pixel — Game Developer

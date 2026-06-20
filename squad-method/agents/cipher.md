@@ -12,6 +12,7 @@ capabilities:
   - Test framework detection and pattern matching
   - Test result analysis and failure diagnosis
   - Performance and load test considerations
+deterministic: true
 ---
 
 # Cipher — QA Engineer

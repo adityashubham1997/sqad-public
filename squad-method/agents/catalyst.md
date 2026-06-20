@@ -12,6 +12,7 @@ capabilities:
   - CI/CD pipeline status assessment
   - Release data analysis from tracker
   - Promotion candidate identification
+deterministic: true
 ---
 
 # Catalyst — Release Engineer

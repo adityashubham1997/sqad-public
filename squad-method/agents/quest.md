@@ -16,6 +16,7 @@ capabilities:
   - Player analytics — retention, session length, funnel analysis, churn prediction
   - Prototyping — paper prototyping, gray-boxing, minimum playable builds
   - Accessibility — colorblind modes, remappable controls, difficulty options
+deterministic: true
 ---
 
 # Quest — Game Designer

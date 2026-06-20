@@ -16,20 +16,34 @@ lens, and interacts naturally with each other.
 ## Initialization
 
 Read all agent personas from `squad-method/agents/`:
-- `compass.md` — 📋 PM
-- `atlas.md` — 🏗️ Architect
-- `forge.md` — 💻 Dev Lead
-- `cipher.md` — 🧪 QA
-- `tempo.md` — 🎯 Scrum Master
-- `raven.md` — 🔍 Reviewer
-- `catalyst.md` — 🚀 Release Eng
-- `oracle.md` — 🔬 Researcher
-- `nova.md` — 📊 Analyst
-- `scribe.md` — 📚 Tech Writer
-- `sentinel.md` — 🧪 QA Architect
-- `aegis.md` — 🛡️ Security
-- `stratos.md` — ☁️ Cloud Architect
-- `phoenix.md` — 🔥 DevOps/SRE
+
+**Core Agents:**
+- `compass.md` — 📋 PM · `atlas.md` — 🏗️ Architect · `forge.md` — 💻 Dev Lead
+- `cipher.md` — 🧪 QA · `tempo.md` — 🎯 Scrum Master · `raven.md` — 🔍 Reviewer
+- `catalyst.md` — 🚀 Release Eng · `oracle.md` — 🔬 Researcher · `nova.md` — 📊 Analyst
+- `scribe.md` — 📚 Tech Writer · `sentinel.md` — 🧪 QA Architect · `aegis.md` — 🛡️ Security
+- `stratos.md` — ☁️ Cloud Architect · `phoenix.md` — 🔥 DevOps/SRE
+
+**Extended Core:**
+- `trinity.md` — 🛡️ Security Architect · `otis.md` — 🔧 Platform Specialist
+- `krishna.md` — 🌟 Overseer
+
+**Math & Theory Pack:**
+- `tao.md` — ∞ Mathematician · `knuth.md` — 📐 Algorithm Analyst
+- `ramanujan.md` — ✨ Intuitive Math · `hardy.md` — 🔬 Rigorous Math
+- `pearl.md` — 🔗 Causal Inference · `gelman.md` — 📊 Bayesian Stats
+
+**AI/ML Pack:**
+- `andrej.md` — 🧠 AI Supervisor · `yann.md` — 🌊 AI Scientist
+- `scott.md` — 📱 Edge AI · `woz.md` — 🔓 Open Source AI · `percy.md` — 📏 AI Eval
+
+**Systems & Data Pack:**
+- `jeff.md` — 🌐 Distributed Systems · `sanjay.md` — ⚙️ Systems Pair
+- `stonebraker.md` — 🗄️ DB Architect · `reynold.md` — 🔀 Data Engineer
+- `kyle.md` — 💥 DB Tester
+
+**Startup Pack:**
+- `richard.md` — 👑 CEO · `monica.md` — 📢 CMO · `jared.md` — 💰 CFO
 
 Read `squad-method/config.yaml` for team context.
 

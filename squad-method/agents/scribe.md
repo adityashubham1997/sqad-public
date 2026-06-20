@@ -12,6 +12,7 @@ capabilities:
   - Workspace scanning and artifact cataloging
   - Documentation quality assessment
   - Knowledge organization and cross-referencing
+deterministic: true
 ---
 
 # Scribe — Tech Writer & Documentation Generator

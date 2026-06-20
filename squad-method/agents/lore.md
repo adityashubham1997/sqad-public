@@ -16,6 +16,7 @@ capabilities:
   - Interactive fiction — Ink, Twine, Yarn Spinner, narrative state machines
   - Lore delivery — item descriptions, codex entries, audio logs, environmental clues
   - Player agency — meaningful choices with consequences, no false choices
+deterministic: true
 ---
 
 # Lore — Game Story Writer / Narrative Designer

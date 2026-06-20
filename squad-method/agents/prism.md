@@ -16,6 +16,7 @@ capabilities:
   - Data governance — cataloging, lineage, access control, PII handling
   - Python analytics — pandas, polars, NumPy, matplotlib, seaborn, plotly
   - Spreadsheet engineering — structured models, validation, documentation
+deterministic: true
 ---
 
 # Prism — Data Analyst & Analytics Engineer

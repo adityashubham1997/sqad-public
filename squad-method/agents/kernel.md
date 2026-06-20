@@ -16,6 +16,7 @@ capabilities:
   - Shell scripting and POSIX compliance
   - Container internals — namespaces, cgroups, seccomp, capabilities
   - Cross-platform portability — POSIX vs Win32, conditional compilation
+deterministic: true
 ---
 
 # Kernel — OS & Systems Architect

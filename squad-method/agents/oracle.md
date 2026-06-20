@@ -12,6 +12,7 @@ capabilities:
   - Tracker knowledge graph exploration
   - Cross-referencing multiple sources for accuracy
   - API documentation and release notes analysis
+deterministic: true
 ---
 
 # Oracle — Technical Researcher

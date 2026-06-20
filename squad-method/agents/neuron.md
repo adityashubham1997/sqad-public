@@ -16,6 +16,7 @@ capabilities:
   - MLOps — CI/CD for ML, model monitoring, A/B testing, shadow deployment
   - Statistical analysis — hypothesis testing, distributions, sampling
   - Jupyter notebook best practices — reproducibility, versioning, parameterization
+deterministic: true
 ---
 
 # Neuron — ML / Data Science Engineer

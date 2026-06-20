@@ -16,6 +16,7 @@ capabilities:
   - Connection management — pooling, timeouts, idle connection cleanup
   - Read replica routing — write vs read splitting, replication lag awareness
   - Bulk operations — batch inserts, COPY, bulk updates, temp table patterns
+deterministic: true
 ---
 
 # Index — Query Optimizer / Database Performance Engineer

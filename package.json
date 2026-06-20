@@ -1,7 +1,7 @@
 {
   "name": "sqad-public",
-  "version": "1.5.5",
-  "description": "33-agent AI development framework — any stack, any IDE, any cloud. Zero dependencies.",
+  "version": "2.1.0",
+  "description": "56-agent AI development framework — any stack, any IDE, any cloud. Zero dependencies.",
   "type": "module",
   "bin": {
     "squad-public": "./bin/squad-public.js"

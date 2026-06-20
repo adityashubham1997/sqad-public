@@ -2,71 +2,113 @@
 
 # SQUAD
 
-### AI Development Framework — Multi-Agent, Multi-Model, Multi-IDE
+### 56 Specialist AI Agents. 5 Model Providers. 8 IDEs. Zero Dependencies.
 
 [![npm](https://img.shields.io/npm/v/sqad-public.svg)](https://www.npmjs.com/package/sqad-public)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
-[![Tests](https://img.shields.io/badge/Tests-156%20passing-brightgreen.svg)](#testing)
+[![Tests](https://img.shields.io/badge/Tests-202%20passing-brightgreen.svg)](#testing)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-0-success.svg)](#security--privacy)
 [![IDEs](https://img.shields.io/badge/IDEs-8%20supported-blueviolet.svg)](#supported-ides)
-[![Skills](https://img.shields.io/badge/Skills-33%20commands-orange.svg)](#skills-slash-commands)
+[![Skills](https://img.shields.io/badge/Skills-34%20commands-orange.svg)](#skills-slash-commands)
+[![Agents](https://img.shields.io/badge/Agents-56-ff69b4.svg)](#agents)
+
+*The AI dev tool that replaces "one model, one chat" with a full engineering team.*
 
 </div>
 
 ---
 
-## Why SQUAD?
+## The Problem
 
-Every AI coding assistant uses the same approach: one model, one chat window, trying to be an architect, security expert, test engineer, and product manager simultaneously.
+Every AI coding tool today works the same way: **one model, one chat window**, trying to be architect, security expert, test engineer, code reviewer, and product manager — all at once.
 
-SQUAD does something different. It gives you a **team of specialists** that each look at your code from a different angle — the way a real senior engineering team would.
+The result? Generic feedback. Missed edge cases. No blast radius awareness. No real adversarial review.
 
-### The 4 things no other AI dev tool does
+## The SQUAD Solution
 
-**1. Pre-computed blast radius, not grepping**
-When you ask "what breaks if I change this file?", every other AI tool runs grep across your codebase. SQUAD reads a pre-built knowledge graph and answers in milliseconds — with 2-hop dependency tracing, god node detection, and test coverage gaps already computed. That's 80% fewer exploration tokens per workflow.
+SQUAD gives you a **team of 56 specialists** — each with a distinct lens, a specific job, and the inability to say "looks good" when it shouldn't.
 
-**2. Specialists with real lenses, not personas**
-Raven actively tries to break your code (adversarial). Sentinel asks "are you testing the right thing?" (QA architecture). Atlas flags "this touches 12 reverse dependencies" before you write a line (blast radius). Each agent has a specific job — none says "looks good" when it shouldn't.
+```mermaid
+graph LR
+    YOU[👤 You] -->|"/dev-task"| SQUAD{SQUAD<br/>Orchestrator}
+    SQUAD --> N[📊 Nova<br/>Requirements]
+    SQUAD --> A[🏗️ Atlas<br/>Architecture]
+    SQUAD --> F[💻 Forge<br/>Code]
+    SQUAD --> C[🧪 Cipher<br/>Tests]
+    SQUAD --> R[🔍 Raven<br/>Adversarial]
+    SQUAD --> S[🛡️ Aegis<br/>Security]
+    N & A & F & C & R & S -->|"Structured<br/>outputs"| V[🔥 Phoenix<br/>Verdict]
+    V -->|"User Gate"| YOU
 
-**3. You stay in control at every phase**
-Every skill pauses at user gates. Phase 1 finishes → you see the analysis → you approve before Phase 2 starts. You can redirect, correct, or abort at any point. You're the decision-maker; SQUAD is the team.
+    style SQUAD fill:#4a90d9,color:#fff
+    style YOU fill:#2ecc71,color:#fff
+    style V fill:#e74c3c,color:#fff
+```
 
-**4. Quant-grade financial analysis alongside your dev work**
-Type `/financial-analysis AAPL` and get: technical analysis (Charts agent — multi-timeframe, RSI, options flow), fundamental forensics (Ledger — Beneish M-Score, accrual anomaly, footnote forensics), quantitative risk (Quant — EVT tail risk, Kelly criterion, ruin probability), and research (Sage + Herald — industry structure, insider signals, Granger causality). Works with free data (yfinance) or your Bloomberg/Reuters subscription. Every claim verified through a 4-gate protocol.
+### What makes SQUAD different
+
+| Feature | Other AI Tools | SQUAD |
+|---|---|---|
+| **Architecture awareness** | Grep the codebase | Pre-built Knowledge Graph — 2-hop blast radius in milliseconds |
+| **Code review** | One model says "looks good" | 5 parallel agents: adversarial + security + architecture + QA + code quality |
+| **Model selection** | Whatever the IDE uses | Auto-routes each agent to the right model (Opus for reasoning, Flash for docs) |
+| **Execution** | Sequential chat | True parallel agent dispatch (up to 5 concurrent on Claude Code) |
+| **Safety** | Trust the output | Phase gates — you approve before each phase advances |
+| **Learning** | None | `/evolve` — analyzes execution history, proposes evidence-backed skill improvements |
+| **Financial analysis** | N/A | 7 quant-grade agents: Beneish M-Score, Kelly criterion, EVT tail risk |
+| **IDE lock-in** | One IDE | Same 56 agents across 8 IDEs — Claude Code, Codex, Cursor, Windsurf, Kiro, Gemini, Devin, Antigravity |
 
 ---
 
-### What it looks like
+## See It In Action
+
+### Software Development — `/dev-task`
 
 ```
 You:    "/dev-task — implement JWT authentication"
 
-SQUAD:  Phase 1  → Nova finds 2 missing acceptance criteria in the story
-        Phase 2  → Atlas flags rate-limiting gap, shows KG blast radius (8 files)
-        Phase 3  → Forge writes code matching your patterns, not boilerplate
-               → Phase 1.5: characterization tests written before any code
-        Phase 4  → Cipher generates tests following your test framework (Jest/pytest/etc)
-        Phase 5  → Raven + Sentinel: 0 critical, 1 major (null check missing on line 47)
-        Phase 6  → PR created, tracking logged
-        You approve before each phase. You can correct any finding before it proceeds.
+Phase 1  → Nova finds 2 missing acceptance criteria in the story
+         → Atlas flags rate-limiting gap, shows KG blast radius (8 files)
+    ⏸ USER GATE — you review analysis, approve or correct
+
+Phase 2  → Forge writes code matching YOUR patterns (not boilerplate)
+         → Phase 1.5: characterization tests on current behavior BEFORE any changes
+    ⏸ USER GATE
+
+Phase 3  → Cipher generates tests following your test framework (Jest/pytest/etc)
+    ⏸ USER GATE
+
+Phase 4  → 5 reviewers run in parallel:
+           Raven (adversarial) + Atlas (architecture) + Sentinel (QA) + Forge (code) + Cipher (tests)
+         → Phoenix synthesizes: 0 critical, 1 major (null check missing on line 47)
+    ⏸ USER GATE
+
+Phase 5  → PR created, tracking logged
 ```
+
+### Financial Analysis — `/financial-analysis`
 
 ```
 You:    "/financial-analysis RELIANCE.NS"
 
-SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
-               → Provides Python snippet if needed, waits for you to paste output
-        Phase 1  → Charts: RSI 61, above 200 SMA, bullish engulfing on daily
-                   Options P/C ratio 0.72 (bullish lean), IV squeeze building
-        Phase 2  → Ledger: PE 24x vs sector 28x (undervalued), FCF growing 18% YoY
-                   Beneish M-Score -2.4 (safe), 3/25 forensic screens triggered
-        Phase 3  → Quant: Sharpe 0.84 (good), Kelly 11%, P(ruin|1yr) 2.3%
-                   EVT tail risk: normal understates by 3.1x
-        Phase 4  → Sage: O&G-to-Jio pivot — reinvestment runway ~7 years at current ROIC
-        Phase 5  → Prism: Devil's advocate — regulatory risk on Jio is unpriced [VERIFIED-3]
-        Phase 6  → 3 options: Buy now / Wait for pullback / Avoid (Kelly fractions for each)
+Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
+         → Provides Python snippet if needed, waits for you to paste output
+
+Phase 1  → Charts: RSI 61, above 200 SMA, bullish engulfing on daily
+           Options P/C ratio 0.72, IV squeeze building
+
+Phase 2  → Ledger: PE 24x vs sector 28x, FCF +18% YoY
+           Beneish M-Score -2.4 (safe), 3/25 forensic screens triggered
+
+Phase 3  → Quant: Sharpe 0.84, Kelly 11%, P(ruin|1yr) 2.3%
+           EVT tail risk: normal understates by 3.1x
+
+Phase 4  → Sage: Reinvestment runway ~7 years at current ROIC
+
+Phase 5  → Prism: Devil's advocate — regulatory risk is unpriced [VERIFIED-3]
+
+Phase 6  → 3 options: Buy / Wait / Avoid — each with Kelly fraction + CVaR
 ```
 
 **Works offline. Zero npm dependencies. Same agents, config, and skills across 8 IDEs.**
@@ -75,66 +117,83 @@ SQUAD:  Phase 0  → Asks what data you have (yfinance/Bloomberg/none)
 
 ## Table of Contents
 
-**Getting started**
-- [Installation](#installation)
-- [Setup](#setup)
-- [Quick Start](#quick-start)
-- [All 33 Skills](#skills-slash-commands)
-- [All 33 Agents](#agents)
+### Part I — Getting Started
+1. [Installation](#installation)
+2. [Setup](#setup)
+3. [Quick Start](#quick-start)
 
-**Going deeper**
-- [How SQUAD Works — The 3 Orchestrators](#how-squad-works--the-orchestrators)
-- [Knowledge Graph](#knowledge-graph)
-- [Financial & Consulting Analysis Suite](#financial--consulting-analysis-suite)
-- [Skill Self-Evolution — /evolve](#skill-self-evolution--evolve)
-- [Token Compression Engine](#token-compression-engine)
-- [How SQUAD Thinks — Internal Architecture](#how-squad-thinks--internal-architecture)
-- [Configuration Reference](#configuration-reference)
+### Part II — Understanding SQUAD
+4. [Core Concepts](#core-concepts)
+5. [The Grounding Waterfall](#the-grounding-waterfall)
+6. [How Agents Are Orchestrated](#how-agents-are-orchestrated)
+7. [Multi-Model Routing](#multi-model-routing)
+8. [Parallel Execution & Dispatch Paths](#parallel-execution--dispatch-paths)
 
-**Reference**
-- [Supported IDEs](#supported-ides)
-- [Supported Model Providers](#supported-model-providers)
-- [Setup Flow — Two Paths](#setup-flow--two-paths)
-- [Adding a New Language Model](#adding-support-for-a-new-language-model)
-- [Adding a New IDE](#adding-support-for-a-new-ide)
-- [Security & Privacy](#security--privacy)
-- [Testing](#testing)
-- [FAQ](#faq)
-- [Contributing](#contributing)
-- [Credits & Acknowledgments](#credits--acknowledgments)
+### Part III — All 56 Agents
+9. [Agent Packs Overview](#agent-packs-overview)
+10. [Core Agents (14)](#core-agents-14)
+11. [Extended Core (3)](#extended-core-3)
+12. [Math & Theory Pack (6)](#math--theory-pack-6)
+13. [AI/ML Pack (5)](#aiml-pack-5)
+14. [Systems & Data Pack (5)](#systems--data-pack-5)
+15. [Startup Pack (3)](#startup-pack-3)
+16. [Financial Pack (7)](#financial-pack-7)
+17. [Specialized Agents (13)](#specialized-agents-13)
+
+### Part IV — All 34 Skills
+18. [Skills (Slash Commands)](#skills-slash-commands)
+
+### Part V — Deep Dives
+19. [Supported IDEs](#supported-ides)
+20. [Supported Model Providers](#supported-model-providers)
+21. [Knowledge Graph](#knowledge-graph)
+22. [Financial & Consulting Analysis Suite](#financial--consulting-analysis-suite)
+23. [Skill Self-Evolution — /evolve](#skill-self-evolution--evolve)
+24. [Token Compression Engine](#token-compression-engine)
+
+### Part VI — Reference
+25. [Configuration Reference](#configuration-reference)
+26. [Project Structure](#project-structure)
+27. [Adding a New IDE](#adding-support-for-a-new-ide)
+28. [Adding a New Model Provider](#adding-support-for-a-new-language-model)
+29. [Security & Privacy](#security--privacy)
+30. [Testing](#testing)
+31. [FAQ](#faq)
+32. [Contributing](#contributing)
+33. [Credits & Acknowledgments](#credits--acknowledgments)
 
 ---
 
 ## Installation
 
-### Option A — npm (recommended)
-
 ```bash
 npx sqad-public init
 ```
 
-With specific IDEs:
+That's it. One command. ~10 seconds.
 
-```bash
-npx sqad-public init --ide claude,cursor,windsurf
+With specific IDEs: `npx sqad-public init --ide claude,cursor,windsurf`
+
+Without npm: `curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash`
+
+**Requirements:** Node.js >= 18.
+
+**What `init` does:**
+
+```mermaid
+flowchart LR
+    A[1. Sync<br/>squad-method/] --> B[2. Detect Stack<br/>15 langs · 40+ frameworks]
+    B --> C[3. Detect Cloud<br/>AWS · GCP · Azure · IaC]
+    C --> D[4. Build<br/>Knowledge Graph]
+    D --> E[5. Deploy Skills<br/>to 8 IDEs]
+    E --> F[6. Generate<br/>config.yaml]
+
+    style A fill:#3498db,color:#fff
+    style D fill:#e74c3c,color:#fff
+    style F fill:#2ecc71,color:#fff
 ```
 
-### Option B — curl (no npm required)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
-```
-
-**Requirements:** Node.js >= 18. Git required for the curl method.
-
-**What `init` does in ~10 seconds:**
-1. Copies `squad-method/` to your workspace (agents, skills, fragments, tools)
-2. Detects your tech stack — 15 languages, 40+ frameworks, cloud, CI/CD, IaC, databases, API specs
-3. Builds knowledge graphs for each git repo
-4. Deploys 33 skills to your installed IDEs
-5. Generates `config.yaml` with everything detected
-
-On subsequent runs, `init` **syncs** new agents, skills, tools, and fragments from the package while preserving your `config.yaml` and `output/` directory.
+On subsequent runs, `init` **syncs** new agents/skills/tools while preserving your `config.yaml` and `output/`.
 
 ---
 
@@ -142,40 +201,30 @@ On subsequent runs, `init` **syncs** new agents, skills, tools, and fragments fr
 
 After installation, run `/squad-setup` inside your IDE:
 
-```
-/squad-setup
-```
+| # | Question | Required | Example |
+|---|---|---|---|
+| 1 | Your name | ✅ | "Aditya" |
+| 2 | Your role | ✅ | "Senior Engineer" |
+| 3 | Team name | ✅ | "Platform" |
+| 4 | Company name | | "Acme Corp" |
+| 5 | Industry / domain | | "fintech" |
+| 6 | Project name | | "payments-api" |
+| 7 | Project description | | "REST API for payment processing" |
+| 8 | Project type | | "api" |
+| 9 | Sprint board URL | | Auto-detects Jira/Linear/GitHub/Shortcut/Notion |
 
-This asks **3 required + 6 optional questions** that can't be auto-detected:
-
-| # | Question | Required |
-|---|---|---|
-| 1 | Your name | ✅ |
-| 2 | Your role | ✅ |
-| 3 | Team name | ✅ |
-| 4 | Company name | |
-| 5 | Industry / domain | |
-| 6 | Project name | |
-| 7 | Project description | |
-| 8 | Project type | |
-| 9 | Sprint board URL → auto-detects Jira/Linear/GitHub/Shortcut/Notion | |
-
-Setup also auto-detects your git config, scans repos, runs `/refresh` to build context files, and shows a **config completeness score** at the end.
-
-> Without `/squad-setup`, SQUAD still works — tech detection ran at install. But agents won't know your name, team, or project context.
+Shows a **config completeness score** at the end. Without `/squad-setup`, SQUAD still works — tech detection ran at install. But agents won't know your name, team, or project context.
 
 ---
 
 ## Quick Start
 
-After setup, try these in your IDE:
-
 | Command | What it does |
 |---|---|
 | `/dev-task` | Full 6-phase implementation: analyse → spec → code → test → review → PR |
 | `/review-code` | Pre-commit review by Forge + Raven + Sentinel |
-| `/brainstorm` | Multi-agent ideation session |
-| `/financial-analysis` | Quant-grade forensic financial analysis |
+| `/brainstorm` | Multi-agent ideation with all 56 agents |
+| `/financial-analysis` | Quant-grade forensic financial analysis by ticker |
 | `/refresh` | Scan workspace, rebuild knowledge graphs and context |
 | `/health` | Agent effectiveness report with skill utility scores |
 
@@ -183,193 +232,465 @@ Every skill pauses at **user gates** — you approve before each phase advances.
 
 ---
 
-## Skills (Slash Commands)
+# Part II — Understanding SQUAD
 
-All 33 commands available after install:
+## Core Concepts
 
-| Skill | Agents | Description |
-|---|---|---|
-| `/dev-task` | Nova, Atlas, Forge, Cipher, Raven, Sentinel | Full 6-phase implementation pipeline with user gates |
-| `/review-code` | Forge, Raven, Sentinel | Quick pre-commit review of uncommitted changes |
-| `/review-pr` | Raven, Atlas, Sentinel, Forge, Cipher, Catalyst | Full pull request code review |
-| `/review-story` | Raven, Atlas, Sentinel, Forge, Cipher | Validate implementation against acceptance criteria |
-| `/qa-task` | Cipher, Sentinel, Raven | End-to-end QA workflow: dependencies → test plan → tests |
-| `/test-story` | Cipher, Sentinel | Story-aware test generation following existing patterns |
-| `/test-repo` | Cipher | Run test suite, analyze results, report coverage |
-| `/test-project` | Cipher | Cross-repo test health report |
-| `/dev-analyst` | Nova, Atlas, Oracle, Forge | Deep story analysis: feasibility, architecture, effort |
-| `/brainstorm` | All agents | Multi-perspective brainstorming session |
-| `/assemble` | All agents | Full group discussion — architecture debates, post-mortems |
-| `/create-prd` | Compass, Nova, Atlas, Oracle | Multi-agent product requirements document |
-| `/create-story` | Compass, Nova | Well-formed story with GIVEN/WHEN/THEN acceptance criteria |
-| `/financial-analysis` | Charts, Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | By ticker. 4 streams: Technical + Fundamental + Quantitative + Research. Adapts to your data subscriptions. |
-| `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Structural market and industry deep-dive |
-| `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic problem architecture with decision science |
-| `/evolve` | — | Skill self-evolution: analyze tracking → propose edits → branch |
-| `/health` | — | Agent effectiveness report, skill utility scores, evolution candidates |
-| `/refresh` | — | Scan workspace, rebuild KG, regenerate context files |
-| `/refresh-git` | — | Enrich context from PR review history and git patterns |
-| `/setup` | Tempo | Configure user, team, company, project, tracker |
-| `/standup` | Tempo | Auto-generate daily standup from git + tracker |
-| `/retro` | Tempo, Compass, Scribe | Sprint retrospective with tracker data |
-| `/current-sprint` | Tempo | Sprint status at a glance |
-| `/ai-ideate` | — | Design agentic workflow and AI automation ideas |
-| `/ai-workflow-audit` | — | Audit existing AI/LLM integrations in the codebase |
-| `/data-audit` | Neuron, Prism | ML pipeline and data quality audit |
-| `/db-audit` | Dynamo | Database schema, query performance, migration safety |
-| `/infra-audit` | Stratos, Aegis | Infrastructure observability and monitoring audit |
-| `/os-audit` | Kernel | OS-level code, process management, systems patterns |
-| `/game-review` | Pixel, Quest | Game engine code: performance, networking, design |
-| `/git-learn` | Scribe | Extract learnings from PR history, enrich CONTEXT.md |
-| `/product-researcher` | Oracle, Compass | Deep product research across tracker, web, codebase |
+Before diving into architecture, here's how SQUAD's pieces fit together:
+
+```mermaid
+graph TB
+    subgraph "What You See"
+        SKILL["🎯 Skill<br/>(e.g. /dev-task, /brainstorm)"]
+        GATE["⏸ User Gate<br/>You approve each phase"]
+    end
+
+    subgraph "What Runs Under the Hood"
+        AO["Agent Orchestrator<br/>WHO runs? What order?"]
+        MR["Model Router<br/>WHICH model per agent?"]
+        DP["Dispatch Engine<br/>Parallel or sequential?"]
+    end
+
+    subgraph "What Agents Read"
+        KG["📊 Knowledge Graph<br/>Blast radius · God nodes · Coverage"]
+        CTX["📝 Context Files<br/>CONTEXT.md · DEEP-CONTEXT.md"]
+        FRAG["📦 Fragments<br/>Stack · Cloud · Rubric"]
+    end
+
+    subgraph "What Improves Over Time"
+        TRK["📈 tracking.jsonl<br/>Every skill run logged"]
+        EVO["🧬 /evolve<br/>Self-improving skills"]
+    end
+
+    SKILL --> AO
+    AO --> MR
+    MR --> DP
+    DP -->|"runs"| AGENTS["56 Agents"]
+    AGENTS -->|"read"| KG & CTX & FRAG
+    AGENTS -->|"produce"| OUTPUT["Structured Output"]
+    OUTPUT --> GATE
+    GATE -->|"approved"| NEXT["Next Phase"]
+    OUTPUT -->|"logged to"| TRK
+    TRK -->|"analyzed by"| EVO
+
+    style SKILL fill:#4a90d9,color:#fff
+    style GATE fill:#2ecc71,color:#fff
+    style KG fill:#e74c3c,color:#fff
+    style EVO fill:#9b59b6,color:#fff
+```
+
+**Key principles:**
+- **Agents are lazy-loaded** — only agents needed for the current skill enter context
+- **Fragments are conditional** — Python projects load Python rubric; AWS projects load AWS fragments
+- **Everything is deterministic** — same inputs → same agent dispatch → same outputs (content-hashed)
+- **Nothing phones home** — zero network calls, zero telemetry, zero dependencies
 
 ---
 
-## Agents
+## The Grounding Waterfall
 
-SQUAD ships with **33 specialized agents** across four domains:
+Before any agent does work, SQUAD follows an **evidence-first protocol** — a strict hierarchy of what to read, in what order.
 
-### Dev Agents (26)
+```mermaid
+graph TD
+    L0["Level 0 — Identity<br/>CONTEXT.md · CLAUDE.md<br/>~300 tokens · Always loaded"]
+    L0 --> L0B["Level 0b — Architecture<br/>DEEP-CONTEXT.md<br/>KG_REPORT.md"]
+    L0B --> L1A["Level 1a — Knowledge Graph<br/>graph.json<br/>Blast radius · God nodes · Dependencies<br/>⚡ One read, not 10 greps"]
+    L1A --> L1B["Level 1b — Code Search<br/>grep / ripgrep<br/>Only if KG doesn't answer the question"]
+    L1B --> L2["Level 2 — Fragments<br/>Stack · Cloud · Rubric · Tracker<br/>Conditional on config.yaml"]
+    L2 --> L3["Level 3 — Nothing Found?<br/>🛑 STOP<br/>Present assumptions · Await user approval"]
 
-| Agent | Role | Primary Skills |
-|---|---|---|
-| **Nova** | Requirements Analyst | AC validation, gap detection, story structuring |
-| **Atlas** | Solution Architect | Architecture impact, blast radius, threat modeling |
-| **Forge** | Senior Engineer | Code implementation, pattern compliance, self-review |
-| **Cipher** | Test Engineer | Test generation, coverage analysis, TDD |
-| **Sentinel** | QA Architect | Test strategy, risk-based planning, pyramid balance |
-| **Raven** | Adversarial Reviewer | Logic bugs, edge cases, second-order effects |
-| **Shadow** | Security Engineer | Cloud/code/infra security, pen-test mindset |
-| **Catalyst** | Performance Engineer | Perf review, N+1 detection, scalability |
-| **Oracle** | Research Analyst | Domain research, precedent analysis, codebase investigation |
-| **Scribe** | Technical Writer | Documentation, changelog, API docs |
-| **Compass** | Product Manager | Value framing, story validation, scope control |
-| **Tempo** | Delivery Manager | Sprint status, velocity, retrospectives |
-| **Phoenix** | Synthesis Agent | Consolidates multi-agent findings into verdicts |
-| **Aegis** | Security Architect | Threat modeling, encryption, auth patterns |
-| **Stratos** | Cloud Architect | Cloud infra, IaC, cost optimization |
-| **Kernel** | Systems Engineer | OS-level, memory, concurrency, C/C++ |
-| **Neuron** | ML Engineer | ML pipelines, model evaluation, data quality |
-| **Prism** | Data Analyst | SQL, analytics, data models, dashboard quality |
-| **Dynamo** | Database Engineer | Schema design, migrations, indexing strategy |
-| **Pixel** | Game Developer | Game engine code, render pipelines |
-| **Quest** | Game Designer | Mechanics, balance, progression |
-| **Lore** | Narrative Designer | Dialogue, world-building |
-| **Flux** | Creative Problem Solver | Alternative approaches, simplification |
-| **Titan** | Quality Gate | Strict standards enforcement |
-| **Spark** | AI Developer | AI/ML framework integration |
-| **Muse** | AI Researcher | Research synthesis, paper analysis |
+    style L0 fill:#3498db,color:#fff
+    style L1A fill:#e74c3c,color:#fff
+    style L3 fill:#f39c12,color:#fff
+```
 
-### Financial & Consulting Agents (7 new in v1.5)
+**Why this matters:** The KG answers "what depends on this file?" in one JSON read — what would otherwise take 3–10 grep commands. Pre-computing blast radius, test coverage, and god-node status saves **~80% of exploration tokens** per workflow.
 
-| Agent | Role | Specialty |
-|---|---|---|
-| **Charts** | Technical & Quantitative Market Analyst | Price action, RSI/MACD, options flow, volume analysis, Hurst exponent, volatility regimes |
-| **Ledger** | Forensic Quantitative Analyst | Beneish M-Score, Benford's Law, accrual anomaly, footnote forensics, DuPont decomposition |
-| **Herald** | Quantitative Intelligence Analyst | Granger causality signals, Shannon entropy, insider activity, Bayesian composite scoring |
-| **Sage** | Structural Quantitative Researcher | Industry CAS modeling, Bass diffusion, power law, causal inference, moat velocity |
-| **Maven** | Quantitative Strategic Architect | Bayesian decision theory, EVPI, Kelly criterion, pre-mortem (7+ paths), mechanism design |
-| **Quant** | Chief Risk & Mathematical Analyst | EVT tail risk, copulas, ruin probability, bootstrap CI, factor decomposition |
-| **Prism-Adversarial** | Adversarial Epistemics | 12-lens framework, superforecasting, Dutch Book coherence audit, falsifiability certification |
+### Context Digest (mandatory Phase 1 output)
 
-Agents are **lazy-loaded** — only agents needed for the current skill are loaded into context.
+Every `/dev-task` starts with a Context Digest — agents can't proceed until this is populated:
+
+```
+━━━ CONTEXT DIGEST ━━━
+
+Files Read:
+  ✅ CONTEXT.md (repo) — 200 lines
+  ✅ DEEP-CONTEXT.md — 180 lines
+  ✅ KG_REPORT.md — 45 nodes, 38 edges
+  ❌ complete-flow.md — not found
+
+Scope Analysis (from KG):
+  Files in change path: 4
+  God nodes in scope: none
+  Untested files in scope: lib/generate/ide-skills.js
+  Cross-community changes: NO
+
+Blast Radius: LOW — 3 reverse deps, 2 test files covering scope
+
+Assumptions:
+  [ASSUMPTION-1]: ... — CONFIDENCE: HIGH
+```
 
 ---
 
-## How SQUAD Works — The Orchestrators
+## How Agents Are Orchestrated
 
-SQUAD has three orchestration layers:
+The Agent Orchestrator builds a **dependency DAG**, identifies parallel layers, and enforces completion.
 
-```
-┌──────────────────────────────────────────────────────┐
-│                  SKILL (e.g. /dev-task)               │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│  ┌──────────────┐  ┌─────────────┐  ┌─────────────┐  │
-│  │    AGENT     │  │    MODEL    │  │  DISPATCH   │  │
-│  │ ORCHESTRATOR │──│ ORCHESTRATOR│──│ ORCHESTRATOR│  │
-│  │              │  │             │  │             │  │
-│  │  WHO runs?   │  │ WHICH model?│  │  HOW to run?│  │
-│  │  What order? │  │ What tier?  │  │  Parallel   │  │
-│  │  Dependencies│  │ What effort?│  │  or seq?    │  │
-│  └──────────────┘  └─────────────┘  └─────────────┘  │
-│                                                      │
-└──────────────────────────────────────────────────────┘
-```
+### Phase 1 — Analysis (DAG with fan-out)
 
-### 1. Agent Orchestrator
+```mermaid
+graph LR
+    O["🔬 Oracle<br/>Research + KG"]
+    F["💻 Forge<br/>Framework detect"]
+    A["🏗️ Atlas<br/>Architecture"]
 
-Decides WHICH agents run, in WHAT order, with WHAT dependencies.
+    O & F & A -->|"sync barrier"| N["📊 Nova<br/>Assemble requirements"]
+    N --> C["📋 Compass<br/>Frame value + summary"]
+    C -->|"⏸ User Gate"| YOU["👤 You approve"]
 
-Every skill declares its agents. The orchestrator:
-1. Builds a **dependency DAG** — some agents need other agents' output first
-2. Identifies **parallel layers** — agents with no dependencies run simultaneously
-3. Enforces **completion verification** — every declared agent MUST run (no skipping)
-4. Validates **output contracts** — each agent produces structured output
-
-```
-Review Phase example (5 agents):
-
-Layer 1 (parallel):   Raven + Atlas + Sentinel + Forge + Cipher
-                      ↓ sync barrier — all 5 must finish
-Layer 2 (sequential): Phoenix (synthesizes findings into verdict)
-                      ↓
-User Gate:            YOU approve/reject
+    style O fill:#f39c12,color:#fff
+    style F fill:#f39c12,color:#fff
+    style A fill:#f39c12,color:#fff
+    style N fill:#3498db,color:#fff
+    style YOU fill:#2ecc71,color:#fff
 ```
 
-Key rules — **R8: Anti-Skip** (never skip an agent to save time), **R9: Gate Ledger** (phases don't advance without gate approval), **R3: Output Contracts** (agent outputs are schema-validated).
+**Layer 1 (parallel):** Oracle + Forge + Atlas — no dependencies, fan out simultaneously.
+**Sync barrier:** Wait for all 3 to complete + validate their outputs.
+**Layer 2 (sequential):** Nova (consumes Layer 1 outputs) → Compass (consumes Nova's output).
 
-> Full protocol: `squad-method/fragments/agent-orchestrator.md`
+### Phase 5 — Multi-Agent Review (5 parallel reviewers)
+
+```mermaid
+graph LR
+    R["🔍 Raven<br/>Adversarial"]
+    A["🏗️ Atlas<br/>Architecture"]
+    S["🛡️ Sentinel<br/>Security"]
+    FG["💻 Forge<br/>Code quality"]
+    CI["🧪 Cipher<br/>Test coverage"]
+
+    R & A & S & FG & CI -->|"sync barrier"| P["🔥 Phoenix<br/>Synthesis verdict"]
+    P -->|"⏸ User Gate"| YOU["👤 You"]
+
+    style P fill:#e74c3c,color:#fff
+    style YOU fill:#2ecc71,color:#fff
+```
+
+### Guarantees (enforced by 30 hard rules)
+
+| Rule | What It Guarantees |
+|---|---|
+| **R3 — Output Contracts** | Every agent declares inputs/outputs in YAML. Schema-validated. |
+| **R4 — Determinism** | Inputs content-hashed (SHA-256). Same hash → same dispatch. Run manifest logged. |
+| **R6 — Completion Verification** | Expected agents vs. actual agents compared after every phase. Missing → re-dispatch. |
+| **R8 — Anti-Skip** | NEVER skip an agent to save time. Every declared agent MUST run. |
+| **R9 — Gate Ledger** | Phases don't advance without user approval. Gate status persisted to disk. |
 
 ---
 
-### 2. Model Orchestrator (Multi-Model Routing)
+## Multi-Model Routing
 
-Decides WHICH AI model each agent uses, from WHICH provider.
+SQUAD doesn't use one model for everything. Each agent is routed to the **right model for its task**.
 
+```mermaid
+graph TD
+    REQ["Incoming Agent Request"]
+    REQ --> WM{"Workspace Mode?"}
+    WM -->|"quality"| HEAVY["🔴 Heavy Tier<br/>Claude Opus 4 · o3"]
+    WM -->|"budget"| FAST["🟢 Fast Tier<br/>GPT-4o-mini · Flash"]
+    WM -->|"balanced"| PO{"Phase Override?"}
+    PO -->|"phase_6 (PR)"| FAST
+    PO -->|"no"| BR{"Blast Radius<br/>> threshold?"}
+    BR -->|"god node<br/>(degree > 20)"| HEAVY
+    BR -->|"normal"| AO{"Agent Override?"}
+    AO -->|"raven: heavy"| HEAVY
+    AO -->|"scribe: fast"| FAST
+    AO -->|"default"| DEFAULT["🟡 Default Tier<br/>Claude Sonnet 4 · GPT-4o"]
+
+    style HEAVY fill:#e74c3c,color:#fff
+    style DEFAULT fill:#f39c12,color:#fff
+    style FAST fill:#2ecc71,color:#fff
 ```
-Agent      Task                     Model Assigned      Why
-──────     ────────────────────     ──────────────      ───────────────────
-Raven      Adversarial review       Claude Opus 4       Heavy reasoning
-Oracle     Research + long docs     Gemini 2.5 Pro      1M context window
-Forge      Code generation          Claude Sonnet 4     Good balance
-Scribe     Format documentation     GPT-4o-mini         Fast structured output
-Sentinel   Security analysis        OpenAI o3           Deep reasoning
-```
 
-Routing priority chain:
+### Priority chain (highest wins)
 
 ```
 workspace_mode → phase_override → blast_radius → budget_cap → agent_override → default
 ```
 
-| Mode | Behavior |
-|---|---|
-| `balanced` (default) | Smart per-agent assignment |
-| `quality` | Everything gets heavy models |
-| `budget` | Everything gets fast models |
+### Default agent assignments
 
-**Auto-upgrade:** When an agent is about to modify a **god node** (KG degree > 20), the router automatically upgrades to the heavy tier.
+| Agent | Model Tier | Reason |
+|---|---|---|
+| **Raven** | 🔴 Heavy | Adversarial second-order reasoning |
+| **Atlas** | 🔴 Heavy | Architecture blast radius + threat modeling |
+| **Phoenix** | 🔴 Heavy | Complex multi-agent verdict merging |
+| **Forge** | 🟡 Default | Good balance of speed and quality |
+| **Scribe** | 🟢 Fast | Structural pattern matching, no deep reasoning |
+| All others | 🟡 Default | Unless overridden in config.yaml |
 
-> Implementation: `squad-method/tools/router/`
+**Auto-upgrade:** When an agent is about to modify a **god node** (KG degree > 20), the router automatically upgrades to the heavy tier — no configuration needed.
 
 ---
 
-### 3. Dispatch Orchestrator (Parallel Execution)
+## Parallel Execution & Dispatch Paths
 
-Decides HOW agents actually execute based on your IDE's capabilities:
+Not all IDEs can run agents in parallel. SQUAD auto-detects what's available and picks the optimal path:
 
-| Path | Mechanism | IDEs | True Parallelism |
+```mermaid
+graph TD
+    DETECT["Auto-detect IDE capabilities"]
+    DETECT --> AT{"Agent() tool<br/>available?"}
+    AT -->|"yes"| PA["✅ Path A — Native Subagent<br/>Claude Code<br/>Max 5 concurrent"]
+    AT -->|"no"| CLI{"CLI on PATH?<br/>(codex / claude)"}
+    CLI -->|"yes"| PB["✅ Path B — CLI Subprocess<br/>Codex · Kiro · Gemini · Devin<br/>Max 3 concurrent"]
+    CLI -->|"no"| PC["⚠️ Path C — Sequential<br/>Cursor · Windsurf · Antigravity<br/>1 at a time"]
+
+    style PA fill:#2ecc71,color:#fff
+    style PB fill:#3498db,color:#fff
+    style PC fill:#f39c12,color:#fff
+```
+
+| Path | True Parallelism | What's preserved | What differs |
 |---|---|---|---|
-| **A** | Native subagent `Agent()` tool | Claude Code | ✅ Max 5 |
-| **B** | CLI subprocess / API calls | Codex, Kiro, Gemini, Devin | ✅ Max 3 |
-| **C** | Sequential simulation | Windsurf, Cursor, Antigravity | ❌ One at a time |
+| **A** (Native) | ✅ Max 5 concurrent | All correctness guarantees | Best wall-clock |
+| **B** (CLI) | ✅ Max 3 concurrent | All correctness guarantees | Good wall-clock |
+| **C** (Sequential) | ❌ One at a time | All correctness guarantees | Slowest wall-clock |
 
-Path C delivers all the same correctness guarantees (dependency ordering, validation, anti-skip, gate enforcement) — only wall-clock time differs.
-
-> Implementation: `squad-method/tools/dispatch/`
+**Path C preserves:** dependency ordering, output contracts, run manifest, determinism hashing, anti-skip rules, gate ledger, completion verification. Only wall-clock time and per-agent model isolation differ.
 
 ---
+
+# Part III — All 56 Agents
+
+## Agent Packs Overview
+
+```mermaid
+pie title Agent Distribution (56 total)
+    "Core" : 14
+    "Extended Core" : 3
+    "Math & Theory" : 6
+    "AI/ML" : 5
+    "Systems & Data" : 5
+    "Startup" : 3
+    "Financial" : 7
+    "Specialized" : 13
+```
+
+| Pack | Count | Primary Use Case |
+|---|---|---|
+| **Core** | 14 | Software development lifecycle |
+| **Extended Core** | 3 | Security architecture, platform ops, cross-agent oversight |
+| **Math & Theory** | 6 | Algorithm correctness, complexity, proofs |
+| **AI/ML** | 5 | Neural networks, model evaluation, edge AI |
+| **Systems & Data** | 5 | Distributed systems, databases, data pipelines |
+| **Startup** | 3 | Founding strategy, GTM, financial modeling |
+| **Financial** | 7 | Market analysis, trading, investment |
+| **Specialized** | 13 | Games, security, performance, DevOps, data |
+
+All agents install together. Packs are logical groupings — agents are **lazy-loaded** per skill (only the agents a skill needs enter context).
+
+---
+
+## Core Agents (14)
+
+The foundation. These agents cover the entire software development lifecycle.
+
+| Agent | Icon | Role | What They Actually Do |
+|---|---|---|---|
+| **Nova** | 📊 | Requirements Analyst | Finds missing acceptance criteria, validates stories, identifies gaps BEFORE work begins |
+| **Atlas** | 🏗️ | Solution Architect | Architecture blast radius (from KG), threat modeling, technology trade-offs |
+| **Forge** | 💻 | Implementation Lead | Writes code matching YOUR patterns. Self-reviews before handing off. |
+| **Cipher** | 🧪 | QA Engineer | Test generation following your test framework. Coverage analysis. TDD enforcement. |
+| **Sentinel** | 🧪 | QA Architect | Test strategy, risk-based planning, test pyramid balance |
+| **Raven** | 🔍 | Adversarial Reviewer | Actively tries to break your code. Logic bugs, edge cases, second-order effects. |
+| **Catalyst** | 🚀 | Release Engineer | Release readiness, quality gate validation, compliance (L10N, security, a11y) |
+| **Oracle** | 🔬 | Technical Researcher | Domain research, precedent analysis, codebase investigation |
+| **Scribe** | 📚 | Technical Writer | Documentation, changelogs, API docs |
+| **Compass** | 📋 | Product Manager | Value framing, story validation, scope control |
+| **Tempo** | 🎯 | Scrum Master | Sprint status, velocity tracking, retrospectives |
+| **Aegis** | 🛡️ | Security Engineer | OWASP Top 10, auth/authz audit, secrets management, CVE scanning |
+| **Stratos** | ☁️ | Cloud Architect | Cloud infra design, IaC review, cost optimization |
+| **Phoenix** | 🔥 | DevOps / SRE | Synthesizes multi-agent findings into a single actionable verdict |
+
+## Extended Core (3)
+
+Agents that fill unique functional lanes not covered by the 14 core agents.
+
+| Agent | Icon | Role | What They Actually Do |
+|---|---|---|---|
+| **Trinity** | 🛡️ | Security Architect | Access control design, STRIDE threat modeling, privilege escalation analysis |
+| **Otis** | 🔧 | Platform Specialist | Build systems, deploy verification, framework detection |
+| **Krishna** | 🌟 | Omniscient Overseer | Cross-agent flaw detection, convergence forcing, identifies 100x solutions |
+
+## Math & Theory Pack (6)
+
+For algorithm correctness, complexity analysis, and mathematical proofs.
+
+| Agent | Icon | Role | Specialty |
+|---|---|---|---|
+| **Tao** | ∞ | Lead Mathematician | Proof construction, complexity bounds |
+| **Knuth** | 📐 | Algorithm Analyst | Exact running time, literate code analysis |
+| **Ramanujan** | ✨ | Intuitive Mathematician | Radical shortcuts, pattern recognition |
+| **Hardy** | 🔬 | Rigorous Mathematician | Proof validation, counter-example construction |
+| **Pearl** | 🔗 | Lead Statistician | Causal inference, Bayesian networks, DAGs |
+| **Gelman** | 📊 | Bayesian Statistician | Model critique, posterior predictive checks |
+
+## AI/ML Pack (5)
+
+For neural network architecture, model evaluation, and edge deployment.
+
+| Agent | Icon | Role | Specialty |
+|---|---|---|---|
+| **Andrej** | 🧠 | AI Supervisor | Neural nets from scratch, training loops |
+| **Yann** | 🌊 | Chief AI Scientist | World models, self-supervised learning |
+| **Scott** | 📱 | On-Device AI Architect | Quantization, edge deployment, latency budgets |
+| **Woz** | 🔓 | Open Source AI Lead | Reproducibility, open-weight models |
+| **Percy** | 📏 | AI Eval Lead | HELM benchmarks, bias/fairness, calibration |
+
+## Systems & Data Pack (5)
+
+For distributed systems, database design, and data pipeline engineering.
+
+| Agent | Icon | Role | Specialty |
+|---|---|---|---|
+| **Jeff** | 🌐 | Distributed Systems Lead | Scale 1000x, partitioning, consensus |
+| **Sanjay** | ⚙️ | Systems Pair Programmer | Memory layout, lock contention, cache lines |
+| **Stonebraker** | 🗄️ | Database Architect | Workload-specific DB design, OLTP vs OLAP |
+| **Reynold** | 🔀 | Data Systems Engineer | Pipelines, query optimization, data flow |
+| **Kyle** | 💥 | DB Correctness Lead | Jepsen-style testing, consistency verification |
+
+## Startup Pack (3)
+
+For founding strategy, go-to-market, and unit economics — grounded in your actual codebase.
+
+| Agent | Icon | Role | Focus |
+|---|---|---|---|
+| **Richard** | 👑 | Startup CEO | Product-market fit, vision, OKRs |
+| **Monica** | 📢 | Startup CMO | Growth loops, GTM strategy, personas |
+| **Jared** | 💰 | Startup CFO | Unit economics, runway modeling, pricing |
+
+> **`/startup-founding`** scans your actual codebase and project structure to build context-aware startup strategy — not generic advice.
+
+## Financial Pack (7)
+
+Quant-grade agents for market analysis, forensic accounting, and investment research.
+
+| Agent | Icon | Role | Key Methods |
+|---|---|---|---|
+| **Charts** | 📉 | Technical Analyst | RSI/MACD, options flow, volume profile, multi-timeframe confluence |
+| **Ledger** | 📊 | Forensic Analyst | Beneish M-Score, Benford's Law, accrual anomaly, footnote forensics |
+| **Herald** | 📡 | Signal Analyst | Earnings NLP, insider activity, credit market divergence, alt data |
+| **Sage** | 🔬 | Structural Researcher | Industry S-curves, moat velocity, Bass diffusion, causal inference |
+| **Maven** | 📐 | Strategic Architect | Decision theory, EVPI, Kelly criterion, pre-mortem (7+ failure paths) |
+| **Quant** | 📈 | Chief Risk Analyst | EVT tail risk, copulas, ruin probability, Monte Carlo, factor decomposition |
+| **Prism-Adversarial** | ⚡ | Adversarial Epistemics | 12-lens challenge, superforecasting, Dutch Book audit, falsifiability cert |
+
+## Specialized Agents (13)
+
+Domain experts for games, performance, DevOps, data, and creative problem-solving.
+
+| Agent | Icon | Role | Domain |
+|---|---|---|---|
+| **Shadow** | 🕵️ | Security Engineer | Pen-test mindset, cloud/code/infra security |
+| **Pixel** | 🎮 | Game Developer | Game engine code, render pipelines, physics |
+| **Quest** | 🗺️ | Product Discovery | Game mechanics, balance, progression |
+| **Lore** | 📜 | Knowledge Engineer | Narrative design, world-building, dialogue |
+| **Spark** | ⚡ | AI Developer | AI/ML framework integration in production |
+| **Muse** | 🎨 | AI Researcher | Research synthesis, paper analysis |
+| **Dynamo** | 🔋 | Performance Engineer | N+1 detection, query optimization, profiling |
+| **Flux** | 🔄 | DevOps Automation | CI/CD pipelines, deployment automation |
+| **Index** | ⚡ | Query Optimizer | SQL tuning, index strategy, execution plans |
+| **Kernel** | ⚙️ | Systems Programmer | OS-level code, memory management, concurrency |
+| **Neuron** | 🧬 | ML Engineer | ML pipelines, model evaluation, data quality |
+| **Prism** | 🔺 | Data Analyst | SQL analytics, data models, dashboard quality |
+| **Titan** | 🏔️ | Infrastructure | Standards enforcement, quality gates |
+
+---
+
+# Part IV — All 34 Skills
+
+## Skills (Slash Commands)
+
+### Development & Code Quality
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/dev-task` | Nova, Atlas, Forge, Cipher, Raven, Sentinel | Full 6-phase implementation: analyse → spec → code → test → review → PR |
+| `/review-code` | Forge, Raven, Sentinel | Quick pre-commit review of uncommitted changes |
+| `/review-pr` | Raven, Atlas, Sentinel, Forge, Cipher, Catalyst | Full pull request code review |
+| `/review-story` | Raven, Atlas, Sentinel, Forge, Cipher | Validate implementation against acceptance criteria |
+| `/dev-analyst` | Nova, Atlas, Oracle, Forge | Deep story analysis: feasibility, architecture, effort |
+
+### Testing & QA
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/qa-task` | Cipher, Sentinel, Raven | End-to-end QA: dependency analysis → test plan → tests |
+| `/test-story` | Cipher, Sentinel | Story-aware test generation following existing patterns |
+| `/test-repo` | Cipher | Run test suite, analyze results, report coverage |
+| `/test-project` | Cipher | Cross-repo test health report |
+
+### Product & Planning
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/create-prd` | Compass, Nova, Atlas, Oracle | Multi-agent product requirements document |
+| `/create-story` | Compass, Nova | Story with GIVEN/WHEN/THEN acceptance criteria |
+| `/product-researcher` | Oracle, Compass | Deep product research across tracker, web, codebase |
+
+### Multi-Agent Sessions
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/brainstorm` | All agents | Multi-perspective brainstorming — all 56 agents available |
+| `/assemble` | All agents | Full group discussion — architecture debates, post-mortems |
+
+### Financial & Strategy
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/financial-analysis` | Charts, Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | 7-phase forensic analysis by ticker. Adapts to data subscriptions. |
+| `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Structural market & industry deep-dive |
+| `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic brief: pre-mortem + EVPI + Kelly + 3 options |
+| `/startup-founding` | Richard, Monica, Jared, Oracle, Compass, Atlas, Nova | Codebase-aware startup strategy |
+
+### Sprint & Delivery
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/setup` | Tempo | Configure user, team, company, project, tracker |
+| `/standup` | Tempo | Auto-generate daily standup from git + tracker |
+| `/retro` | Tempo, Compass, Scribe | Sprint retrospective with live tracker data |
+| `/current-sprint` | Tempo | Sprint status at a glance |
+
+### Domain Audits
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/data-audit` | Neuron, Prism | ML pipeline and data quality audit |
+| `/db-audit` | Dynamo | Database schema, query performance, migration safety |
+| `/infra-audit` | Stratos, Aegis | Infrastructure observability and monitoring |
+| `/os-audit` | Kernel | OS-level code, process management, systems patterns |
+| `/game-review` | Pixel, Quest | Game engine: performance, networking, design |
+| `/ai-ideate` | — | Design agentic workflow and AI automation ideas |
+| `/ai-workflow-audit` | — | Audit existing AI/LLM integrations in the codebase |
+
+### Meta & Learning
+
+| Skill | Agents | What It Does |
+|---|---|---|
+| `/evolve` | — | Skill self-evolution: analyze tracking → propose edits → branch |
+| `/health` | — | Agent effectiveness, skill utility grades (A–D), evolution candidates |
+| `/refresh` | — | Scan workspace, rebuild KG, regenerate context files |
+| `/refresh-git` | — | Enrich context from PR review history and git patterns |
+| `/git-learn` | Scribe | Extract learnings from PR history, enrich CONTEXT.md |
+
+---
+
+# Part V — Deep Dives
 
 ## Supported IDEs
 
@@ -388,7 +709,7 @@ Path C delivers all the same correctness guarantees (dependency ordering, valida
 
 ## Supported Model Providers
 
-| Provider | Models | Best for |
+| Provider | Models | Best For |
 |---|---|---|
 | **Anthropic** | Claude Opus 4, Claude Sonnet 4 | Reasoning, code generation, implementation |
 | **OpenAI** | o3, GPT-4o, GPT-4o-mini | Security reasoning, fast structured output |
@@ -400,7 +721,22 @@ Path C delivers all the same correctness guarantees (dependency ordering, valida
 
 ## Knowledge Graph
 
-SQUAD includes a built-in, zero-dependency knowledge graph builder:
+SQUAD includes a built-in, zero-dependency knowledge graph that pre-computes what agents need to know about your codebase.
+
+```mermaid
+flowchart LR
+    subgraph "4-Pass Pipeline"
+        P1["Pass 1 — build.js<br/>Scan imports · Build edges"]
+        P2["Pass 2 — git-pass.js<br/>Co-change · Churn · Hotspots"]
+        P3["Pass 3 — cluster.js<br/>Community detection"]
+        P4["Pass 4 — analyze.js<br/>Surprise edges · Complexity"]
+    end
+    P1 --> P2 --> P3 --> P4
+    P4 --> G["graph.json + graph.html + KG_REPORT.md"]
+    style P1 fill:#3498db,color:#fff
+    style P4 fill:#e74c3c,color:#fff
+    style G fill:#2ecc71,color:#fff
+```
 
 ```bash
 node squad-method/tools/knowledge-graph/build.js <repo-path>
@@ -458,39 +794,52 @@ const ranked = prioritize('fix authentication login flow', graph, { topN: 20 });
 
 ### Incremental Updates
 
-For large repos, `incremental.js` updates only affected nodes/edges instead of a full rebuild — falls back to full rebuild if > 30% of files changed:
+For large repos, `incremental.js` updates only affected nodes/edges instead of a full rebuild — falls back to full rebuild if > 30% of files changed.
 
-```javascript
-import { analyzeChanges, applyIncrementalUpdate } from './incremental.js';
-const { canIncremental, changedFiles } = analyzeChanges(repoPath);
-```
+### Why KG before grep?
+
+| Question | Without KG | With KG |
+|---|---|---|
+| "What depends on this file?" | 3–10 grep commands | One graph edge lookup |
+| "Is this file high-risk?" | Manual analysis | God node flag + hotspot score |
+| "What tests cover this?" | Grep for imports | Test edge query |
+| "What's the blast radius?" | Recursive grep | 2-hop reachability (instant) |
+
+Saves **~80% of exploration tokens** per workflow.
 
 ---
 
 ## Financial & Consulting Analysis Suite
 
-New in v1.5. Seven quant-grade agents across four analysis streams — triggered by ticker symbol, adapts to your data subscriptions.
+Seven quant-grade agents across four analysis streams — triggered by ticker symbol, adapts to your data subscriptions.
 
 > **Design principle:** "McKinsey gives you frameworks. Renaissance Technologies gives you edge. Every claim is falsifiable. Every conclusion has a confidence interval."
 
-### Skills
+### How `/financial-analysis` works
 
-| Skill | Agents | What It Produces |
-|---|---|---|
-| `/financial-analysis` | Charts, Ledger, Herald, Sage, Maven, Quant, Prism-Adversarial | By ticker. 7-phase pipeline: intake → technical → fundamental → quant → research → adversarial → recommend |
-| `/market-research` | Oracle, Sage, Herald, Prism-Adversarial | Industry structure, TAM validation via Bass model, competitive dynamics |
-| `/consulting-brief` | Maven, Sage, Prism-Adversarial, Quant | Strategic brief: pre-mortem (7+ paths) + EVPI + Kelly criterion + 3 options |
+```mermaid
+flowchart TD
+    IN["Phase 0 — Intake<br/>Ticker + data source"]
+    IN --> PAR
 
-### How `/financial-analysis` Works
+    subgraph PAR["4 Parallel Streams"]
+        T["📉 Charts<br/>Technical"]
+        F["📊 Ledger<br/>Forensic"]
+        Q["📈 Quant + Herald<br/>Quantitative + Signals"]
+        R["🔬 Sage + Maven<br/>Research + Strategy"]
+    end
 
+    PAR --> ADV["⚡ Prism-Adversarial<br/>12-lens · Dutch Book · Falsifiability"]
+    ADV --> REC["3 Options: Buy / Wait / Avoid<br/>Kelly fraction + CVaR + ruin prob"]
+
+    style IN fill:#3498db,color:#fff
+    style ADV fill:#e74c3c,color:#fff
+    style REC fill:#2ecc71,color:#fff
 ```
-/financial-analysis [TICKER]
-```
 
-**Phase 0 — Intake**
-Asks for the ticker symbol, then asks what data you have access to:
+### Data source adaptation
 
-| What you have | What gets unlocked |
+| What You Have | What Gets Unlocked |
 |---|---|
 | **Nothing** | LLM training data only — tagged [LLM-TRAINING], lower confidence |
 | **yfinance (free)** | Provides Python snippet → you run + paste → full OHLCV + options |
@@ -499,107 +848,67 @@ Asks for the ticker symbol, then asks what data you have access to:
 | **Bloomberg / Reuters** | Full data: real-time, options chain, insider flow, transcripts |
 | **Earnings call transcript** | Herald runs Shannon entropy + tone shift analysis |
 
-**Four analysis streams run in parallel:**
-
-| Stream | Agent | Key Outputs |
-|---|---|---|
-| **Technical** | Charts | Multi-timeframe trend, RSI/MACD, volume/OBV, options P/C ratio, max pain, GEX, chart patterns with win rates |
-| **Fundamental** | Ledger | Valuation (PE/EV/DCF), earnings quality (Beneish, accrual), balance sheet, forensic flags, management quality |
-| **Quantitative** | Quant + Herald | Sharpe, CVaR, EVT tail risk, Kelly fraction, scenario matrix, factor decomposition, smart money signals |
-| **Research** | Sage + Maven | Moat velocity, industry structure, reinvestment runway, pre-mortem (7+ failure paths), EVPI |
-
-**Phase 5:** Prism-Adversarial speaks last — 12-lens challenge, red team on the bull/bear case, Dutch Book coherence audit.
-
-**Phase 6:** Three options (never one): Buy / Wait / Avoid — each with Kelly fraction, CVaR, and ruin probability.
-
 ### 4-Gate Verification Protocol
 
-Every major claim goes through four gates before appearing in a recommendation:
+Every major claim goes through four gates:
 
+```mermaid
+graph LR
+    G1["Gate 1<br/>EMPIRICAL"] --> G2["Gate 2<br/>MATHEMATICAL"]
+    G2 --> G3["Gate 3<br/>LOGICAL/CAUSAL"]
+    G3 --> G4["Gate 4<br/>ADVERSARIAL"]
+    G4 --> V["[VERIFIED-4]"]
+    style G1 fill:#3498db,color:#fff
+    style G4 fill:#e74c3c,color:#fff
+    style V fill:#2ecc71,color:#fff
 ```
-GATE 1: EMPIRICAL — backed by observable data? cite source + date
-GATE 2: MATHEMATICAL — formula stated? sensitivity tested? CI provided?
-GATE 3: LOGICAL/CAUSAL — mechanism stated? confounders identified?
-GATE 4: ADVERSARIAL — strongest counterargument? what would disprove this?
-```
 
-Claims are classified: `[VERIFIED-4]` (all gates) → `[VERIFIED-3]` → `[VERIFIED-2]` → `[UNVERIFIED]` (never used in recommendations).
+Claims classified: `[VERIFIED-4]` (all gates) → `[VERIFIED-3]` → `[VERIFIED-2]` → `[UNVERIFIED]` (never in recommendations).
 
-### What the Agents Do
+### Agent specializations
 
-**Ledger** (forensic): Beneish M-Score, Benford's Law analysis, Lev-Thiagarajan 12 signals, accrual anomaly (Jones Model), footnote forensics, DuPont 5-factor decomposition, forensic ratio screens (15+).
-
-**Herald** (signals): Granger causality validation on every claimed signal, Shannon entropy of earnings calls, options-implied probability distributions (Breeden-Litzenberger), Bayesian composite signal scoring — P(decline/advance/sideways).
-
-**Sage** (structural): Bass diffusion model, power law industry analysis (Clauset-Shalizi-Newman), formal causal inference (DiD, IV, DAGs), ergodicity check on growth projections, complex adaptive systems modeling.
-
-**Maven** (strategy): Bayesian decision theory + EVPI, mechanism design, mandatory pre-mortem (7+ failure paths), Kelly criterion for capital allocation, DMDU for genuine uncertainty.
-
-**Quant** (risk): Extreme Value Theory for tails (not normal distribution), copula tail dependence, ruin probability, bootstrap CI for small samples, AIC/BIC model selection.
-
-**Prism-Adversarial** (adversarial): 12-lens analysis, superforecasting protocol (Tetlock), Dutch Book coherence audit, reference class forecasting, falsifiability certification, Fermi cross-checks on quantitative claims > $100M.
+- **Ledger**: Beneish M-Score, Benford's Law, Lev-Thiagarajan 12 signals, accrual anomaly (Jones Model), footnote forensics, DuPont 5-factor
+- **Herald**: Granger causality validation, Shannon entropy of earnings calls, Breeden-Litzenberger options-implied distributions, Bayesian composite scoring
+- **Sage**: Bass diffusion model, power law analysis (Clauset-Shalizi-Newman), formal causal inference (DiD, IV, DAGs), ergodicity economics
+- **Maven**: Bayesian decision theory + EVPI, mechanism design, mandatory pre-mortem (7+ failure paths), Kelly criterion, DMDU
+- **Quant**: Extreme Value Theory for tails, copula tail dependence, ruin probability, bootstrap CI, AIC/BIC model selection
+- **Prism-Adversarial**: 12-lens analysis, superforecasting (Tetlock), Dutch Book coherence audit, reference class forecasting, Fermi cross-checks
 
 ---
 
 ## Skill Self-Evolution — /evolve
 
-SQUAD learns from its own execution history and proposes evidence-backed improvements to its own skills.
+SQUAD learns from its own execution history and proposes evidence-backed skill improvements.
 
-```
-/evolve
-```
+```mermaid
+flowchart LR
+    E1["1. Evidence<br/>Read tracking.jsonl<br/>Last 100 records"]
+    E2["2. Reflect<br/>Success vs failure<br/>patterns per skill"]
+    E3["3. Quality Gate<br/>Specificity ≥ 3<br/>Actionability ≥ 3<br/>Grounding ≥ 3"]
+    E4["4. Bounded Update<br/>Top 3 edits max<br/>User approves each"]
+    E5["5. Branch Commit<br/>evolve/YYYY-MM-DD<br/>Validate → merge<br/>or revert"]
 
-### Protocol
+    E1 --> E2 --> E3 --> E4 --> E5
 
-```
-Phase 1 — EVIDENCE COLLECTION
-  Read tracking.jsonl (last 100 records) + meta-skill.md
-  Separate: successes (completed/pr_created) vs failures (user_aborted/error)
-  Group by skill. Skip skills with < 5 records.
-
-Phase 2 — REFLECT
-  Per skill: success patterns, failure patterns, contrast, recurring findings
-  Produce "gradients" — proposed edits with evidence_records[]
-
-Phase 3 — QUALITY GATE (SkillLens rubric)
-  Score each edit on: Specificity (1-5), Actionability (1-5), Grounding (1-5)
-  Gate: all three must score ≥ 3. Rejects: "be more thorough" (specificity=1)
-
-Phase 4 — BOUNDED UPDATE
-  Rank by grounding × specificity. Select top 3 (hard cap — gradient clipping).
-  Show each edit with evidence. User: [Accept] [Reject] [Modify]
-
-Phase 5 — COMMIT ON BRANCH
-  git checkout -b evolve/YYYY-MM-DD-cycle-N
-  One commit per accepted edit. Update meta-skill.md.
-  Validate by running N tasks. If better → merge. If not → revert.
+    style E3 fill:#e74c3c,color:#fff
+    style E5 fill:#2ecc71,color:#fff
 ```
 
-**Key design constraints:**
-- Max 3 edits per cycle (gradient clipping)
-- Edits land on a branch, never main (slow update pattern)
-- User gate at every edit — never auto-applied
-- Both success AND failure records analyzed (asymmetric analysis produces bad rules)
+**Safety constraints:**
+- **Max 3 edits per cycle** (gradient clipping)
+- Edits land on a **branch**, never main
+- **User gate at every edit** — never auto-applied
+- Both success AND failure records analyzed
 - `/health` shows skill utility grades (A–D) and flags evolution candidates
 
 ---
 
 ## Token Compression Engine
 
-New in v1.5. Native JS compression pipeline — no external dependencies.
-
-```javascript
-import { compress } from 'squad-method/tools/compress/index.js';
-
-const { compressed, stats } = compress(toolOutput);
-// stats: { original: 1200, compressed: 480, ratio: 0.40, type: 'code' }
-```
-
-### Pipeline
+Native JS compression pipeline — no external dependencies.
 
 ```
-Input → Detect content type → Mask (protect errors, assertions, KG data)
-     → Domain handler → Universal compressor → Unmask → Output + stats
+Input → Detect content type → Mask (protect errors/KG data) → Handler → Unmask → Output
 ```
 
 | Content Type | Handler | Typical Ratio |
@@ -607,147 +916,20 @@ Input → Detect content type → Mask (protect errors, assertions, KG data)
 | Code | Strip comments, collapse imports | 40–60% |
 | Grep output | Group by file, deduplicate | 50–70% |
 | JSON | Minify, truncate arrays > 10 items | 60–80% |
-| Logs / errors | Collapse repeated lines, summarize stack traces | 50–70% |
+| Logs / errors | Collapse repeated lines, summarize stacks | 50–70% |
 | File listings | Summarize by extension, collapse deep paths | 60–80% |
 
-**Protected content (never compressed):** error messages, test assertions, KG graph data, user input.
-
-Enable in config:
-
-```yaml
-token_budget:
-  compression: native    # none | native
-  compress_targets: [file_reads, grep_results, context_files, file_listings, log_output]
-```
+**Protected (never compressed):** error messages, test assertions, KG graph data, user input.
 
 ---
 
-## How SQUAD Thinks — Internal Architecture
-
-### The Grounding Waterfall
-
-Every skill follows an evidence-first protocol before doing any work:
-
-```
-Level 0: CONTEXT.md / CLAUDE.md      ← identity, rules, repo map (~300 tokens)
-         DEEP-CONTEXT.md              ← architecture from KG (if exists)
-         KG_REPORT.md                 ← pre-computed analysis summary
-
-Level 1a: graph.json (Knowledge Graph) ← dependency edges, god nodes, communities
-          (BEFORE any grep)             answers "what depends on X?" instantly
-
-Level 1b: grep / code search          ← find patterns and similar implementations
-          (AFTER KG, only if needed)
-
-Level 2: Fragments                    ← conditional: rubric, stack, cloud, tracker
-         (loaded if config matches)
-
-Level 4: Nothing found                ← STOP — present design assumptions, await approval
-```
-
-**Why this matters:** The KG answers in one read what would otherwise require 3–10 grep commands. Pre-computing blast radius, test coverage, and god-node status saves ~80% of exploration tokens per typical workflow.
-
-### Project Knowledge Structure
-
-```
-workspace/
-├── CONTEXT.md              ← Root context (always loaded, ~300 tokens)
-├── CLAUDE.md / GEMINI.md / AGENTS.md   ← IDE-specific copies
-├── DEEP-CONTEXT.md         ← Architecture + data model + API surface + deployment
-│
-├── squad-method/
-│   ├── config.yaml         ← Single source of truth for all configuration
-│   ├── agents/             ← 33 agent personas (lazy-loaded per skill)
-│   │   ├── _base-agent.md  ← Base protocols: grounding, communication, git, tracking
-│   │   ├── nova.md         ← Nova: dev analyst
-│   │   ├── atlas.md        ← Atlas: solution architect
-│   │   └── ...             ← 31 more agents
-│   ├── skills/             ← 33 skill definitions (one per slash command)
-│   ├── fragments/          ← Conditional knowledge modules (rubric, stack, cloud, etc.)
-│   ├── tools/
-│   │   ├── knowledge-graph/  ← KG builder, query API, prioritize, incremental, AST pass
-│   │   ├── compress/         ← Token compression pipeline (detect, mask, handlers)
-│   │   ├── router/           ← Multi-model routing engine
-│   │   └── dispatch/         ← Parallel execution adapters per IDE
-│   └── output/
-│       ├── tracking.jsonl    ← Operation log (feeds /health, /evolve)
-│       └── meta-skill.md     ← Optimizer memory across /evolve cycles
-│
-└── <repo>/knowledge-graph-out/
-    ├── graph.json            ← Full dependency graph
-    ├── graph.html            ← Interactive visualization
-    └── KG_REPORT.md          ← Human-readable analysis
-```
-
-### Fragment System — Conditional Loading
-
-Fragments load based on your project's detected config:
-
-```
-squad-method/fragments/
-├── rubric/
-│   ├── base.md              ← Always loaded for reviews
-│   ├── javascript.md        ← Loaded if stack.languages includes "javascript"
-│   ├── python.md            ← Loaded if stack.languages includes "python"
-│   └── ...
-├── stack/
-│   ├── javascript.md
-│   ├── python.md
-│   └── ...
-├── cloud/
-│   ├── aws.md               ← Loaded if cloud.providers includes "aws"
-│   └── monitoring.md
-├── tracker/
-│   ├── jira.md              ← Loaded if tracker.type == "jira"
-│   └── linear.md
-├── financial-analysis-protocol.md   ← Financial analysis pipeline
-├── quant-verification-gates.md      ← 4-gate claim verification
-├── forensic-checklist.md            ← Ledger pre-flight checklist
-├── tdd-scaffold.md                  ← Characterization test protocol (Phase 1.5)
-├── token-compression.md             ← Compression protocol for agents
-├── kg-query-protocol.md             ← KG query recipes for agents
-├── review-protocol.md               ← Review phase rules
-├── tracking-protocol.md             ← tracking.jsonl schema
-└── tdd-workflow.md                  ← TDD best practices
-```
-
-A Python/AWS/Jira project loads Python rubric + AWS fragments + Jira tracker. A JavaScript/no-cloud project loads a completely different set. Agents never see irrelevant knowledge.
-
-### The dev-task Context Digest
-
-Phase 1 of `/dev-task` produces a mandatory **Context Digest** before any analysis:
-
-```
-━━━ CONTEXT DIGEST ━━━
-
-Files Read:
-  ✅ CONTEXT.md (repo) — 200 lines
-  ✅ DEEP-CONTEXT.md — 180 lines
-  ✅ KG_REPORT.md — 45 nodes, 38 edges
-  ❌ complete-flow.md — not found
-
-Scope Analysis (from KG):
-  Files in change path: 4
-  God nodes in scope: none
-  Untested files in scope: lib/generate/ide-skills.js
-  Cross-community changes: NO
-
-Blast Radius: LOW — 3 reverse deps, 2 test files covering scope
-
-Assumptions:
-  [ASSUMPTION-1]: ... — CONFIDENCE: HIGH
-```
-
-Phase 1 is incomplete until this digest is populated. Phase 1.5 writes **characterization tests** on the current behavior before any implementation begins.
-
----
+# Part VI — Reference
 
 ## Configuration Reference
 
-`squad-method/config.yaml` is auto-generated at install and filled in by `/setup`. Key sections:
+`squad-method/config.yaml` — auto-generated at install, filled by `/setup`:
 
 ```yaml
-# Company & Project (set by /setup)
 company:
   name: ""
   domain: ""                   # fintech | healthcare | saas | gaming | ...
@@ -758,96 +940,92 @@ project:
   type: ""                     # web-app | api | library | cli | mobile | infra | monorepo | game | ai-ml
   maturity: ""                 # greenfield | brownfield | migration
 
-# Tech Stack (auto-detected)
 stack:
-  languages: []
-  frameworks: []
+  languages: []                # auto-detected
+  frameworks: []               # auto-detected
   test_command: "npm test"
 
-# Model Routing
 model_routing:
   default: "default"           # fast | default | heavy
   mode: "balanced"             # balanced | quality | budget
-  execution_path: "auto"       # auto | agent_tool | cli | sequential
   agent_overrides: {}          # e.g. { raven: heavy, scribe: fast }
   complexity_upgrade:
     enabled: true
-    blast_radius_threshold: 20 # KG degree → auto-upgrade to heavy
+    blast_radius_threshold: 20
 
-# Token Budget (v1.5)
 token_budget:
   max_context_tokens: 50000
   compression: none            # none | native
-  fragment_priority:
-    - _base-agent
-    - review-rubric
-    - kg-query-protocol
-    - tdd-workflow
-    - review-protocol
-    - tracking-protocol
-  never_compress:
-    - test_output
-    - error_messages
-    - kg_data
-    - user_input
 
-# Knowledge Graph
 knowledge_graph:
   enabled: true
   auto_rebuild: true
   ast_enabled: false           # function-level analysis (opt-in)
-  ast_languages: [js, ts, py]
 
-# Agents
 agents:
-  built_in: 33
-  custom: []                   # add custom agents here
+  built_in: 56
+  custom: []
+  packs:
+    extended_core: [krishna, otis, trinity]
+    math_theory: [tao, knuth, ramanujan, hardy, pearl, gelman]
+    ai_ml: [andrej, yann, scott, woz, percy]
+    systems_data: [jeff, sanjay, stonebraker, reynold, kyle]
+    startup: [richard, monica, jared]
+    financial: [charts, ledger, herald, sage, maven, quant, prism-adversarial]
 
-# IDEs (auto-detected)
 ides:
-  installed: ["claude", "devin", "windsurf", "cursor", "codex", "kiro", "gemini", "antigravity"]
+  installed: []                # auto-detected: claude, devin, windsurf, cursor, codex, kiro, gemini, antigravity
 ```
 
 ---
 
-## Setup Flow — Two Paths
+## Project Structure
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│  Path 1: npx sqad-public init   (programmatic, ~10s)        │
-│  ──────────────────────────────────────────────────────     │
-│  1. Sync squad-method/ (agents, skills, tools, fragments)  │
-│  2. detectStack() → 15 languages, 40+ frameworks           │
-│  3. detectCloud() → providers / IaC / containers / CI      │
-│  4. detectTracker() → jira / linear / github / shortcut    │
-│  5. detectIDEs() → all 8 IDEs                              │
-│  6. updateConfig() → write detected values                 │
-│  7. Create output dirs                                     │
-│  8. Scan repos                                             │
-│  9. Build knowledge graphs                                 │
-│  10. Generate context files (CONTEXT.md, DEEP-CONTEXT.md)  │
-│  11. Deploy 33 skills to installed IDEs                    │
-│  → Config populated with TECH details.                     │
-│    company/project/user still empty → run /setup           │
-└────────────────────────────────────────────────────────────┘
-                          ↓
-┌────────────────────────────────────────────────────────────┐
-│  Path 2: /squad-setup  (conversational, in-IDE)            │
-│  ──────────────────────────────────────────────────────    │
-│  Step 1: Verify installation                               │
-│  Step 2: Required (3 Qs): name, role, team                 │
-│  Step 3: Optional (6 Qs): company, domain, project...      │
-│  Step 4: Extended artifact scan (docs, schemas, infra, CI) │
-│  Step 5: Write all values to config.yaml                   │
-│  Step 6: Run /refresh                                      │
-│  Step 7: Offer /git-learn                                  │
-│  → FULL config. Config completeness score shown.           │
-└────────────────────────────────────────────────────────────┘
+workspace/
+├── CONTEXT.md                 ← Root context (always loaded, ~300 tokens)
+├── CLAUDE.md / AGENTS.md      ← IDE-specific copies
+├── DEEP-CONTEXT.md            ← Architecture from KG analysis
+│
+├── squad-method/
+│   ├── config.yaml            ← Single source of truth
+│   ├── agents/                ← 56 agent personas (lazy-loaded per skill)
+│   │   ├── _base-agent.md     ← Base protocols
+│   │   ├── nova.md … phoenix.md    ← 14 core
+│   │   ├── trinity.md … krishna.md ← 3 extended core
+│   │   ├── tao.md … gelman.md     ← 6 math/theory
+│   │   ├── andrej.md … percy.md    ← 5 AI/ML
+│   │   ├── jeff.md … kyle.md      ← 5 systems/data
+│   │   ├── richard.md … jared.md   ← 3 startup
+│   │   ├── charts.md … prism-adversarial.md ← 7 financial
+│   │   └── shadow.md … titan.md    ← 13 specialized
+│   ├── skills/                ← 34 skill definitions
+│   ├── fragments/             ← Conditional knowledge modules
+│   │   ├── rubric/            ← Language-specific review rubrics
+│   │   ├── stack/             ← Framework knowledge
+│   │   ├── cloud/             ← Cloud provider guidance
+│   │   ├── tracker/           ← Sprint tracker integration
+│   │   └── agent-orchestrator.md ← 30 hard orchestration rules
+│   ├── tools/
+│   │   ├── knowledge-graph/   ← KG builder, query API, prioritize, AST pass
+│   │   ├── compress/          ← Token compression pipeline
+│   │   ├── router/            ← Multi-model routing engine
+│   │   └── dispatch/          ← Parallel execution adapters per IDE
+│   └── output/
+│       ├── tracking.jsonl     ← Operation log (feeds /health, /evolve)
+│       └── meta-skill.md      ← Optimizer memory across /evolve cycles
+│
+└── <repo>/knowledge-graph-out/
+    ├── graph.json             ← Full dependency graph
+    ├── graph.html             ← Interactive D3 visualization
+    └── KG_REPORT.md           ← Human-readable analysis
 ```
+
+### Fragment Conditional Loading
+
+A Python/AWS/Jira project loads Python rubric + AWS fragments + Jira tracker. A JavaScript/no-cloud project loads a completely different set. Agents never see irrelevant knowledge.
 
 ### MCP Tracker Integration
-
-Setup guides you through connecting a tracker MCP server so agents can query stories directly:
 
 | Tracker | MCP Server | Config |
 |---|---|---|
@@ -1016,17 +1194,16 @@ npm run test:all
 bash squad-method/tools/ide-parity-test.sh
 ```
 
-Current: **156 unit tests + 62 e2e assertions, 0 failures**.
+Current: **202 assertions, 0 failures** (unit + e2e + agent contracts).
 
 Test coverage includes:
 - Stack / cloud / IDE / tracker detection
 - IDE skill deployment (all 8 IDEs)
-- Knowledge graph: language patterns (15 languages), dot-dir fix, Go import regex
-- KG prioritization, incremental updates, query API
+- Knowledge graph: language patterns (15 languages), community detection, query API
 - AST extraction (JS/TS, Python, Go, Java)
 - Compression pipeline (all handlers, mask integrity, end-to-end)
-- Transform base (MDC frontmatter, frontier stripping)
-- Provider routing, dispatch adapters
+- Agent contracts: 56 agents validated (capabilities, determinism, frontmatter)
+- Provider routing, dispatch adapters, DAG wiring
 
 ---
 
@@ -1035,7 +1212,7 @@ Test coverage includes:
 ### How is SQUAD different from just using an AI IDE?
 
 AI IDEs give you one model in a chat. SQUAD adds:
-- **33 specialized agents** with distinct review lenses
+- **56 specialized agents** with distinct review lenses
 - **Pre-computed knowledge** via the knowledge graph — agents check dependency data before grepping
 - **Conditional fragment loading** — only project-relevant knowledge is loaded
 - **Phase-gated workflows** — complex tasks have user approval at each gate
@@ -1090,7 +1267,7 @@ Yes. Create a `.md` file in `squad-method/agents/` following the frontmatter for
 
 ### What are the financial agents useful for?
 
-The six financial agents (`/financial-analysis`, `/market-research`, `/consulting-brief`) apply quant-fund grade methods — Beneish M-Score, Benford's Law, Granger causality, Kelly criterion, EVT tail risk, Dutch Book coherence — to produce analysis with explicit confidence intervals and falsifiable claims. Every conclusion includes a verification summary (VERIFIED-4 through UNVERIFIED) and a mandatory disclaimer.
+The seven financial agents (`/financial-analysis`, `/market-research`, `/consulting-brief`) apply quant-fund grade methods — Beneish M-Score, Benford's Law, Granger causality, Kelly criterion, EVT tail risk, Dutch Book coherence — to produce analysis with explicit confidence intervals and falsifiable claims. Every conclusion includes a verification summary (VERIFIED-4 through UNVERIFIED) and a mandatory disclaimer.
 
 ### How does `/evolve` work safely?
 

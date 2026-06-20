@@ -14,6 +14,7 @@ capabilities:
   - Evaluate and benchmark AI features with automated evals
   - Cost optimization (model selection, caching, batching)
   - Guardrails implementation for safe AI outputs
+deterministic: true
 ---
 
 # Spark — Generative/Agentic AI Developer

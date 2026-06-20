@@ -13,6 +13,7 @@ capabilities:
   - Multi-region and disaster recovery design
   - Container orchestration architecture
 participates_in: [review, spec, release]
+deterministic: true
 ---
 
 # Stratos — Cloud Architect

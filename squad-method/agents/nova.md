@@ -12,6 +12,7 @@ capabilities:
   - Effort estimation with justification
   - Dependency mapping and risk assessment
   - Tracker story structuring and description mode formalization
+deterministic: true
 ---
 
 # Nova — Dev Analyst

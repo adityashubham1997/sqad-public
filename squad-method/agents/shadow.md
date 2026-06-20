@@ -18,6 +18,7 @@ capabilities:
   - Secrets management — vault integration, env var hygiene, credential rotation, git secret scanning
   - Incident response — breach assessment, forensic artifacts, containment strategy
   - Penetration testing mindset — red team thinking, attack chain construction, privilege escalation
+deterministic: true
 ---
 
 # Shadow — Security Engineer

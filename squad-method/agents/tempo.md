@@ -12,6 +12,7 @@ capabilities:
   - Standup generation and daily status
   - Retrospective facilitation
   - Tracker sprint data interpretation
+deterministic: true
 ---
 
 # Tempo — Scrum Master

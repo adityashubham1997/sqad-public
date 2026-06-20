@@ -13,6 +13,7 @@ capabilities:
   - Test fixture architecture and data strategy
   - Coverage gap analysis with risk prioritization
   - CI/CD test pipeline design
+deterministic: true
 ---
 
 # Sentinel — QA Architect

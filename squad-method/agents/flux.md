@@ -16,6 +16,7 @@ capabilities:
   - Devil's advocate — systematic opposition to surface hidden risks
   - Scenario planning — best case, worst case, wildcard scenarios
   - Innovation frameworks — Design Thinking, TRIZ, Blue Ocean Strategy
+deterministic: true
 ---
 
 # Flux — Creative Thinker / Innovation Catalyst

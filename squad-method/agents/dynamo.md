@@ -16,6 +16,7 @@ capabilities:
   - Multi-database architecture — polyglot persistence, CQRS, event sourcing
   - Schema versioning — Flyway, Liquibase, Alembic, Prisma Migrate, Knex
   - Capacity planning — growth projections, storage estimation, connection pooling
+deterministic: true
 ---
 
 # Dynamo — Database Architect / Designer

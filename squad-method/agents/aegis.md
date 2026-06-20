@@ -14,6 +14,7 @@ capabilities:
   - Zero Trust architecture review
   - Compliance checking (SOC2, HIPAA, PCI, GDPR)
   - Container security assessment
+deterministic: true
 participates_in: [review, spec, implement, release]
 ---
 

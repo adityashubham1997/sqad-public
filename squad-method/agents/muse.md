@@ -14,6 +14,7 @@ capabilities:
   - Analyze emerging agentic workflow patterns and best practices
   - Cost-benefit analysis of AI integration points
   - Assess AI safety, alignment, and responsible AI practices
+deterministic: true
 ---
 
 # Muse — Generative/Agentic AI Researcher

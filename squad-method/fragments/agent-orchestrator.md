@@ -85,8 +85,8 @@ parallelizable_with: [oracle, forge, atlas] # safe to fan out alongside
 | Path | Max concurrent | IDEs | Reason |
 |---|---|---|---|
 | **A** — Native subagent tool | **5** | Claude Code | API rate-limit + context budget |
-| **B** — CLI subprocess | **3** | Codex (via codex CLI) | local CPU + token cost |
-| **C** — Sequential simulation | **1** | Windsurf, Cursor, Kiro, Gemini, Antigravity | single thread, no native subagent API |
+| **B** — CLI subprocess / Devin API | **3** | Codex, Devin | local CPU + token cost / API sessions |
+| **C** — Sequential simulation | **1** | Cursor, Kiro, Gemini, Antigravity | single thread, no native subagent API |
 
 **R5.1**: If layer width > limit, orchestrator chunks into batches of `limit` size and runs sequentially-of-batches.
 **R5.2**: Critical-path agent (the longest-duration on the topological path) is dispatched FIRST in each batch to minimize wall-clock.
@@ -116,10 +116,10 @@ After every phase:
 
 - **Path A (Native subagent tool — Claude Code)**: dispatcher = a single conversation issues N parallel `Agent(...)` calls in one message → harness fans out to N concurrent subagents.
 - **Path B (CLI subprocess — Codex)**: dispatcher = a Bash script issues N parallel `codex --print "..." &` background processes + `wait` barrier; outputs collected from per-agent files. Can also use `claude` CLI if installed.
-- **Path C (Sequential simulation — Windsurf, Cursor, Kiro, Gemini, Antigravity)**: No native subagent API and no CLI for background dispatch. The orchestrator runs agents **one-at-a-time within the main conversation** using structured persona switching. Each agent's output is collected into the same R3 schema. Dependency ordering (R1) still enforced. Parallel layers execute sequentially left-to-right.
+- **Path C (Sequential simulation — Cursor, Kiro, Gemini, Antigravity)**: No native subagent API and no CLI for background dispatch. The orchestrator runs agents **one-at-a-time within the main conversation** using structured persona switching. Each agent's output is collected into the same R3 schema. Dependency ordering (R1) still enforced. Parallel layers execute sequentially left-to-right.
 - **All paths**: must read the same run manifest format (R4.1) so a session can switch paths without losing determinism.
 
-### Path C Protocol (Sequential IDEs — Windsurf, Cursor, Kiro, Gemini, Antigravity)
+### Path C Protocol (Sequential IDEs — Cursor, Kiro, Gemini, Antigravity)
 
 Limitation: single LLM thread, no `Agent()` tool, no subprocess CLI.
 
@@ -153,7 +153,8 @@ Limitation: single LLM thread, no `Agent()` tool, no subprocess CLI.
 |---|---|---|---|
 | `Agent()` tool in toolbox | A (native subagent) | Claude Code | ✅ true parallel |
 | `codex` or `claude` CLI on PATH | B (CLI subprocess) | Codex, any with CLI | ✅ true parallel |
-| Neither available | C (sequential simulation) | Windsurf, Cursor, Kiro, Gemini, Antigravity | ❌ sequential |
+| `DEVIN_API_KEY` env var set | B (Devin API) | Devin | ✅ true parallel |
+| Neither available | C (sequential simulation) | Cursor, Kiro, Gemini, Antigravity | ❌ sequential |
 
 ## R8 — Anti-skip Rules (HARD)
 
@@ -292,4 +293,4 @@ rule_manifest:
     - { id: G_RULE_AUDIT_CLEAN,  name: skill_coverage_audit_zero_missed,      blocks: any_phase }
 ```
 
-**End of fragment.** The contract is: declare inputs/outputs, hash them, fan out where independent, verify completion. Sequential single-session IDEs (Windsurf, Cursor, Kiro, Gemini, Antigravity) cannot match true parallel dispatch — but SQUAD preserves ALL correctness guarantees across all 7 supported IDEs. Only wall-clock time and per-agent model isolation differ between paths.
+**End of fragment.** The contract is: declare inputs/outputs, hash them, fan out where independent, verify completion. Sequential single-session IDEs (Cursor, Kiro, Gemini, Antigravity) cannot match true parallel dispatch — but SQUAD preserves ALL correctness guarantees across all 8 supported IDEs. Only wall-clock time and per-agent model isolation differ between paths.

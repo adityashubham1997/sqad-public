@@ -11,6 +11,7 @@ capabilities:
   - Product research and competitive analysis
   - Acceptance criteria validation
   - Feature scoping and descoping decisions
+deterministic: true
 ---
 
 # Compass — Product Manager

@@ -11,6 +11,7 @@ capabilities:
   - Code generation following existing codebase patterns
   - Architecture refactoring and code structure
   - PR preparation and commit hygiene
+deterministic: true
 ---
 
 # Forge — Dev Lead

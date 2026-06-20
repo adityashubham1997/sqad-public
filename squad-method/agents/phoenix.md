@@ -13,6 +13,7 @@ capabilities:
   - SLO/SLI definition and tracking
   - Container orchestration and runtime security
 participates_in: [review, spec, release]
+deterministic: true
 ---
 
 # Phoenix — Cloud DevOps / SRE

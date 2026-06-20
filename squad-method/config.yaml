@@ -123,17 +123,25 @@ classifier:
 
 # --- Agents ---
 agents:
-  built_in: 33    # 27 dev agents + 6 financial agents (charts, ledger, herald, sage, maven, quant) + prism-adversarial
+  built_in: 56    # 14 core + 3 extended-core (krishna, otis, trinity) + 6 math + 5 AI/ML + 5 systems + 3 startup + 12 specialized + 7 financial + 1 prism-adversarial
   custom: []
+  packs:
+    extended_core: [krishna, otis, trinity]
+    math_theory: [tao, knuth, ramanujan, hardy, pearl, gelman]
+    ai_ml: [andrej, yann, scott, woz, percy]
+    systems_data: [jeff, sanjay, stonebraker, reynold, kyle]
+    startup: [richard, monica, jared]
+    financial: [charts, ledger, herald, sage, maven, quant, prism-adversarial]
 
 # --- Plugins ---
 plugins: []
 
 # --- IDEs ---
-# All supported: claude, windsurf, cursor, codex, kiro, gemini, antigravity
+# All supported: claude, devin, cursor, codex, kiro, gemini, antigravity
 # /setup auto-detects which are installed; override here if needed
+# Devin replaces Windsurf (Cognition acquired Codeium/Windsurf → Devin is successor)
 ides:
-  installed: ["claude", "windsurf", "cursor", "codex", "kiro", "gemini", "antigravity"]
+  installed: ["claude", "devin", "cursor", "codex", "kiro", "gemini", "antigravity"]
 
 # --- Communication ---
 communication_language: "English"
