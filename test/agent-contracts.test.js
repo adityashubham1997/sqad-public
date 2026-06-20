@@ -1,9 +1,11 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { join, basename } from 'node:path';
+import { join, basename, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const AGENTS_DIR = join(import.meta.dirname, '..', 'squad-method', 'agents');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const AGENTS_DIR = join(__dirname, '..', 'squad-method', 'agents');
 
 // Parse YAML frontmatter from markdown
 function parseFrontmatter(content) {
