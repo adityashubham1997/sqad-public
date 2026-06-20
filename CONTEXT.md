@@ -1,5 +1,5 @@
 <!-- SQUAD:auto-generated per-repo context on 2026-05-16 -->
-# sqad-public
+# squad-public
 
 **Type:** Node.js | **Tests:** test/ present
 **Workspace:** openSource
@@ -36,8 +36,8 @@ Nodes: 111 | Edges: 87 | Source: 97 | Tests: 14 | God nodes: 0
 - lib/detect/cloud.js::detectCloud (degree 3)
 - ... and 87 more
 
-> Full KG report: `sqad-public/knowledge-graph-out/KG_REPORT.md`
-> Interactive graph: `sqad-public/knowledge-graph-out/graph.html`
+> Full KG report: `squad-public/knowledge-graph-out/KG_REPORT.md`
+> Interactive graph: `squad-public/knowledge-graph-out/graph.html`
 
 ## Agent Instructions
 

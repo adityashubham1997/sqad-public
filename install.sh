@@ -5,13 +5,13 @@ set -euo pipefail
 # SQUAD-Public Installer (git-based, no npm required)
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
+#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash -s -- --ide claude,windsurf
 #
 # What it does:
 #   1. Checks git and Node.js >= 18 are installed
-#   2. Clones (or pulls latest) sqad-public from GitHub
-#   3. Runs sqad-public init/update/uninstall via node directly
+#   2. Clones (or pulls latest) squad-public from GitHub
+#   3. Runs squad-public init/update/uninstall via node directly
 #
 # No npm, npx, or package manager required.
 #
@@ -22,8 +22,8 @@ set -euo pipefail
 #   --help           Show usage
 # ─────────────────────────────────────────────────────────────
 
-REPO_URL="https://github.com/adityashubham1997/sqad-public.git"
-CACHE_DIR="${SQUAD_CACHE_DIR:-${HOME}/.sqad-public}"
+REPO_URL="https://github.com/adityashubham1997/squad-public.git"
+CACHE_DIR="${SQUAD_CACHE_DIR:-${HOME}/.squad-public}"
 NODE_MIN=18
 
 BOLD='\033[1m'
@@ -45,8 +45,8 @@ ${BOLD}SQUAD-Public Installer${NC}  (git-based — no npm required)
 27-agent AI development framework — any stack, any IDE, any cloud
 
 ${BOLD}Usage:${NC}
-  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash
-  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash -s -- --ide claude,windsurf
+  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash -s -- --ide claude,windsurf
 
 ${BOLD}Options:${NC}
   --ide <list>     Comma-separated IDEs to configure
@@ -60,7 +60,7 @@ ${BOLD}Requirements:${NC}
   - An AI-powered IDE (Claude Code, Windsurf, Cursor, etc.)
 
 ${BOLD}Cache:${NC}
-  Repo is cloned to ~/.sqad-public and reused on subsequent runs.
+  Repo is cloned to ~/.squad-public and reused on subsequent runs.
   Set SQUAD_CACHE_DIR to override. Delete to force a fresh clone.
 
 EOF

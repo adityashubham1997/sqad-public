@@ -1,7 +1,7 @@
 # Custom Agents Directory
 #
 # Teams define custom agents here extending _base-agent.
-# See sqad-method/agents/_base-agent.md for the base class.
+# See squad-method/agents/_base-agent.md for the base class.
 #
 # Example custom agent:
 #

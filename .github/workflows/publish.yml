@@ -41,7 +41,7 @@ jobs:
         id: version
         run: |
           CURRENT=$(node -p "require('./package.json').version")
-          PUBLISHED=$(npm view sqad-public version 2>/dev/null || echo "0.0.0")
+          PUBLISHED=$(npm view squad-public version 2>/dev/null || echo "0.0.0")
           echo "current=$CURRENT" >> $GITHUB_OUTPUT
           echo "published=$PUBLISHED" >> $GITHUB_OUTPUT
           if [ "$CURRENT" != "$PUBLISHED" ]; then
@@ -81,7 +81,7 @@ jobs:
         id: version
         run: |
           CURRENT=$(node -p "require('./package.json').version")
-          PUBLISHED=$(npm view @adityashubham1997/sqad-public version --registry=https://npm.pkg.github.com/ 2>/dev/null || echo "0.0.0")
+          PUBLISHED=$(npm view @adityashubham1997/squad-public version --registry=https://npm.pkg.github.com/ 2>/dev/null || echo "0.0.0")
           echo "current=$CURRENT" >> $GITHUB_OUTPUT
           echo "published=$PUBLISHED" >> $GITHUB_OUTPUT
           if [ "$CURRENT" != "$PUBLISHED" ]; then
@@ -97,7 +97,7 @@ jobs:
         run: |
           node -e "
             const pkg = JSON.parse(require('fs').readFileSync('package.json','utf8'));
-            pkg.name = '@adityashubham1997/sqad-public';
+            pkg.name = '@adityashubham1997/squad-public';
             pkg.publishConfig = { registry: 'https://npm.pkg.github.com/' };
             require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "

@@ -217,7 +217,7 @@ if (entry.name.startsWith('.') && SKIP_DOT_DIRS.has(entry.name)) continue;
 - [ ] `.github/workflows/` files are scanned (not skipped)
 - [ ] Go import regex doesn't produce false positives from string literals
 - [ ] Each new language has a fixture-based accuracy test
-- [ ] Existing 34-node sqad-public KG still builds correctly
+- [ ] Existing 34-node squad-public KG still builds correctly
 - [ ] KG_REPORT.md includes new language file types
 
 **Risks:**

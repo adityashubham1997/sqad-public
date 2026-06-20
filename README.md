@@ -4,7 +4,7 @@
 
 ### 56 Specialist AI Agents. 5 Model Providers. 8 IDEs. Zero Dependencies.
 
-[![npm](https://img.shields.io/npm/v/sqad-public.svg)](https://www.npmjs.com/package/sqad-public)
+[![npm](https://img.shields.io/npm/v/squad-public.svg)](https://www.npmjs.com/package/squad-public)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js >=18](https://img.shields.io/badge/Node.js-%3E%3D18.0-green.svg)](https://nodejs.org)
 [![Tests](https://img.shields.io/badge/Tests-202%20passing-brightgreen.svg)](#testing)
@@ -167,14 +167,14 @@ Phase 6  → 3 options: Buy / Wait / Avoid — each with Kelly fraction + CVaR
 ## Installation
 
 ```bash
-npx sqad-public init
+npx squad-public init
 ```
 
 That's it. One command. ~10 seconds.
 
-With specific IDEs: `npx sqad-public init --ide claude,cursor,windsurf`
+With specific IDEs: `npx squad-public init --ide claude,cursor,windsurf`
 
-Without npm: `curl -fsSL https://raw.githubusercontent.com/adityashubham1997/sqad-public/main/install.sh | bash`
+Without npm: `curl -fsSL https://raw.githubusercontent.com/adityashubham1997/squad-public/main/install.sh | bash`
 
 **Requirements:** Node.js >= 18.
 
@@ -1072,7 +1072,7 @@ var AGENT_PROVIDER_AFFINITY = {
 ### Step 4 — Run tests
 
 ```bash
-cd sqad-public && node --test test/providers.test.js
+cd squad-public && node --test test/providers.test.js
 ```
 
 ---
@@ -1376,6 +1376,6 @@ MIT — see [LICENSE](LICENSE) for details.
 
 **Built for developer experience, not vendor lock-in.**
 
-[npm](https://www.npmjs.com/package/sqad-public) · [Issues](https://github.com/adityashubham1997/sqad-public/issues) · [Contribute](#contributing)
+[npm](https://www.npmjs.com/package/squad-public) · [Issues](https://github.com/adityashubham1997/squad-public/issues) · [Contribute](#contributing)
 
 </div>
